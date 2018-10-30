@@ -1,11 +1,11 @@
 <style type="text/css">
-    #label-date, {
+    .label-date, {
         position: absolute;
         top: -28px;
         background: white;
         right: 20px;
     }
-    #label-area{
+    .label-area{
         position: absolute;
         top: -28px;
         background: white;
@@ -19,7 +19,7 @@
     }
     @media (max-width: 768px) {
 
-        #label-date, #label-area{
+        .label-date, .label-area{
             top: -20px;
         }
     }
@@ -123,6 +123,42 @@
                                         <label class="control-label">Nhập chi tiết cho từng ngày xuất phát</label>
                                     </div>
                                 <?php else:?>
+                                    <div class="col-xs-12" style="margin-top: 10px;">
+                                        <ul class="nav nav-pills nav-justified" role="tablist">
+                                            <li role="presentation" class="active">
+                                                <a href="#one" aria-controls="one" role="tab" data-toggle="tab">
+                                                    <span class="badge">1</span> Nhiều người
+                                                </a>
+                                            </li>
+                                            <li role="presentation" class="">
+                                                <a href="#two" aria-controls="two" role="tab" data-toggle="tab">
+                                                    <span class="badge">2</span> Đơn lẻ
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade in active" id="one">
+                                                <label class="control-label">Giá Hotel loại BUDGET</label>
+                                                <input name="priceonebudget[]" class="priceonebudget form-control">
+                                                <label class="control-label">Giá Hotel loại 3 - STAR</label>
+                                                <input name="priceonestar3[]" class="priceonestar3 form-control">
+                                                <label class="control-label">Giá Hotel loại 4 - STAR</label>
+                                                <input name="priceonestar4[]" class="priceonestar4 form-control">
+                                                <label class="control-label">Giá Hotel loại 5 - STAR</label>
+                                                <input name="priceonestar5[]" class="priceonestar5 form-control" >
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="two">
+                                                <label class="control-label">Giá Hotel loại BUDGET</label>
+                                                <input name="pricetwobudget[]" class="pricetwobudget form-control">
+                                                <label class="control-label">Giá Hotel loại 3 - STAR</label>
+                                                <input name="pricetwostar3[]" class="pricetwostar3 form-control">
+                                                <label class="control-label">Giá Hotel loại 4 - STAR</label>
+                                                <input name="pricetwostar4[]" class="pricetwostar4 form-control">
+                                                <label class="control-label">Giá Hotel loại 5 - STAR</label>
+                                                <input name="pricetwostar5[]" class="pricetwostar5 form-control" >
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-xs-12" id="area">
                                         <label class="control-label">Nhập số khu vực sử dụng khách sạn</label>
                                         <div class="col-md-10 col-sm-9 col-xs-7 input-area" style="margin-top:5px;">
@@ -312,7 +348,7 @@
         var array_new = getArrayDiff(arr_date,function_arr_date);
         html = `
             <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
-                <label class="control-label" id="label-date" style="margin-bottom:-10px;">${array_new[0]}</label>
+                <label class="control-label label-date" style="margin-bottom:-10px;">${array_new[0]}</label>
                 <label class="control-label">Price/Pax</label>
                 <input name="price[]" value="${money}" class="price form-control">
                 <label class="control-label">Avaliability</label>
@@ -334,7 +370,7 @@
     for (var i = 0; i < number; i++) {
         html += `
             <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
-                <label class="control-label" id="label-area" style="margin-bottom:-10px;">Khu vực ${i+1}</label>
+                <label class="control-label label-area" style="margin-bottom:-10px;">Khu vực ${i+1}</label>
                 <label class="control-label">Tên khu vực thuê Hotel</label>
                 <input name="hoteltitle[]" value="" class="hoteltitle form-control">
 
@@ -346,11 +382,21 @@
                 <input name="star4[]" class="star4 form-control">
                 <label class="control-label">Tên Hotel loại 5 - STAR</label>
                 <input name="star5[]" class="star5 form-control" style="margin-bottom:15px;">
-                <i style="position:absolute;top:0px;right:10px;cursor:pointer" class="fa-2x fa fa-close remove" onclick="remove_highlights(${i+1},this)"></i>
+                <i style="position:absolute;top:0px;right:10px;cursor:pointer" class="fa-2x fa fa-close remove" onclick="remove_hotel(${i+1},this)"></i>
             </div>
         `;
     }
-    document.getElementById('content-full-hotel').innerHTML = `<div class="col-xs-12" style="margin-top:10px;padding:0px;">${html}</div>`;
+    document.getElementById('content-full-hotel').innerHTML = `${html}`;
+  }
+  function remove_hotel(id,ev){
+    document.querySelector(`#content-full-hotel`).removeChild(ev.parentElement);
+    var number = document.querySelectorAll('.hoteltitle');
+    for (i = id; i <= number.length; i++) {
+        number[i-1].parentElement.querySelector('.label-area').innerHTML = `Khu vực ${i}`;
+        number[i-1].parentElement.querySelector('.remove').setAttribute('onclick',`remove_hotel(${i},this)`);
+    }
+    number_area = number.length == 0 ? '' : number.length;
+    document.querySelector(`#numberarea`).value = number_area;
   }
 
 </script>
