@@ -1,4 +1,29 @@
+<style type="text/css">
+    #label-date, {
+        position: absolute;
+        top: -28px;
+        background: white;
+        right: 20px;
+    }
+    #label-area{
+        position: absolute;
+        top: -28px;
+        background: white;
+        left: 15px;
+    }
+    #area .input-area{
+         padding-left: 0px;
+    }
+    #area .span-area{
+         padding-right: 0px;
+    }
+    @media (max-width: 768px) {
 
+        #label-date, #label-area{
+            top: -20px;
+        }
+    }
+</style>
 <div class="content-wrapper" id="create-product-view">
     <div id="encypted_ppbtn_all"></div>
     <!-- Content Header (Page header) -->
@@ -51,59 +76,16 @@
                                     ?>
                                 </div>
                                 <div class="col-xs-12">
-                                    <label>Date:</label>
-                                    <div class="input-group date">
-                                      <div class="input-group-addon" title="Xóa giá trị ngày tháng">
-                                        <i class="fa fa-calendar"></i>
-                                      </div>
-                                      <input type="text" name="date" class="form-control pull-right" id="datepicker" readonly>
-                                    </div>
-                                </div>
-                                <div id="show-price">
-
-                                </div>
-                                <div class="col-xs-12">
                                     <?php
                                     echo form_label('Giá tour', 'price');
                                     echo form_error('price');
-                                    echo form_input('price', "", 'class="form-control" id="price" placeholder ="Đơn vị tiền: VNĐ" onkeypress=" return isNumberKey(event)"');
+                                    echo form_input('price', "", 'class="form-control" id="price" placeholder ="Đơn vị tiền: R" onkeypress=" return isNumberKey(event)"');
                                     ?>
                                 </div>
                                 <div class="col-xs-12">
-                                    <?php
-                                    echo form_label('Giá tour cho người lớn', 'priceadults');
-                                    echo form_error('priceadults');
-                                    echo form_input('priceadults', "", 'class="form-control" id="priceadults" placeholder ="Đơn vị : Phần trăm (%)" onkeypress=" return isNumberKey(event)"');
-                                    ?>
-                                </div>
-                                <div class="col-xs-12">
-                                    <?php
-                                    echo form_label('Giá tour cho trẻ em', 'pricechildren');
-                                    echo form_error('pricechildren');
-                                    echo form_input('pricechildren', "", 'class="form-control" id="pricechildren" placeholder ="Đơn vị : Phần trăm (%)" onkeypress=" return isNumberKey(event)"');
-                                    ?>
-                                </div>
-                                <div class="col-xs-12">
-                                    <?php
-                                    echo form_label('Giá tour cho em bé', 'priceinfants');
-                                    echo form_error('priceinfants');
-                                    echo form_input('priceinfants', "", 'class="form-control" id="priceinfants" placeholder ="Đơn vị : Phần trăm (%)" onkeypress=" return isNumberKey(event)"');
-                                    ?>
-                                </div>
-                                <div class="col-xs-12 hidden">
                                     <div class="checkbox" style="padding-top: 10px;">
-                                        <label style="margin-bottom: 10px;">
-                                            <input type="checkbox" id="is_banner" name="is_banner"  data-url="<?php echo base_url('admin/product/check_banner');?>" data-id="null" > Chọn làm banner
-                                            <span class="check_banner_error" style="font-weight: 700;"></span>
-                                        </label></br>
                                         <label style="padding-right: 10px;">
                                             <input type="checkbox" id="promotion" name="promotion"> Khuyến mãi
-                                        </label>
-                                        <label style="padding-right: 10px;">
-                                            <input type="checkbox" id="bestselling" name="bestselling"> Bán Chạy
-                                        </label>
-                                        <label>
-                                            <input type="checkbox" id="hot" name="hot"> Hot
                                         </label>
                                     </div>
                                 </div>
@@ -117,7 +99,7 @@
                                     <?php
                                     echo form_label('Giá tour sau khi giảm giá', 'pricepromotion');
                                     echo form_error('pricepromotion');
-                                    echo form_input('pricepromotion', "", 'class="form-control" id="pricepromotion" placeholder ="Đơn vị tiền: VNĐ" onkeypress=" return isNumberKey(event)"');
+                                    echo form_input('pricepromotion', "", 'class="form-control" id="pricepromotion" placeholder ="Đơn vị tiền: R" onkeypress=" return isNumberKey(event)"');
                                     ?>
                                     <div class="checkbox">
                                         <label style="padding-right: 10px;padding-bottom: 10px;">
@@ -126,11 +108,50 @@
                                     </div>
                                     </div>
                                 </div>
+                                <?php $type=0;?>
+                                <?php if ($type == '1'): ?>
+                                    <div class="col-xs-12">
+                                        <label>Date:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon" title="Xóa giá trị ngày tháng">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="text" name="date" class="form-control pull-right" id="datepicker" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12" id="show-price" style="display: none;">
+                                        <label class="control-label">Nhập chi tiết cho từng ngày xuất phát</label>
+                                    </div>
+                                <?php else:?>
+                                    <div class="col-xs-12" id="area">
+                                        <label class="control-label">Nhập số khu vực sử dụng khách sạn</label>
+                                        <div class="col-md-10 col-sm-9 col-xs-7 input-area" style="margin-top:5px;">
+                                            <div class="col-xs-12" style="padding: 0px">
+                                                <?php  
+                                                    echo form_input("number", '', 'class="form-control" onkeypress=" return isNumberKey(event)" id="numberarea"');
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-3 col-xs-5 span-area" style="margin-top:5px;">
+                                            <span class="btn btn-primary form-control append-date" id="button-numberarea" onclick="addhotel(Number(document.getElementById('numberarea').value))">Xác nhận</span>
+                                        </div>
+                                        <div id="content-full-hotel">
+                                        </div>
+                                    </div>
+                                <?php endif ?>
+                                <div class="col-xs-12">
+                                    <?php echo form_label('Chọn khu vực', ''); ?>
+                                    <select class="form-control select2 select2-hidden-accessible" name="parengoplace_9999"  multiple="" data-idlocaltion="9999" style="width: 100%;" data-placeholder="Select a State"  tabindex="-1" aria-hidden="true"  id="paren-go-place">
+                                        <?php foreach ($area_selected as $key => $value): ?>
+                                            <option value="<?php echo $value['id']; ?>"><?php echo $value['vi']; ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
                                 <div class="col-xs-12">
                                     <?php
-                                    echo form_label('Vị trí đến', 'localtion');
-                                    echo form_error('localtion');
-                                    echo form_input('localtion', "", 'class="form-control" id="localtion" placeholder ="VD:Hanoi, Halong Bay, Hue, Hoian, Saigon, Cu Chi"');
+                                        echo form_label('Vị trí đến', 'localtion');
+                                        echo form_error('localtion');
+                                        echo form_input('localtion', "", 'class="form-control" id="localtion" placeholder ="VD:Hanoi, Halong Bay, Hue, Hoian, Saigon, Cu Chi"');
                                     ?>
                                 </div>
                                 <div class="col-xs-12">
@@ -255,6 +276,21 @@
     }
 </script>
 <script>
+  function getArrayDiff(a, b) {
+      var ret = [],
+          merged = [];
+
+      merged = a.concat(b);
+
+      for (var i = 0; i < merged.length; i++) {
+        if (merged.indexOf(merged[i]) ==
+            merged.lastIndexOf(merged[i])) {
+          ret.push(merged[i]);
+        }
+      }
+
+      return ret;
+    }
   $(function () {
     //Date picker
     $('#datepicker').datepicker({
@@ -262,25 +298,59 @@
       multidate:true
     })
   })
+  var arr_date = [];
   $(document).off('change','#datepicker').on('change','#datepicker',function(){
-    var arr_date = [];
+    var function_arr_date = [];
+    var money = (document.getElementById('pricepromotion').value == '') ? document.getElementById('price').value : document.getElementById('pricepromotion').value;
     if($('#datepicker').val() != ''){
-        var arr_date = $('#datepicker').val().split(",");
+        document.getElementById('show-price').style.display = 'block';
+        var function_arr_date = $('#datepicker').val().split(",");
+    }else{
+        document.getElementById('show-price').style.display = 'none';
     }
-    var html ='';
-    for (var i = 0; i < arr_date.length; i++) {
-        html += `
-            <div class="col-xs-12" style="border:1px solid gray;">
+    if(arr_date.length < function_arr_date.length){
+        var array_new = getArrayDiff(arr_date,function_arr_date);
+        html = `
+            <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
+                <label class="control-label" id="label-date" style="margin-bottom:-10px;">${array_new[0]}</label>
                 <label class="control-label">Price/Pax</label>
-                <input name="price[]" class="price form-control">
+                <input name="price[]" value="${money}" class="price form-control">
                 <label class="control-label">Avaliability</label>
-                <input name="avaliability[]" class="price form-control">
+                <input name="avaliability[]" class="avaliability form-control">
+                <label class="control-label">Single Supplement</label>
+                <input name="single_supplement[]" class="single_supplement form-control" style="margin-bottom:15px;">
+                <input type="hidden" name="date-content[]" value="${array_new[0]}">
+            </div>
+        `;
+        document.getElementById('show-price').insertAdjacentHTML('beforeend', html);
+    }else{
+        var array_new = getArrayDiff(arr_date,function_arr_date);
+        document.querySelector(`#show-price`).removeChild(document.querySelector(`input[value="${array_new[0]}"]`).parentElement);
+    }
+    arr_date = function_arr_date;
+  });
+  function addhotel(number){
+    var html ='';
+    for (var i = 0; i < number; i++) {
+        html += `
+            <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
+                <label class="control-label" id="label-area" style="margin-bottom:-10px;">Khu vực ${i+1}</label>
+                <label class="control-label">Tên khu vực thuê Hotel</label>
+                <input name="hoteltitle[]" value="" class="hoteltitle form-control">
+
+                <label class="control-label">Tên Hotel loại BUDGET</label>
+                <input name="budget[]" class="budget form-control">
+                <label class="control-label">Tên Hotel loại 3 - STAR</label>
+                <input name="star3[]" class="star3 form-control">
+                <label class="control-label">Tên Hotel loại 4 - STAR</label>
+                <input name="star4[]" class="star4 form-control">
+                <label class="control-label">Tên Hotel loại 5 - STAR</label>
+                <input name="star5[]" class="star5 form-control" style="margin-bottom:15px;">
+                <i style="position:absolute;top:0px;right:10px;cursor:pointer" class="fa-2x fa fa-close remove" onclick="remove_highlights(${i+1},this)"></i>
             </div>
         `;
     }
-    document.getElementById('show-price').innerHTML = `<div class="col-xs-12" style="border:1px solid gray;">
-        <label class="control-label">Nhập chi tiết cho từng ngày xuất phát</label>
-        ${html}
-    </div>`;
-  });
+    document.getElementById('content-full-hotel').innerHTML = `<div class="col-xs-12" style="margin-top:10px;padding:0px;">${html}</div>`;
+  }
+
 </script>
