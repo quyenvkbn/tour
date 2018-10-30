@@ -7,6 +7,9 @@ class Product extends Admin_Controller{
     private $request_vehicles = array(
         'Chọn phương tiện','Không xác định','Máy bay','Tàu thủy','Tàu hỏa','Ô tô','Xe máy','Xe đạp','Đi bộ'
     );
+    private $hotel = array(
+        'Budget','3-Star','4-Star','5-Star'
+    );
     private $author_data = array();
 
 	function __construct(){
@@ -19,6 +22,7 @@ class Product extends Admin_Controller{
 		$this->load->helper('common');
         $this->load->helper('file');
         $this->data['request_vehicles'] = $this->request_vehicles;
+        $this->data['hotel'] = $this->hotel;
         $this->data['controller'] = $this->product_model->table;
 		$this->author_data = handle_author_common_data();
 	}
@@ -55,6 +59,7 @@ class Product extends Admin_Controller{
 
     public function create(){
         $this->load->helper('form');
+        $this->data['area_selected'] = $this->area_model->get_all_area();
         $product_category = $this->product_category_model->get_by_parent_id(null,'asc');
         $this->build_new_category($product_category,0,$this->data['product_category']);
         if($this->input->post()){
@@ -242,19 +247,6 @@ class Product extends Admin_Controller{
             $reponse .= '</div>';
             $reponse .= '<div class="no_border"><div class="collapse in" id="showdatecontent_'.$i.'">';
             $reponse .= '<div class="col-xs-12 title-content-date date " style="margin-top:-5px;">';
-            $reponse .= form_label('Hình ảnh ngày '.($i+1), 'img_date_'.$i,'class="img_date"   id="label_img_date_'.$i.'" ');
-            $reponse .= form_upload('img_date_'.$i.'[]',"",'class="form-control" id="img_date_'.$i.'"');
-            $reponse .= form_label('Chọn khu vực ngày '.($i+1), 'img_date_'.$i,'class="img_date"   id="label_img_date_'.$i.'" ');
-
-            $reponse .= '<select class="form-control select2 select2-hidden-accessible" name="parengoplace_'.$i.'"   multiple="" readonly data-idlocaltion="'.$i.'" style="width: 100%;" data-placeholder="Select a State" style="width: 100%;min-height:34px;min-width:300px;" tabindex="-1" aria-hidden="true"  id="paren-go-place_'.$i.'">';
-            $reponse .= $this->area_selected();
-            $reponse .= '</select>';
-            $reponse .= form_label('Chọn những nơi đến ngày '.($i+1), 'img_date_'.$i,'class="img_date"   id="label_img_date_'.$i.'" ');
-            $reponse .= '<select class="form-control select2 select2-hidden-accessible" name="goplace_'.$i.'" multiple="" data-placeholder="Select a State" style="width: 100%;min-height:34px;min-width:300px;" tabindex="-1" aria-hidden="true" id="go-place_'.$i.'">';
-            $reponse .= '</select>';
-            $reponse .= form_label('Phương tiện đi ngày '.($i+1), 'vehicles');
-            $reponse .= form_error('vehicles');
-            $reponse .= form_dropdown('vehicles_'.$i, $this->data['request_vehicles'],0, 'class="form-control" id="vehicles_'.$i.'"');
             $reponse .= form_label('Tiêu đề ngày '.($i+1), 'title_date_'.$i,'class="title_date"   id="label_title_date_'.$i.'" ');
             $reponse .= form_error('title_date_'.$i);
             $reponse .= form_input('title_date_'.$i,"", 'class="form-control" id="title_date_'.$i.'"');
