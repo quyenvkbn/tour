@@ -21,40 +21,27 @@
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <!-- <li class="<?php echo ($this->uri->segment(2) == 'about' || $this->uri->segment(2) == 'our_message' || $this->uri->segment(2) == 'our_methods')? 'active' : 'treeview' ?>">
+                <li class="<?php echo ($this->uri->segment(2) == 'team' || $this->uri->segment(2) == 'testimonial' || $this->uri->segment(2) == 'about')? 'active' : 'treeview' ?>">
                     <a href="">
-                        <i class="fa fa-user-circle-o"></i>
-                        <span>Giới Thiệu</span>
+                        <i class="fa fa-newspaper-o"></i>
+                        <span>Về Chúng Tôi</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
                         <li class="<?php echo ($this->uri->segment(2) == 'about')? 'active' : '' ?>">
-                            <a href="<?php echo base_url('admin/about') ?>"><i class="fa fa-group"></i> Giới Thiệu</a>
+                            <a href="<?php echo base_url('admin/about') ?>"><i class="fa fa-list"></i> Danh Sách Bài Viêt Giới Thiệu</a>
+                        </li>
+                        <li class="<?php echo ($this->uri->segment(2) == 'team')? 'active' : '' ?>">
+                            <a href="<?php echo base_url('admin/team') ?>"><i class="fa fa-filter"></i> Đội Ngũ Thành Viên</a>
+                        </li>
+                        <li class="<?php echo ($this->uri->segment(2) == 'testimonial')? 'active' : '' ?>">
+                            <a href="<?php echo base_url('admin/testimonial') ?>"><i class="fa fa-list"></i> LỜI CHỨNG THỰC</a>
                         </li>
                     </ul>
                 </li>
-                <li class="<?php echo ($this->uri->segment(2) == 'banner')? 'active' : '' ?>">
-                    <a href="<?php echo base_url('admin/banner') ?>"><i class="fa fa-list"></i> Banner</a>
-                </li> -->
-                <!-- <li class="<?php echo ($this->uri->segment(2) == 'category' || $this->uri->segment(2) == 'blog')? 'active' : 'treeview' ?>">
-                    <a href="">
-                        <i class="fa fa-newspaper-o"></i>
-                        <span>Bài Viết</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="<?php echo ($this->uri->segment(2) == 'category')? 'active' : '' ?>">
-                            <a href="<?php echo base_url('admin/category') ?>"><i class="fa fa-filter"></i> Danh Mục Bài Viêt</a>
-                        </li>
-                        <li class="<?php echo ($this->uri->segment(2) == 'blog')? 'active' : '' ?>">
-                            <a href="<?php echo base_url('admin/blog') ?>"><i class="fa fa-list"></i> Danh Sách Bài Viêt</a>
-                        </li>
-                    </ul>
-                </li> -->
+
                 <li class="<?php echo ($this->uri->segment(2) == 'post_category' || $this->uri->segment(2) == 'post')? 'active' : 'treeview' ?>">
                     <a href="">
                         <i class="fa fa-newspaper-o"></i>
