@@ -4,7 +4,7 @@
         <h1>
             Cập nhật
             <small>
-                Bài Viết
+                Bài Viết Giới Thiệu
             </small>
         </h1>
     </section>
@@ -54,21 +54,6 @@
                                 echo form_error('slug');
                                 echo form_input('slug', $detail['slug'], 'class="form-control" id="slug" readonly');
                                 ?>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-xs-12">
-                            <div class="form-group col-xs-12">
-                                <?php
-                                echo form_label('Danh mục', 'parent_id');
-                                echo form_error('parent_id');
-                                ?>
-                                <select name="parent_id" class="form-control">
-                                    <option value="">Chọn danh mục</option>
-                                    <?php foreach ($category as $key => $value): ?>
-                                        <option value="<?php echo $value['id'] ?>" <?php echo($value['id'] == $detail['id'])? 'selected' : ''?> ><?php echo $value['title'] ?></option>
-                                    <?php endforeach ?>
-                                </select>
                             </div>
                         </div>
 
