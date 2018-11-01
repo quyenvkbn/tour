@@ -210,9 +210,11 @@
                                                 <label>Hình ảnh của tour</label>
                                                 <div class="row">
                                                     <?php foreach ($detail['image'] as $key => $value): ?>
-                                                        <div class="col-sm-12" style="margin-top: 10px;">
-                                                            <div class="mask-sm">
+
+                                                        <div class="col-sm-12 row_<?php echo $key; ?>" style="margin-top: 10px;">
+                                                            <div class="mask-sm" style="position: relative;">
                                                                 <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$detail['slug'].'/'.$value) ?>" alt="anh-cua-<?php echo $detail['slug'] ?>" style="padding: 0px;">
+                                                                <span class="glyphicon glyphicon-remove" style="position: absolute;right:0%;color: white; cursor: pointer;" onclick="remove_image('product','<?php echo $detail['id'] ?>','<?php echo $value; ?>','<?php echo $key;?>')"></span>
                                                             </div>
                                                         </div>
                                                     <?php endforeach ?>

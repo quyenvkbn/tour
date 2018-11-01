@@ -61,7 +61,7 @@
                 </li>
 
                 <li class="<?php echo ($this->uri->segment(2) == 'product_category')? 'active' : '' ?>">
-                    <a href="<?php echo base_url('admin/product') ?>"><i class="fa fa-list"></i> Danh sách tour</a>
+                    <a href="<?php echo base_url('admin/product_category') ?>"><i class="fa fa-list"></i> Danh sách tour</a>
                 </li>
                 <li class="<?php echo ($this->uri->segment(2) == 'product')? 'active' : 'treeview' ?>">
                     <a href="">
