@@ -16,7 +16,6 @@ class Product extends Admin_Controller{
 		parent::__construct();
 		$this->load->model('product_model');
         $this->load->model('product_category_model');
-        $this->load->model('localtion_model');
         $this->load->model('area_model');
         $this->load->model('tour_date_model');
 		$this->load->helper('common');
@@ -27,206 +26,180 @@ class Product extends Admin_Controller{
 		$this->author_data = handle_author_common_data();
 	}
 
-    public function index(){
-        $this->data['keyword'] = '';
-        $this->data['bestselling'] = '';
-        $this->data['hot'] = '';
-        $this->data['promotion'] = '';
-        $this->data['banner'] = '';
-        if($this->input->get('hot') || $this->input->get('bestselling') || $this->input->get('promotion') || $this->input->get('banner')){
-            $this->data['bestselling'] = ($this->input->get('bestselling') !== null)?'1':'';
-            $this->data['hot'] = ($this->input->get('hot') !== null)?'1':'';
-            $this->data['promotion'] = ($this->input->get('promotion') !== null)?'1':'';
-            $this->data['banner'] = ($this->input->get('banner') !== null)?'1':'';
+    public function index($type = ''){
+        if($type == 1 || $type == 2){
+            $this->data['keyword'] = '';
+            $this->data['bestselling'] = '';
+            $this->data['hot'] = '';
+            $this->data['promotion'] = '';
+            $this->data['banner'] = '';
+            if($this->input->get('hot') || $this->input->get('bestselling') || $this->input->get('promotion') || $this->input->get('banner')){
+                $this->data['bestselling'] = ($this->input->get('bestselling') !== null)?'1':'';
+                $this->data['hot'] = ($this->input->get('hot') !== null)?'1':'';
+                $this->data['promotion'] = ($this->input->get('promotion') !== null)?'1':'';
+                $this->data['banner'] = ($this->input->get('banner') !== null)?'1':'';
+            }
+            if($this->input->get('search')){
+                $this->data['keyword'] = $this->input->get('search');
+            }
+            $this->load->library('pagination');
+            $per_page = 10;
+            $total_rows  = $this->product_model->count_search($this->data['keyword'],1,$type,$this->data['promotion']);
+            $config = $this->pagination_config(base_url('admin/'.$this->data['controller'].'/index'), $total_rows, $per_page, 4);
+            $this->data['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+            $this->pagination->initialize($config);
+            $this->data['page_links'] = $this->pagination->create_links();
+            $this->data['result'] = $this->product_model->get_all_with_pagination_search('desc', $per_page, $this->data['page'], $this->data['keyword'],1,$type,$this->data['promotion']);
+            foreach ($this->data['result'] as $key => $value) {
+                $parent_title = $this->build_parent_title($value['product_category_id']);
+                $this->data['result'][$key]['parent_title'] = $parent_title;
+            }
+            $this->render('admin/product/list_product_view');
+        }else{
+            $this->session->set_flashdata('message_error', "Lỗi xem danh sách tour");
+            redirect('admin/'. $this->data['controller'].'/1', 'refresh');
         }
-        if($this->input->get('search')){
-            $this->data['keyword'] = $this->input->get('search');
-        }
-        $this->load->library('pagination');
-        $per_page = 10;
-        $total_rows  = $this->product_model->count_search($this->data['keyword'],1,$this->data['bestselling'],$this->data['hot'],$this->data['promotion'],$this->data['banner']);
-        $config = $this->pagination_config(base_url('admin/'.$this->data['controller'].'/index'), $total_rows, $per_page, 4);
-        $this->data['page'] = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $this->pagination->initialize($config);
-        $this->data['page_links'] = $this->pagination->create_links();
-        $this->data['result'] = $this->product_model->get_all_with_pagination_search('desc', $per_page, $this->data['page'], $this->data['keyword'],1,$this->data['bestselling'],$this->data['hot'],$this->data['promotion'],$this->data['banner']);
-        foreach ($this->data['result'] as $key => $value) {
-            $parent_title = $this->build_parent_title($value['product_category_id']);
-            $this->data['result'][$key]['parent_title'] = $parent_title;
-        }
-        $this->render('admin/product/list_product_view');
     }
 
-    public function create(){
-        $this->load->helper('form');
-        $this->data['area_selected'] = $this->area_model->get_all_area();
-        $product_category = $this->product_category_model->get_by_parent_id(null,'asc');
-        $this->build_new_category($product_category,0,$this->data['product_category']);
-        if($this->input->post()){
-            if($this->input->post('parent_id_shared') == '' || $this->input->post('title') == ''){
-                return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR_VALIDATE);
-            }
-            for ($i=0; $i < count($this->input->post('datetitle')); $i++) {
-                if($this->input->post('datetitle')[$i] == ''){
+    public function create($type = 1){
+        if($type == 1 || $type == 2){
+            $this->load->helper('form');
+            $this->data['area_selected'] = $this->area_model->get_all_area();
+            $product_category = $this->product_category_model->get_by_parent_id(null,'asc');
+            $this->build_new_category($product_category,0,$this->data['product_category']);
+            $this->data['type'] = $type;
+            if($this->input->post()){
+                if($this->check_all_file_img($_FILES) === false){
+                    return false;
+                }
+                if($this->input->post('parent_id_shared') == '' || $this->input->post('title') == ''){
                     return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR_VALIDATE);
                 }
-            }
-            for ($i=0; $i < count($this->input->post('vehicles')); $i++) {
-                if(empty($this->input->post('vehicles')[$i])){
-                    return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR_VALIDATE);
-                }
-            }
-            if(!empty($_FILES['image_shared']['name'])){
-                $this->check_img($_FILES['image_shared']['name'], $_FILES['image_shared']['size']);
-            }
-            if(!empty($_FILES['dateimg']['name'])){
-                $this->check_imgs($_FILES['dateimg']['name'], $_FILES['dateimg']['size']);
-            }
-            if(!empty($_FILES['image_localtion']['name'])){
-                $this->check_img($_FILES['image_localtion']['name'], $_FILES['image_localtion']['size']);
-            }
-            $img_array = array();
-            if($this->input->post('dateimg') !== null){
-                $img_array = $this->input->post('dateimg');
-            }
-            $slug = $this->input->post('slug_shared');
-            $unique_slug = $this->product_model->build_unique_slug($slug);
-            if(!file_exists("assets/upload/".$this->data['controller']."/".$unique_slug) && (!empty($_FILES['image_shared']['name']) || !empty($_FILES['dateimg']['name']) || !empty($_FILES['image_localtion']['name']))){
-                mkdir("assets/upload/".$this->data['controller']."/".$unique_slug, 0777);
-                mkdir("assets/upload/".$this->data['controller']."/".$unique_slug.'/thumb', 0777);
-            }
-            if(!empty($_FILES['image_shared']['name'])){
-                $image = $this->upload_image('image_shared', $_FILES['image_shared']['name'], 'assets/upload/product/'.$unique_slug, 'assets/upload/product/'.$unique_slug.'/thumb');
-            }
-            if(!empty($_FILES['image_localtion']['name'])){
-                $localtionimage = $this->upload_image('image_localtion', $_FILES['image_localtion']['name'], 'assets/upload/product/'.$unique_slug, 'assets/upload/product/'.$unique_slug.'/thumb');
-            }
-            $dateimage_full = array();
-            if(!empty($_FILES['dateimg']['name'])){
-                $dateimage = $this->upload_file('./assets/upload/product/'.$unique_slug, 'dateimg', 'assets/upload/product/'. $unique_slug .'/thumb');
-                for ($i=0; $i < count($this->input->post('datetitle')); $i++) { 
-                    if(array_key_exists($i,array_flip($img_array))){
-                        $dateimage_full[] = "";
-                    }else{
-                        $dateimage_full[] = array_shift($dateimage);
+                for ($i=0; $i < count($this->input->post('datetitle')); $i++) {
+                    if($this->input->post('datetitle')[$i] == ''){
+                        return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR_VALIDATE);
                     }
                 }
-            }else{
-                for ($i=0; $i < count($this->input->post('datetitle')); $i++) {
-                    $dateimage_full[] = "";
+                $slug = $this->input->post('slug');
+                $unique_slug = $this->product_model->build_unique_slug($slug);
+                if(!file_exists("assets/upload/".$this->data['controller']."/".$unique_slug)){
+                    mkdir("assets/upload/".$this->data['controller']."/".$unique_slug, 0777);
+                    mkdir("assets/upload/".$this->data['controller']."/".$unique_slug.'/thumb', 0777);
+                }
+                if(!empty($_FILES['image_shared']['name'][0])){
+                    $image = $this->upload_file('assets/upload/product/'.$unique_slug, 'image_shared', 'assets/upload/product/'.$unique_slug.'/thumb');
+                }
+                if(!empty($_FILES['image_localtion']['name'])){
+                    $localtionimage = $this->upload_image('image_localtion', $_FILES['image_localtion']['name'], 'assets/upload/product/'.$unique_slug, 'assets/upload/product/'.$unique_slug.'/thumb');
+                }
+                $single = [];
+                $pricesingle = [];
+                if($type == 1){
+                    for ($i=0; $i < count($this->input->post('hoteltitle')); $i++) { 
+                        $single[$i] = [
+                            'title' => $this->input->post('hoteltitle')[$i],
+                            'budget' => $this->input->post('budget')[$i],
+                            'star3' => $this->input->post('star3')[$i],
+                            'star4' => $this->input->post('star4')[$i],
+                            'star5' => $this->input->post('star5')[$i],
+                        ];
+                    }
+                    for ($i=0; $i < 2; $i++) { 
+                        $pricesingle[$i] = [
+                            'budget' => $this->input->post('pricebudget')[$i],
+                            'star3' => $this->input->post('pricestar3')[$i],
+                            'star4' => $this->input->post('pricestar4')[$i],
+                            'star5' => $this->input->post('pricestar5')[$i],
+                        ];
+                    }
+                }
+                if($type == 2){
+                    $avaliability = json_encode($this->input->post('avaliability'));
+                    $single_supplement = json_encode($this->input->post('single_supplement'));
+                    $date_content = json_encode($this->input->post('date_content'));
+                    $pricedate = json_encode($this->input->post('pricedate'));
+                }
+                $showpromotion = ($this->input->post('showpromotion') == 'true')? '1': '0';
+                $shared_request = array(
+                    'slug' => $unique_slug,
+                    'title' => $this->input->post('title'),
+                    'price' => $this->input->post('price'),
+                    'percen' => $this->input->post('percen'),
+                    'pricepromotion' => $this->input->post('pricepromotion'),
+                    'showpromotion' => $showpromotion,
+                    'date' => ($this->input->post('date') != null) ? $this->input->post('date') : '',
+                    'librarylocaltion' => json_encode($this->input->post('parengoplace_9999')),
+                    'localtion' => $this->input->post('localtion'),
+                    'product_category_id' => $this->input->post('parent_id_shared'),
+                    'description' => $this->input->post('description'),
+                    'content' => $this->input->post('content'),
+                    'metakeywords' => $this->input->post('metakeywords'),
+                    'metadescription' => $this->input->post('metadescription'),
+                    'tripnodes' => $this->input->post('tripnodes'),
+                    'inclusions' => $this->input->post('inclusions'),
+                    'exclusions' => $this->input->post('exclusions'),
+                    'detailsprice' => $this->input->post('detailsprice'),
+                    'datetitle' => json_encode($this->input->post('datetitle')),
+                    'datecontent' => json_encode($this->input->post('datecontent')),
+                    'hotelsingle' => json_encode($single),
+                    'pricesingle' => json_encode($pricesingle),
+                    'type' => $type
+                );
+                if(isset($avaliability)){
+                    $shared_request['avaliability'] = $avaliability;
+                    $shared_request['single_supplement'] = $single_supplement;
+                    $shared_request['date_content'] = $date_content;
+                    $shared_request['pricedate'] = $pricedate;
+                }
+                if(isset($image)){
+                    $shared_request['image'] = json_encode($image);
+                }
+                if(isset($localtionimage)){
+                    $shared_request['imglocaltion'] = $localtionimage;
+                }
+                $insert = $this->product_model->common_insert(array_merge($shared_request,$this->author_data));
+                if($insert){
+                    $reponse = array(
+                        'csrf_hash' => $this->security->get_csrf_hash()
+                    );
+                    return $this->return_api(HTTP_SUCCESS,MESSAGE_CREATE_SUCCESS,$reponse);
+                }else {
+                    return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
                 }
             }
-            $showpromotion = ($this->input->post('showpromotion') == 'true')? '1': '0';
-            $bestselling = ($this->input->post('bestselling') == 'true')? '1': '0';
-            $hot = ($this->input->post('hot') == 'true')? '1': '0';
-            $shared_request = array(
-                'slug' => $unique_slug,
-                'price' => $this->input->post('price'),
-                'title' => $this->input->post('title'),
-                'description' => $this->input->post('description'),
-                'content' => $this->input->post('content'),
-                'metakeywords' => $this->input->post('metakeywords'),
-                'metadescription' => $this->input->post('metadescription'),
-                'datetitle' => json_encode($this->input->post('datetitle')),
-                'datecontent' => json_encode($this->input->post('datecontent')),
-                'tripnodes' => $this->input->post('tripnodes'),
-                'detailsprice' => $this->input->post('detailsprice'),
-                'price' => $this->input->post('price'),
-                'priceadults ' => $this->input->post('priceadults'),
-                'pricechildren ' => $this->input->post('pricechildren'),
-                'priceinfants ' => $this->input->post('priceinfants'),
-                'percen' => $this->input->post('percen'),
-                'pricepromotion' => $this->input->post('pricepromotion'),
-                'bestselling' => $bestselling,
-                'hot' => $hot,
-                'showpromotion' => $showpromotion,
-                'localtion' => $this->input->post('localtion'),
-                'product_category_id' => $this->input->post('parent_id_shared'),
-                'dateimg' => json_encode($dateimage_full),
-                'vehicles' => json_encode($this->input->post('vehicles')),
-                'librarylocaltion' => json_encode($this->input->post('librarylocaltion')),
-                'is_banner' => $this->input->post('is_banner')
-            );
-            if($this->input->post('date') != ''){
-                $date= explode("/",$this->input->post('date'));
-                $datetime=date('Y-m-d H:i:s', strtotime($date[1]."/".$date[0]."/".$date[2]));
-            }
-            if(isset($datetime)){
-                $shared_request['date'] = $datetime;
-            }
-            if(isset($image)){
-                $shared_request['image'] = $image;
-            }
-            if(isset($localtionimage)){
-                $shared_request['imglocaltion'] = $localtionimage;
-            }
-            $insert = $this->product_model->common_insert(array_merge($shared_request,$this->author_data));
-            if($insert){
-                $reponse = array(
-                    'csrf_hash' => $this->security->get_csrf_hash()
-                );
-                return $this->return_api(HTTP_SUCCESS,MESSAGE_CREATE_SUCCESS,$reponse);
-            }else {
-                return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
-            }
+            $this->render('admin/product/create_product_view');
+        }else{
+            $this->session->set_flashdata('message_error', "Lỗi thêm mới");
+            redirect('admin/'. $this->data['controller'].'/1', 'refresh');
         }
-        $this->render('admin/product/create_product_view');
     }
     public function detail($id){
-        $this->load->model('rating_model');
-        $this->load->model('comment_model');
         if($id &&  is_numeric($id) && ($id > 0)){
             if($this->product_model->find_rows(array('id' => $id,'is_deleted' => 0)) != 0){
-
-
-                $this->load->library('pagination');
-                $per_page = 5;
-                $total_rows  = $this->comment_model->count_search_without_by_product_id($id);
-                $config = $this->pagination_config(base_url('admin/'.$this->data['controller'].'/detail/'. $id), $total_rows, $per_page, 5);
-                $this->data['page'] = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
-                $this->pagination->initialize($config);
-                $this->data['page_links'] = $this->pagination->create_links();
-                $this->data['comments'] = $this->comment_model->get_all_by_product_id($id , $per_page, $this->data['page']);
-                
                 $this->load->helper('form');
                 $this->load->library('form_validation');
                 $detail = $this->product_model->get_by_id($id);
+              
                 $parent_title = $this->build_parent_title($detail['product_category_id']);
                 $detail['parent_title'] = $parent_title;
-                $detail['datetitle'] = json_decode($detail['datetitle']);
-                $detail['datecontent'] = json_decode($detail['datecontent']);
-                $detail['vehicles'] = json_decode($detail['vehicles']);
-                $librarylocaltion = json_decode($detail['librarylocaltion']);
-                if(!empty($librarylocaltion)){
-                    for($i=0;$i < count($librarylocaltion);$i++){
-                        $librarylocaltions = explode(',',$librarylocaltion[$i]);
-                        if(!empty($librarylocaltions)){
-                            for($j=0;$j < count($librarylocaltions);$j++){
-                                $library= $this->localtion_model->get_by_id_array($librarylocaltions[$j]);
-                                if(!empty($library['id'])){
-                                    $librarys[$i][] = $library;
-                                }else{
-                                    $librarys[$i][] = "";
-                                }
-                            }
-                        }
-                    }
-                    $detail['librarylocaltion'] = $librarys;
+                $detail['image'] = (!empty(json_decode($detail['image']))) ? json_decode($detail['image']) : array();
+                $detail['datetitle'] = json_decode($detail['datetitle'],true);
+                $detail['datecontent'] = json_decode($detail['datecontent'],true);
+                $librarylocaltion = $this->area_model->get_libraryarea_by_id_array(json_decode($detail['librarylocaltion']));
+                $detail['librarylocaltion'] = $librarylocaltion;
+                if($detail['type'] == 1){
+                    $detail['pricesingle'] = json_decode($detail['pricesingle'],true);
+                    $detail['hotelsingle'] = json_decode($detail['hotelsingle'],true);
                 }else{
-                    $detail['librarylocaltion'] = $librarylocaltion;
+                    $detail['avaliability'] = json_decode($detail['avaliability']);
+                    $detail['single_supplement'] = json_decode($detail['single_supplement']);
+                    $detail['date_content'] = json_decode($detail['date_content']);
+                    $detail['pricedate'] = json_decode($detail['pricedate']);
                 }
+
+           
                 $this->data['detail'] = $detail;
-                $rating = $this->product_model->rating_by_id($id);
-                $count_rating = $rating['count_rating'];
-                $total_rating = $rating['total_rating'];
-                if($count_rating != 0 && $total_rating != 0){
-                    $new_rating = round($total_rating / $count_rating, 1);
-                }else{
-                    $new_rating = 0;
-                }
-                $this->data['count_rating'] = $count_rating;
-                $this->data['rating'] = $new_rating;
-                $this->data['refer'] = $this->input->get('refer');
+               
                 $this->render('admin/product/detail_product_view');
             }else{
                 $this->session->set_flashdata('message_error',MESSAGE_ISSET_ERROR);
@@ -278,7 +251,6 @@ class Product extends Admin_Controller{
     public function edit($id){
         if($id &&  is_numeric($id) && ($id > 0)){
             $this->data['area_selected'] = $this->area_model->get_all_area();
-            $this->data['localtion_all'] = $this->localtion_model->get_all_localtion();
             $product_category = $this->product_category_model->get_by_parent_id(null,'asc');
             $this->load->helper('form');
             if($this->product_model->find_rows(array('id' => $id,'is_deleted' => 0)) == 0){
@@ -288,45 +260,24 @@ class Product extends Admin_Controller{
             $detail = $this->product_model->get_by_id($id);
             $subs = $this->product_model->get_by_parent_id($id, 'asc');
             $this->build_new_category($product_category,0,$this->data['product_category'],$subs['product_category_id']);
+            $detail['image'] = (!empty(json_decode($detail['image']))) ? json_decode($detail['image']) : array();
+            $detail['datetitle'] = json_decode($detail['datetitle'],true);
+            $detail['datecontent'] = json_decode($detail['datecontent'],true);
+            $detail['librarylocaltion'] = json_decode($detail['librarylocaltion']);
+            if($detail['type'] == 1){
+                $detail['pricesingle'] = (empty(json_decode($detail['pricesingle'],true))) ? array() : json_decode($detail['pricesingle'],true);
+                $detail['hotelsingle'] = (empty(json_decode($detail['hotelsingle'],true))) ? array() : json_decode($detail['hotelsingle'],true);
+            }else{
+                $detail['avaliability'] = (empty(json_decode($detail['avaliability'],true))) ? array() : json_decode($detail['avaliability'],true);
+                $detail['single_supplement'] = json_decode($detail['single_supplement']);
+                $detail['date_content'] = json_decode($detail['date_content']);
+                $detail['pricedate'] = json_decode($detail['pricedate']);
+            }
             $this->data['detail'] = $detail;
-            $this->data['detail']['datetitle'] = json_decode($this->data['detail']['datetitle']);
-            $this->data['detail']['datecontent'] = json_decode($this->data['detail']['datecontent']);
-            $this->data['detail']['vehicles'] = json_decode($this->data['detail']['vehicles']);
-            if($this->data['detail']['date'] != "0000-00-00 00:00:00" && $this->data['detail']['date'] != "1970-01-01 08:00:00"){
-                $rmtime = str_replace(" 00:00:00","",$this->data['detail']['date']);
-                $date= explode("-",$rmtime);
-                if(count($date) == 3){
-                    $this->data['detail']['date'] = $date[2]."/".$date[1]."/".$date[0];
-                }else{
-                    $this->data['detail']['date'] = "";
-                }
-            }else{
-                $this->data['detail']['date'] = "";
-            }
-            $librarylocaltion = json_decode($this->data['detail']['librarylocaltion']);
-            $notlibrary = array();
-            if(!empty($librarylocaltion)){
-                for($i=0;$i < count($librarylocaltion);$i++){
-                    $librarylocaltions = explode(',',$librarylocaltion[$i]);
-                    $library[$i] = $this->localtion_model->get_librarylocaltion_by_id_array($librarylocaltions);
-                    $selectarea[$i] = $this->localtion_model->get_groupby_area_id_array($librarylocaltions);
-                    $notlibrary[$i] = '';
-                    if(!empty($library[$i])){
-                        for($j=0;$j < count($selectarea[$i]);$j++){
-                            $array_selectarea[$j] = $selectarea[$i][$j]['area_id'];
-                        }
-                        $notlibrary[$i] = $this->localtion_model->get_librarylocaltion_by_not_id_array($librarylocaltions,$array_selectarea);
-                    }
-                }
-                $this->data['detail']['librarylocaltion'] = $library;
-                $this->data['detail']['selectarea'] = $selectarea;
-            }else{
-                $this->data['detail']['librarylocaltion'] = $librarylocaltion;
-                $this->data['detail']['selectarea'] = $selectarea;
-            }
-            $this->data['detail']['notlibrarylocaltion'] = $notlibrary;
-            $dateimg_array = json_decode($detail['dateimg']);
             if($this->input->post()){
+                if($this->check_all_file_img($_FILES) === false){
+                    return false;
+                }
                 if($this->input->post('parent_id_shared') == '' || $this->input->post('title') == ''){
                             return $this->return_api(HTTP_NOT_FOUND,MESSAGE_EDIT_ERROR_VALIDATE);
                 }
@@ -335,108 +286,91 @@ class Product extends Admin_Controller{
                         return $this->return_api(HTTP_NOT_FOUND,MESSAGE_EDIT_ERROR_VALIDATE);
                     }
                 }
-                for ($i=0; $i < count($this->input->post('vehicles')); $i++) {
-                    if(empty($this->input->post('vehicles')[$i])){
-                        return $this->return_api(HTTP_NOT_FOUND,MESSAGE_EDIT_ERROR_VALIDATE);
-                    }
-                }
                 $unique_slug = $this->data['detail']['slug'];
-                $img_array = array();
-                if($this->input->post('dateimg') !== null){
-                    $img_array = $this->input->post('dateimg');
-                }
-                if($unique_slug !== $this->input->post('slug_shared')){
-                    $unique_slug = $this->product_model->build_unique_slug($this->input->post('slug_shared'));
+                if($unique_slug !== $this->input->post('slug')){
+                    $unique_slug = $this->product_model->build_unique_slug($this->input->post('slug'));
                     if(file_exists("assets/upload/product/".$detail['slug'])) {
                         rename("assets/upload/product/".$detail['slug'], "assets/upload/product/".$unique_slug);
                     }
                 }
-                if(!file_exists("assets/upload/".$this->data['controller']."/".$unique_slug) && (!empty($_FILES['image_shared']['name']) || !empty($_FILES['dateimg']['name']) || !empty($_FILES['image_localtion']['name']))){
-                    mkdir("assets/upload/".$this->data['controller']."/".$unique_slug, 0777);
-                    mkdir("assets/upload/".$this->data['controller']."/".$unique_slug.'/thumb', 0777);
-                }
-                if(!empty($_FILES['image_shared']['name'])){
-                    $this->check_img($_FILES['image_shared']['name'], $_FILES['image_shared']['size']);
-                    $image = $this->upload_image('image_shared', $_FILES['image_shared']['name'], 'assets/upload/product/'.$unique_slug, 'assets/upload/product/'.$unique_slug.'/thumb');
+                if(!empty($_FILES['image_shared']['name'][0])){
+                    $image = $this->upload_file('assets/upload/product/'.$unique_slug, 'image_shared', 'assets/upload/product/'.$unique_slug.'/thumb');
                 }
                 if(!empty($_FILES['image_localtion']['name'])){
-                    $this->check_img($_FILES['image_localtion']['name'], $_FILES['image_localtion']['size']);
                     $localtionimage = $this->upload_image('image_localtion', $_FILES['image_localtion']['name'], 'assets/upload/product/'.$unique_slug, 'assets/upload/product/'.$unique_slug.'/thumb');
                 }
-                if(!empty($_FILES['dateimg']['name'])){
-                    $this->check_imgs($_FILES['dateimg']['name'], $_FILES['dateimg']['size']);
-                    $dateimage = $this->upload_file('./assets/upload/product/'.$unique_slug, 'dateimg', 'assets/upload/product/'. $unique_slug .'/thumb');
-                    for ($i=0; $i < count($this->input->post('datetitle')); $i++) { 
-                        if(array_key_exists($i,array_flip($img_array))){
-                            $dateimage_full[$i] = $dateimg_array[$i];
-                        }else{
-                            $dateimage_full[$i] = array_shift($dateimage);
+                $single = [];
+                $pricesingle = [];
+                if($detail['type'] == 1){
+                    if($this->input->post('hoteltitle') != null){
+                        for ($i=0; $i < count($this->input->post('hoteltitle')); $i++) { 
+                            $single[$i] = [
+                                'title' => $this->input->post('hoteltitle')[$i],
+                                'budget' => $this->input->post('budget')[$i],
+                                'star3' => $this->input->post('star3')[$i],
+                                'star4' => $this->input->post('star4')[$i],
+                                'star5' => $this->input->post('star5')[$i],
+                            ];
                         }
                     }
-                    $dateimage_json = json_encode($dateimage_full);
+                    for ($i=0; $i < 2; $i++) { 
+                        $pricesingle[$i] = [
+                            'budget' => $this->input->post('pricebudget')[$i],
+                            'star3' => $this->input->post('pricestar3')[$i],
+                            'star4' => $this->input->post('pricestar4')[$i],
+                            'star5' => $this->input->post('pricestar5')[$i],
+                        ];
+                    }
+                }
+                if($detail['type'] == 2){
+                    $avaliability = json_encode($this->input->post('avaliability'));
+                    $single_supplement = json_encode($this->input->post('single_supplement'));
+                    $date_content = json_encode($this->input->post('date_content'));
+                    $pricedate = json_encode($this->input->post('pricedate'));
                 }
                 $showpromotion = ($this->input->post('showpromotion') == 'true' && (!empty($this->input->post('percen')) || !empty($this->input->post('pricepromotion'))))? '1': '0';
-                $bestselling = ($this->input->post('bestselling') == 'true')? '1': '0';
-                $hot = ($this->input->post('hot') == 'true')? '1': '0';
                 $shared_request = array(
-                    'price' => $this->input->post('price'),
                     'title' => $this->input->post('title'),
+                    'price' => $this->input->post('price'),
+                    'percen' => $this->input->post('percen'),
+                    'pricepromotion' => $this->input->post('pricepromotion'),
+                    'showpromotion' => $showpromotion,
+                    'date' => ($this->input->post('date') != null) ? $this->input->post('date') : '',
+                    'librarylocaltion' => json_encode($this->input->post('parengoplace_9999')),
+                    'localtion' => $this->input->post('localtion'),
+                    'product_category_id' => $this->input->post('parent_id_shared'),
                     'description' => $this->input->post('description'),
                     'content' => $this->input->post('content'),
                     'metakeywords' => $this->input->post('metakeywords'),
                     'metadescription' => $this->input->post('metadescription'),
+                    'tripnodes' => $this->input->post('tripnodes'),
+                    'inclusions' => $this->input->post('inclusions'),
+                    'exclusions' => $this->input->post('exclusions'),
+                    'detailsprice' => $this->input->post('detailsprice'),
                     'datetitle' => json_encode($this->input->post('datetitle')),
                     'datecontent' => json_encode($this->input->post('datecontent')),
-                    'tripnodes' => $this->input->post('tripnodes'),
-                    'detailsprice' => $this->input->post('detailsprice'),
-                    'price' => $this->input->post('price'),
-                    'priceadults ' => $this->input->post('priceadults'),
-                    'pricechildren ' => $this->input->post('pricechildren'),
-                    'priceinfants ' => $this->input->post('priceinfants'),
-                    'percen' => $this->input->post('percen'),
-                    'pricepromotion' => $this->input->post('pricepromotion'),
-                    'bestselling' => $bestselling,
-                    'hot' => $hot,
-                    'showpromotion' => $showpromotion,
-                    'localtion' => $this->input->post('localtion'),
-                    'product_category_id' => $this->input->post('parent_id_shared'),
-                    'vehicles' => json_encode($this->input->post('vehicles')),
-                    'librarylocaltion' => json_encode($this->input->post('librarylocaltion')),
-                    'is_banner' => $this->input->post('is_banner'),
-                    'date' => '',
+                    'hotelsingle' => json_encode($single),
+                    'pricesingle' => json_encode($pricesingle),
                 );
+                if(isset($avaliability)){
+                    $shared_request['avaliability'] = $avaliability;
+                    $shared_request['single_supplement'] = $single_supplement;
+                    $shared_request['date_content'] = $date_content;
+                    $shared_request['pricedate'] = $pricedate;
+                }
                 if($unique_slug != $this->data['detail']['slug']){
                     $shared_request['slug'] = $unique_slug;
                 }
-                if($this->input->post('date') !== ''){
-                    $date= explode("/",$this->input->post('date'));
-                    $datetime=date('Y-m-d H:i:s', strtotime($date[1]."/".$date[0]."/".$date[2]));
-                }
-                if(isset($datetime)){
-                    $shared_request['date'] = $datetime;
-                }
                 if(isset($image)){
-                    $shared_request['image'] = $image;
+                    $shared_request['image'] = json_encode(array_merge($detail['image'],$image));
                 }
                 if(isset($localtionimage)){
                     $shared_request['imglocaltion'] = $localtionimage;
                 }
-                if(isset($dateimage_json)){
-                    $shared_request['dateimg'] = $dateimage_json;
-                }else{
-                    $dateimg = json_decode($this->data['detail']['dateimg']);
-                    $shared_request['dateimg'] = json_encode(array_slice($dateimg, 0,count($this->input->post('vehicles'))));
-                }
                 $update = $this->product_model->common_update($id,array_merge($shared_request,$this->author_data));
                 if($update){
-                    if(isset($dateimage_json) && !empty($this->data['detail']['dateimg'])) {
-                        $this->remove_img_date($this->input->post('datetitle'),$dateimg_array,$unique_slug,$img_array);
-                    }
                     if(isset($localtionimage) && !empty($this->data['detail']['imglocaltion'])) {
                         $this->remove_img($unique_slug,$this->data['detail']['imglocaltion']);
-                    }
-                    if(isset($image) && !empty($this->data['detail']['image'])) {
-                        $this->remove_img($unique_slug,$this->data['detail']['image']);
                     }
                     $reponse = array(
                         'csrf_hash' => $this->security->get_csrf_hash()
@@ -448,7 +382,7 @@ class Product extends Admin_Controller{
             }
         }else{
             $this->session->set_flashdata('message_error',MESSAGE_ID_ERROR);
-            redirect('admin/'. $this->data['controller'] .'', 'refresh');
+            redirect('admin/'. $this->data['controller'].'/1', 'refresh');
         }
         $this->render('admin/product/edit_product_view');
     }
@@ -551,18 +485,36 @@ class Product extends Admin_Controller{
         }
         return $title;
     }
+    
+    protected function check_img($filename, $filesize){
+        $reponse = array(
+            'csrf_hash' => $this->security->get_csrf_hash()
+        );
+        $map = strripos($filename, '.')+1;
+        $fileextension = substr($filename, $map,(strlen($filename)-$map));
+        if(!($fileextension == 'jpg' || $fileextension == 'jpeg' || $fileextension == 'png' || $fileextension == 'gif')){
+            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_FILE_EXTENSION_ERROR,$reponse);
+        }
+        if ($filesize > 1228800) {
+            return $this->return_api(HTTP_NOT_FOUND,sprintf(MESSAGE_PHOTOS_ERROR, 1200),$reponse);
+        }
+        return true;
+    }
     protected function check_imgs($filename, $filesize){
-        // print_r($filesize);die;
+        $reponse = array(
+            'csrf_hash' => $this->security->get_csrf_hash()
+        );
         $images = array('jpg', 'jpeg', 'png', 'gif');
         foreach ($filename as $key => $value) {
             $map[] = explode('.',$value);
         }
         foreach ($map as $key => $value) {
-            $new_map[] = $value[1];
+            if(!empty($value[1])){
+                $new_map[] = $value[1];
+            }
         }
         if(array_diff($new_map, $images) != null){
-            $this->session->set_flashdata('message_error', MESSAGE_FILE_EXTENSION_ERROR);
-            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
+            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_FILE_EXTENSION_ERROR,$reponse);
         }
         $image_size = array('success');
 
@@ -574,21 +526,9 @@ class Product extends Admin_Controller{
             }
         }
         if (array_diff($check_size, $image_size) != null) {
-            $this->session->set_flashdata('message_error', sprintf(MESSAGE_PHOTOS_ERROR, 1200));
-            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
+            return $this->return_api(HTTP_NOT_FOUND,sprintf(MESSAGE_PHOTOS_ERROR, 1200),$reponse);
         }
-    }
-    protected function check_img($filename, $filesize){
-        $map = strripos($filename, '.')+1;
-        $fileextension = substr($filename, $map,(strlen($filename)-$map));
-        if(!($fileextension == 'jpg' || $fileextension == 'jpeg' || $fileextension == 'png' || $fileextension == 'gif')){
-            $this->session->set_flashdata('message_error', MESSAGE_FILE_EXTENSION_ERROR);
-            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
-        }
-        if ($filesize > 1228800) {
-            $this->session->set_flashdata('message_error', sprintf(MESSAGE_PHOTOS_ERROR, 1200));
-            return $this->return_api(HTTP_NOT_FOUND,MESSAGE_CREATE_ERROR);
-        }
+        return true;
     }
     function build_new_category($categorie, $parent_id = 0,&$result, $id = "",$char=""){
         $cate_child = array();
@@ -639,24 +579,6 @@ class Product extends Admin_Controller{
         }
         return $result;
     }
-    function ajax_area_selected(){
-        $area =$this->input->post('area');
-        $selectlocaltion = !empty($this->input->post('selectlocaltion')) ? $this->input->post('selectlocaltion') : array();
-        $result = '';
-        if(!empty($area)){
-            foreach ($area as $key => $value) {
-                foreach ($this->localtion_model->get_by_area_id($value) as $key => $val) {
-                    $select = in_array($val['id'], $selectlocaltion) ? 'selected' : '';
-                    $result .= '<option value="'.$val['id'].'" ' . $select . ' >'.$val['title'].'</option>';
-                }
-            }
-        }
-        $reponse = array(
-            'csrf_hash' => $this->security->get_csrf_hash(),
-            'content' => $result
-        );
-        return $this->return_api(HTTP_SUCCESS,'',$reponse);
-    }
     public function check_banner(){
         $id = $this->input->get('id');
         $total =4;
@@ -672,5 +594,24 @@ class Product extends Admin_Controller{
         }else{
             return $this->return_api(HTTP_SUCCESS,'','', true);
         }
+    }
+
+    protected function check_all_file_img($file) {
+        foreach ($file as $key => $value) {
+            if(is_array($value['name'])){
+                if(!empty($value['name'][0])){
+                    if($this->check_imgs($value['name'], $value['size']) !== true){
+                        return false;
+                    }
+                }
+            }else{
+                if(!empty($value['name'])){
+                    if($this->check_img($value['name'], $value['size']) !== true){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

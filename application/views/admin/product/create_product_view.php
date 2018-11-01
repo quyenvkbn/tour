@@ -1,5 +1,5 @@
 <style type="text/css">
-    .label-date, {
+    .label-date{
         position: absolute;
         top: -28px;
         background: white;
@@ -17,10 +17,16 @@
     #area .span-area{
          padding-right: 0px;
     }
+    .form-horizontal .control-label{
+        text-align: left;
+    }
     @media (max-width: 768px) {
 
         .label-date, .label-area{
             top: -20px;
+        }
+        .form-horizontal .control-label{
+            text-align: left;
         }
     }
 </style>
@@ -108,8 +114,7 @@
                                     </div>
                                     </div>
                                 </div>
-                                <?php $type=0;?>
-                                <?php if ($type == '1'): ?>
+                                <?php if ($type == '2'): ?>
                                     <div class="col-xs-12">
                                         <label>Date:</label>
                                         <div class="input-group date">
@@ -120,7 +125,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-12" id="show-price" style="display: none;">
-                                        <label class="control-label">Nhập chi tiết cho từng ngày xuất phát</label>
+                                        <label class="control-label col-xs-12" style="padding: 0px;">Nhập chi tiết cho từng ngày xuất phát</label>
                                     </div>
                                 <?php else:?>
                                     <div class="col-xs-12" style="margin-top: 10px;">
@@ -138,46 +143,48 @@
                                         </ul>
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane fade in active" id="one">
-                                                <label class="control-label">Giá Hotel loại BUDGET</label>
-                                                <input name="priceonebudget[]" class="priceonebudget form-control">
-                                                <label class="control-label">Giá Hotel loại 3 - STAR</label>
-                                                <input name="priceonestar3[]" class="priceonestar3 form-control">
-                                                <label class="control-label">Giá Hotel loại 4 - STAR</label>
-                                                <input name="priceonestar4[]" class="priceonestar4 form-control">
-                                                <label class="control-label">Giá Hotel loại 5 - STAR</label>
-                                                <input name="priceonestar5[]" class="priceonestar5 form-control" >
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại BUDGET</label>
+                                                <input name="pricebudget[]" class="pricebudget form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 3 - STAR</label>
+                                                <input name="pricestar3[]" class="pricestar3 form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 4 - STAR</label>
+                                                <input name="pricestar4[]" class="pricestar4 form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 5 - STAR</label>
+                                                <input name="pricestar5[]" class="pricestar5 form-control" >
                                             </div>
                                             <div role="tabpanel" class="tab-pane fade" id="two">
-                                                <label class="control-label">Giá Hotel loại BUDGET</label>
-                                                <input name="pricetwobudget[]" class="pricetwobudget form-control">
-                                                <label class="control-label">Giá Hotel loại 3 - STAR</label>
-                                                <input name="pricetwostar3[]" class="pricetwostar3 form-control">
-                                                <label class="control-label">Giá Hotel loại 4 - STAR</label>
-                                                <input name="pricetwostar4[]" class="pricetwostar4 form-control">
-                                                <label class="control-label">Giá Hotel loại 5 - STAR</label>
-                                                <input name="pricetwostar5[]" class="pricetwostar5 form-control" >
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại BUDGET</label>
+                                                <input name="pricebudget[]" class="pricebudget form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 3 - STAR</label>
+                                                <input name="pricestar3[]" class="pricestar3 form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 4 - STAR</label>
+                                                <input name="pricestar4[]" class="pricestar4 form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 5 - STAR</label>
+                                                <input name="pricestar5[]" class="pricestar5 form-control" >
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xs-12" id="area">
                                         <label class="control-label">Nhập số khu vực sử dụng khách sạn</label>
-                                        <div class="col-md-10 col-sm-9 col-xs-7 input-area" style="margin-top:5px;">
+                                        <div class="col-md-10 col-sm-9 col-xs-7 input-area" style="margin-top:5px;margin-bottom: 10px;">
                                             <div class="col-xs-12" style="padding: 0px">
                                                 <?php  
                                                     echo form_input("number", '', 'class="form-control" onkeypress=" return isNumberKey(event)" id="numberarea"');
                                                 ?>
                                             </div>
                                         </div>
-                                        <div class="col-md-2 col-sm-3 col-xs-5 span-area" style="margin-top:5px;">
+                                        <div class="col-md-2 col-sm-3 col-xs-5 span-area" style="margin-top:5px;margin-bottom: 10px;">
                                             <span class="btn btn-primary form-control append-date" id="button-numberarea" onclick="addhotel(Number(document.getElementById('numberarea').value))">Xác nhận</span>
                                         </div>
-                                        <div id="content-full-hotel">
+                                        <div id="content-full-hotel"></div>
+                                        <div class="col-xs-12" style="padding: 0px;">
+                                            <i class="fa-2x fa fa-plus-square" id="addpend-one-hotel" onclick="addOnehotel()" style="float: right;cursor: pointer;"></i>
                                         </div>
                                     </div>
                                 <?php endif ?>
                                 <div class="col-xs-12">
                                     <?php echo form_label('Chọn khu vực', ''); ?>
-                                    <select class="form-control select2 select2-hidden-accessible" name="parengoplace_9999"  multiple="" data-idlocaltion="9999" style="width: 100%;" data-placeholder="Select a State"  tabindex="-1" aria-hidden="true"  id="paren-go-place">
+                                    <select class="form-control select2 select2-hidden-accessible" name="parengoplace_9999[]"  multiple="" data-idlocaltion="9999" style="width: 100%;" data-placeholder="Select a State"  tabindex="-1" aria-hidden="true"  id="paren-go-place">
                                         <?php foreach ($area_selected as $key => $value): ?>
                                             <option value="<?php echo $value['id']; ?>"><?php echo $value['vi']; ?></option>
                                         <?php endforeach ?>
@@ -203,9 +210,9 @@
                                         echo form_error('title');
                                         echo form_input('title', set_value('title'), 'class="form-control" id="title"');
                                     
-                                        echo form_label('Slug', 'slug_shared');
-                                        echo form_error('slug_shared');
-                                        echo form_input('slug_shared', set_value('slug_shared'), 'class="form-control" id="slug_shared" readonly');
+                                        echo form_label('Slug', 'slug');
+                                        echo form_error('slug');
+                                        echo form_input('slug', set_value('slug'), 'class="form-control" id="slug" readonly');
                                     ?>
                                     <div class="hidden">
                                         <?php
@@ -288,12 +295,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hidden">
-                        <input type="text" name="datetitle[]" value=""/>
-                        <input type="text" name="datecontent[]" value=""/>
-                        <input type="file" name="dateimg[]" multiple="">
-                        <input type="text" name="librarylocaltion[]">
-                    </div>
                 </div>
                 <?php echo form_close(); ?>
             </div>
@@ -350,12 +351,12 @@
             <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
                 <label class="control-label label-date" style="margin-bottom:-10px;">${array_new[0]}</label>
                 <label class="control-label">Price/Pax</label>
-                <input name="price[]" value="${money}" class="price form-control">
+                <input name="pricedate[]" value="${money}" class="price form-control">
                 <label class="control-label">Avaliability</label>
                 <input name="avaliability[]" class="avaliability form-control">
                 <label class="control-label">Single Supplement</label>
                 <input name="single_supplement[]" class="single_supplement form-control" style="margin-bottom:15px;">
-                <input type="hidden" name="date-content[]" value="${array_new[0]}">
+                <input type="hidden" name="date_content[]" value="${array_new[0]}">
             </div>
         `;
         document.getElementById('show-price').insertAdjacentHTML('beforeend', html);
@@ -365,38 +366,5 @@
     }
     arr_date = function_arr_date;
   });
-  function addhotel(number){
-    var html ='';
-    for (var i = 0; i < number; i++) {
-        html += `
-            <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
-                <label class="control-label label-area" style="margin-bottom:-10px;">Khu vực ${i+1}</label>
-                <label class="control-label">Tên khu vực thuê Hotel</label>
-                <input name="hoteltitle[]" value="" class="hoteltitle form-control">
-
-                <label class="control-label">Tên Hotel loại BUDGET</label>
-                <input name="budget[]" class="budget form-control">
-                <label class="control-label">Tên Hotel loại 3 - STAR</label>
-                <input name="star3[]" class="star3 form-control">
-                <label class="control-label">Tên Hotel loại 4 - STAR</label>
-                <input name="star4[]" class="star4 form-control">
-                <label class="control-label">Tên Hotel loại 5 - STAR</label>
-                <input name="star5[]" class="star5 form-control" style="margin-bottom:15px;">
-                <i style="position:absolute;top:0px;right:10px;cursor:pointer" class="fa-2x fa fa-close remove" onclick="remove_hotel(${i+1},this)"></i>
-            </div>
-        `;
-    }
-    document.getElementById('content-full-hotel').innerHTML = `${html}`;
-  }
-  function remove_hotel(id,ev){
-    document.querySelector(`#content-full-hotel`).removeChild(ev.parentElement);
-    var number = document.querySelectorAll('.hoteltitle');
-    for (i = id; i <= number.length; i++) {
-        number[i-1].parentElement.querySelector('.label-area').innerHTML = `Khu vực ${i}`;
-        number[i-1].parentElement.querySelector('.remove').setAttribute('onclick',`remove_hotel(${i},this)`);
-    }
-    number_area = number.length == 0 ? '' : number.length;
-    document.querySelector(`#numberarea`).value = number_area;
-  }
 
 </script>
