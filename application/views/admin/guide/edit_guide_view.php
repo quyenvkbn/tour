@@ -4,7 +4,7 @@
         <h1>
             Cập nhật
             <small>
-                Bài Viết
+                Bài Viết Hướng Dẫn
             </small>
         </h1>
     </section>
@@ -25,20 +25,6 @@
                             <span><?php echo $this->session->flashdata('message'); ?></span>
                         </div>
                         <div class="form-group col-xs-12">
-                            <label for="image">Hình ảnh đang dùng</label>
-                            <br>
-                            <img src="<?php echo base_url('assets/upload/'. $controller .'/'. $detail['image']); ?>" width=250px>
-                            <br>
-                        </div>
-                        <div class="form-group col-xs-12">
-                            <?php
-                            echo form_label('Hình ảnh', 'image');
-                            echo form_error('image');
-                            echo form_upload('image', set_value('image'), 'class="form-control"');
-                            ?>
-                            <br>
-                        </div>
-                        <div class="form-group col-xs-12">
                             <div class="form-group col-xs-12">
                                 <?php
                                     echo form_label('Tiêu đề', 'title');
@@ -54,21 +40,6 @@
                                 echo form_error('slug');
                                 echo form_input('slug', $detail['slug'], 'class="form-control" id="slug" readonly');
                                 ?>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-xs-12">
-                            <div class="form-group col-xs-12">
-                                <?php
-                                echo form_label('Danh mục', 'parent_id');
-                                echo form_error('parent_id');
-                                ?>
-                                <select name="parent_id" class="form-control">
-                                    <option value="">Chọn danh mục</option>
-                                    <?php foreach ($category as $key => $value): ?>
-                                        <option value="<?php echo $value['id'] ?>" <?php echo($value['id'] == $detail['id'])? 'selected' : ''?> ><?php echo $value['title'] ?></option>
-                                    <?php endforeach ?>
-                                </select>
                             </div>
                         </div>
 
