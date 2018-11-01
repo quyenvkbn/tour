@@ -21,40 +21,6 @@
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                <!-- <li class="<?php echo ($this->uri->segment(2) == 'about' || $this->uri->segment(2) == 'our_message' || $this->uri->segment(2) == 'our_methods')? 'active' : 'treeview' ?>">
-                    <a href="">
-                        <i class="fa fa-user-circle-o"></i>
-                        <span>Giới Thiệu</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="<?php echo ($this->uri->segment(2) == 'about')? 'active' : '' ?>">
-                            <a href="<?php echo base_url('admin/about') ?>"><i class="fa fa-group"></i> Giới Thiệu</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="<?php echo ($this->uri->segment(2) == 'banner')? 'active' : '' ?>">
-                    <a href="<?php echo base_url('admin/banner') ?>"><i class="fa fa-list"></i> Banner</a>
-                </li> -->
-                <!-- <li class="<?php echo ($this->uri->segment(2) == 'category' || $this->uri->segment(2) == 'blog')? 'active' : 'treeview' ?>">
-                    <a href="">
-                        <i class="fa fa-newspaper-o"></i>
-                        <span>Bài Viết</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="<?php echo ($this->uri->segment(2) == 'category')? 'active' : '' ?>">
-                            <a href="<?php echo base_url('admin/category') ?>"><i class="fa fa-filter"></i> Danh Mục Bài Viêt</a>
-                        </li>
-                        <li class="<?php echo ($this->uri->segment(2) == 'blog')? 'active' : '' ?>">
-                            <a href="<?php echo base_url('admin/blog') ?>"><i class="fa fa-list"></i> Danh Sách Bài Viêt</a>
-                        </li>
-                    </ul>
-                </li> -->
                 <li class="<?php echo ($this->uri->segment(2) == 'post_category' || $this->uri->segment(2) == 'post')? 'active' : 'treeview' ?>">
                     <a href="">
                         <i class="fa fa-newspaper-o"></i>
@@ -63,7 +29,7 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu">
+                    <ul class="treeview-menu" style="padding-left: 15px;">
                         <li class="<?php echo ($this->uri->segment(2) == 'post_category')? 'active' : '' ?>">
                             <a href="<?php echo base_url('admin/post_category') ?>"><i class="fa fa-filter"></i> Danh Mục Bài Viêt</a>
                         </li>
@@ -72,7 +38,11 @@
                         </li>
                     </ul>
                 </li>
-                <li class="<?php echo ($this->uri->segment(2) == 'product' || $this->uri->segment(2) == 'product_category')? 'active' : 'treeview' ?>">
+
+                <li class="<?php echo ($this->uri->segment(2) == 'product_category')? 'active' : '' ?>">
+                    <a href="<?php echo base_url('admin/product') ?>"><i class="fa fa-list"></i> Danh sách tour</a>
+                </li>
+                <li class="<?php echo ($this->uri->segment(2) == 'product')? 'active' : 'treeview' ?>">
                     <a href="">
                         <i class="fa fa-newspaper-o"></i>
                         <span>Tour</span>
@@ -80,12 +50,12 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu">
-                        <li class="<?php echo ($this->uri->segment(2) == 'product_category')? 'active' : '' ?>">
-                            <a href="<?php echo base_url('admin/product_category') ?>"><i class="fa fa-filter"></i> Danh mục tour</a>
+                    <ul class="treeview-menu" style="padding-left: 15px;">
+                        <li class="<?php echo ($this->uri->segment(3) == 'single')? 'active' : '' ?>">
+                            <a href="<?php echo base_url('admin/product/single') ?>"><i class="fa fa-filter"></i> Danh sách tour</a>
                         </li>
-                        <li class="<?php echo ($this->uri->segment(2) == 'product')? 'active' : '' ?>">
-                            <a href="<?php echo base_url('admin/product') ?>"><i class="fa fa-list"></i> Danh sách tour</a>
+                        <li class="<?php echo ($this->uri->segment(3) == 'group')? 'active' : '' ?>">
+                            <a href="<?php echo base_url('admin/product/group') ?>"><i class="fa fa-filter"></i> Danh sách tour group</a>
                         </li>
                     </ul>
                 </li>
@@ -97,7 +67,7 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu">
+                    <ul class="treeview-menu" style="padding-left: 15px;">
                         <li class="<?php echo ($this->uri->segment(2) == 'booking' && ($this->uri->segment(3) == 'index' || $this->uri->segment(3) == ''))? 'active' : '' ?>">
                             <a href="<?php echo base_url('admin/booking') ?>"><i class="fa fa-filter"></i> Chờ Xử Lý</a>
                         </li>
@@ -117,7 +87,7 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu">
+                    <ul class="treeview-menu" style="padding-left: 15px;">
                         <li class="<?php echo ($this->uri->segment(2) == 'area')? 'active' : '' ?>">
                             <a href="<?php echo base_url('admin/area') ?>"><i class="fa fa-filter"></i> Danh mục địa điểm</a>
                         </li>
@@ -134,7 +104,7 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    <ul class="treeview-menu">
+                    <ul class="treeview-menu" style="padding-left: 15px;">
                         <li class="<?php echo ($this->uri->segment(2) == 'customize' && ($this->uri->segment(3) == 'index' || $this->uri->segment(3) == ''))? 'active' : '' ?>">
                             <a href="<?php echo base_url('admin/customize') ?>"><i class="fa fa-filter"></i> Chờ Xử Lý</a>
                         </li>

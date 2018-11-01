@@ -161,57 +161,17 @@ $("#submit-shared,#content-home").click(function(event) {
 				alert("Vui lòng tạo ra một ngày của tour");
 				return false;
 			}
-			if(window.location.pathname.indexOf("/product/edit/") != '-1'){
-				var url = window.location.href;
-			}else{
-				var url = HOSTNAME + 'admin/product/create';
-			}
-			if ($('#is_banner').is(':checked')) {
-				var is_banner = 1;
-			}else{
-				var is_banner = 0;
-			}
-			var post = new FormData();
+			var url = window.location.href;
+			var post = new FormData(document.querySelector('form.form-horizontal'));
 			numberdates = $(".title-content-date.date").length;
 			for (var k = 0; k < numberdates; k++) {
-				if(document.getElementById("img_date_"+k).files.length == 0){
-					post.append('dateimg[]',k);
-				}else{
-					post.append('dateimg[]',document.getElementById("img_date_"+k).files[0]);
-				}
-				post.append('vehicles[]',$('#vehicles_'+k).val());
-				post.append('librarylocaltion[]',$('#go-place_'+k).val());
 				post.append('datetitle[]',$('#title_date_'+k).val());
 				post.append('datecontent[]',tinymce.get("content_date_"+k).getContent());
 			}
-
-			post.append('hot',$('#hot').is(':checked'));
-			post.append('bestselling',$('#bestselling').is(':checked'));
-			
-			post.append('pricepromotion',$('#pricepromotion').val());
 			post.append('showpromotion',$('#showpromotion').is(':checked'));
-
-			
-			post.append('price',$('#price').val());
-			post.append('is_banner',is_banner);
-			post.append('date',$('#datepicker').val());
-			post.append('priceadults',$('#priceadults').val());
-			post.append('pricechildren',$('#pricechildren').val());
-			post.append('priceinfants',$('#priceinfants').val());
-			post.append('percen',$('#percen').val());
-			post.append('localtion',$('#localtion').val());
-			post.append('image_shared',document.getElementById("image_shared").files[0]);
-			post.append('image_localtion',document.getElementById("image_localtion").files[0]);
-			post.append('number',($(".title-content-date.date [name^=title_date_]").length));
-			post.append('title',$('#title').val());
-			post.append('metakeywords',$('#metakeywords').val());
-			post.append('metadescription',$('#metadescription').val());
-			post.append('slug_shared',$('#slug_shared').val());
-			post.append('parent_id_shared',$('#parent_id_shared').val());
-			post.append('description',$('#description').val());
-			post.append('content',tinymce.get("content").getContent());
+			post.append('inclusions',tinymce.get("inclusions").getContent());
 			post.append('tripnodes',tinymce.get("tripnodes").getContent());
-			post.append('detailsprice',tinymce.get("detailsprice").getContent());
+			post.append('exclusions',tinymce.get("exclusions").getContent());
 			post.append('csrf_myielts_token',csrf_hash);
 			$.ajax({
 				method: "post",
@@ -239,9 +199,11 @@ $("#submit-shared,#content-home").click(function(event) {
 					}
 				},
 				error: function(jqXHR, exception){
+					$("#submit-shared").removeAttr('disabled');
+					$('#encypted_ppbtn_all').html('');
+					csrf_hash = jqXHR.responseJSON.reponse.csrf_hash;
 					alert(jqXHR.responseJSON.message);
-					console.log(errorHandle(jqXHR, exception));
-					location.reload();
+					$("input[name='csrf_myielts_token']").val(csrf_hash);
 				}
 			});
 		}
@@ -386,3 +348,58 @@ $('#is_banner').change(function(){
         });
 	}
 });
+
+  function addhotel(number){
+    var html ='';
+    for (var i = 0; i < number; i++) {
+        html += `
+            <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
+                <label class="control-label label-area" style="margin-bottom:-10px;">Khu vực ${i+1}</label>
+                <label class="control-label">Tên khu vực thuê Hotel</label>
+                <input name="hoteltitle[]" value="" class="hoteltitle form-control">
+
+                <label class="control-label">Tên Hotel loại BUDGET</label>
+                <input name="budget[]" class="budget form-control">
+                <label class="control-label">Tên Hotel loại 3 - STAR</label>
+                <input name="star3[]" class="star3 form-control">
+                <label class="control-label">Tên Hotel loại 4 - STAR</label>
+                <input name="star4[]" class="star4 form-control">
+                <label class="control-label">Tên Hotel loại 5 - STAR</label>
+                <input name="star5[]" class="star5 form-control" style="margin-bottom:15px;">
+                <i style="position:absolute;top:0px;right:10px;cursor:pointer" class="fa-2x fa fa-close remove" onclick="remove_hotel(${i+1},this)"></i>
+            </div>
+        `;
+    }
+    document.getElementById('content-full-hotel').innerHTML = `${html}`;
+  }
+  function addOnehotel(){
+    number = document.querySelectorAll(`#content-full-hotel .hoteltitle`).length;
+    html = `
+        <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
+            <label class="control-label label-area" style="margin-bottom:-10px;">Khu vực ${number+1}</label>
+            <label class="control-label">Tên khu vực thuê Hotel</label>
+            <input name="hoteltitle[]" value="" class="hoteltitle form-control">
+            <label class="control-label">Tên Hotel loại BUDGET</label>
+            <input name="budget[]" class="budget form-control">
+            <label class="control-label">Tên Hotel loại 3 - STAR</label>
+            <input name="star3[]" class="star3 form-control">
+            <label class="control-label">Tên Hotel loại 4 - STAR</label>
+            <input name="star4[]" class="star4 form-control">
+            <label class="control-label">Tên Hotel loại 5 - STAR</label>
+            <input name="star5[]" class="star5 form-control" style="margin-bottom:15px;">
+            <i style="position:absolute;top:0px;right:10px;cursor:pointer" class="fa-2x fa fa-close remove" onclick="remove_hotel(${number+1},this)"></i>
+        </div>
+    `;
+    document.querySelector(`#numberarea`).value = number+1;
+    document.getElementById('content-full-hotel').insertAdjacentHTML('beforeend', html);
+  }
+  function remove_hotel(id,ev){
+    document.querySelector(`#content-full-hotel`).removeChild(ev.parentElement);
+    var number = document.querySelectorAll('.hoteltitle');
+    for (i = id; i <= number.length; i++) {
+        number[i-1].parentElement.querySelector('.label-area').innerHTML = `Khu vực ${i}`;
+        number[i-1].parentElement.querySelector('.remove').setAttribute('onclick',`remove_hotel(${i},this)`);
+    }
+    number_area = number.length == 0 ? '' : number.length;
+    document.querySelector(`#numberarea`).value = number_area;
+  }

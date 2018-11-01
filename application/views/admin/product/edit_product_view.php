@@ -1,5 +1,39 @@
 <link rel="stylesheet" href="<?php echo site_url('assets/sass/admin/') ?>detail.css">
+<style type="text/css">
+    
+    .label-date{
+        position: absolute;
+        top: -28px;
+        background: white;
+        right: 20px;
+    }
+    .label-area{
+        position: absolute;
+        top: -28px;
+        background: white;
+        left: 15px;
+    }
+    #area .input-area{
+         padding-left: 0px;
+    }
+    #area .span-area{
+         padding-right: 0px;
+    }
+    .form-horizontal .control-label{
+        text-align: left;
+    }
+    @media (max-width: 768px) {
+
+        .label-date, .label-area{
+            top: -20px;
+        }
+        .form-horizontal .control-label{
+            text-align: left;
+        }
+    }
+</style>
 <div class="content-wrapper">
+    <input type="text" value='<?php echo (!empty($detail['avaliability'])) ? json_encode($detail['date_content']) : json_encode(array()); ?>' placeholder="" class="form-control hidden" id="datetime_content">
     <div id="encypted_ppbtn_all"></div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -29,93 +63,51 @@
                                 <div class="row">
                                     <span><?php echo $this->session->flashdata('message'); ?></span>
                                 </div>
-                                <div class="col-xs-6">
-                                    <label for="image_shared">Hình ảnh tour đang dùng</label>
-                                    </br>
-                                        <?php if(!empty($detail['image'])): ?>
-                                            <img src="<?php echo base_url('assets/upload/'. $controller .'/'. $detail['slug'] .'/'. $detail['image']); ?>" style="width: 100%;">
-                                        <?php endif; ?>
-                                </div>
                                 <div class="col-xs-12">
-                                    <?php
-                                    echo form_label('Ảnh đại diện', 'image_shared');
-                                    echo form_error('image_shared');
-                                    echo form_upload('image_shared', set_value('image_shared'), 'class="form-control" id="image_shared"');
-                                    ?>
-                                    <br>
-                                </div>
-                                <div class="col-xs-6">
-                                    <label for="image_shared">Hình ảnh localtion đang dùng</label>
+                                    <label for="image_shared">Hình ảnh avatar đang dùng</label>
                                     </br>
+                                    <div class="col-sm-4" style="padding-left: 0px;">
                                         <?php if(!empty($detail['imglocaltion'])): ?>
                                             <img src="<?php echo base_url('assets/upload/'. $controller .'/'. $detail['slug'] .'/'. $detail['imglocaltion']); ?>" style="width: 100%;">
                                         <?php endif; ?>
+                                    </div>
                                 </div>
                                 <div class="col-xs-12">
                                     <?php
-                                    echo form_label('Hình ảnh Map', 'image_localtion');
+                                    echo form_label('Hình ảnh avatar', 'image_localtion');
                                     echo form_error('image_localtion');
                                     echo form_upload('image_localtion', set_value('image_localtion'), 'class="form-control" id="image_localtion"');
                                     ?>
                                 </div>
                                 <div class="col-xs-12">
+                                    <label for="image_shared">Hình ảnh đang có</label>
+                                    </br>
+                                    <?php if(!empty($detail['image'])): ?>
+                                        <?php foreach ($detail['image'] as $key => $value): ?>
+                                            <div class="col-sm-4" style="padding-left: 0px;margin-bottom: 5px;">
+                                                <img src="<?php echo base_url('assets/upload/'. $controller .'/'. $detail['slug'] .'/'. $value); ?>" style="width: 100%;">
+                                            </div>
+                                        <?php endforeach ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-xs-12">
                                     <?php
-                                    echo form_label('Slug', 'slug_shared');
-                                    echo form_error('slug_shared');
-                                    echo form_input('slug_shared', $detail['slug'], 'class="form-control" id="slug_shared" readonly');
+                                    echo form_label('Hình ảnh', 'image_shared');
+                                    echo form_error('image_shared');
+                                    echo form_upload('image_shared[]', set_value('image_shared'), 'class="form-control" id="image_shared" multiple');
                                     ?>
                                 </div>
-                                <div class="col-xs-12">
-                                    <label>Date:</label>
-                                    <div class="input-group date">
-                                      <div class="input-group-addon" title="Xóa giá trị ngày tháng">
-                                        <i class="fa fa-calendar"></i>
-                                      </div>
-                                      <input type="text" name="date" value ="<?php echo trim($detail['date']); ?>" class="form-control pull-right" id="datepicker" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12">
+                                 <div class="col-xs-12">
                                     <?php
-                                    echo form_label('Giá tour  ( Đơn vị tiền: VNĐ )', 'price');
+                                    echo form_label('Giá tour', 'price');
                                     echo form_error('price');
-                                    echo form_input('price', trim($detail['price']), 'class="form-control" id="price" placeholder ="Đơn vị tiền: VNĐ" onkeypress=" return isNumberKey(event)"');
-                                    ?>
-                                </div>
-                                <div class="col-xs-12">
-                                    <?php
-                                    echo form_label('Giá tour cho người lớn  ( Đơn vị : Phần trăm )', 'priceadults');
-                                    echo form_error('priceadults');
-                                    echo form_input('priceadults', trim($detail['priceadults']), 'class="form-control" id="priceadults" placeholder ="Đơn vị : Phần trăm (%)" onkeypress=" return isNumberKey(event)"');
-                                    ?>
-                                </div>
-                                <div class="col-xs-12">
-                                    <?php
-                                    echo form_label('Giá tour cho trẻ em  ( Đơn vị : Phần trăm )', 'pricechildren');
-                                    echo form_error('pricechildren');
-                                    echo form_input('pricechildren', trim($detail['pricechildren']), 'class="form-control" id="pricechildren" placeholder ="Đơn vị : Phần trăm (%)" onkeypress=" return isNumberKey(event)"');
-                                    ?>
-                                </div>
-                                <div class="col-xs-12">
-                                    <?php
-                                    echo form_label('Giá tour cho em bé  ( Đơn vị : Phần trăm )', 'priceinfants');
-                                    echo form_error('priceinfants');
-                                    echo form_input('priceinfants', trim($detail['priceinfants']), 'class="form-control" id="priceinfants" placeholder ="Đơn vị : Phần trăm (%)" onkeypress=" return isNumberKey(event)"');
+                                    echo form_input('price', $detail['price'], 'class="form-control" id="price" placeholder ="Đơn vị tiền: R" onkeypress=" return isNumberKey(event)"');
                                     ?>
                                 </div>
                                 <div class="col-xs-12">
                                     <div class="checkbox" style="padding-top: 10px;">
-                                        <label style="margin-bottom: 10px;">
-                                            <input type="checkbox" id="is_banner" name="is_banner" <?php echo ($detail['is_banner'] == 1)?'checked':'';?>  data-url="<?php echo base_url('admin/product/check_banner');?>" data-id="<?php echo $detail['id'];?>" > Chọn làm banner
-                                            <span class="check_banner_error" style="font-weight: 700;"></span>
-                                        </label></br>
                                         <label style="padding-right: 10px;">
                                             <input type="checkbox" id="promotion" name="promotion" <?php echo (!empty(trim($detail['pricepromotion'])) || !empty(trim($detail['percen'])))?'checked':''; ?>> Khuyến mãi
-                                        </label>
-                                        <label style="padding-right: 10px;">
-                                            <input type="checkbox" id="bestselling" name="bestselling" <?php echo ($detail['bestselling'] == 1)? 'checked' : '';?>> Bán Chạy
-                                        </label>
-                                        <label>
-                                            <input type="checkbox" id="hot" name="hot" <?php echo ($detail['hot'] == 1)? 'checked' : '';?>> Hot
                                         </label>
                                     </div>
                                 </div>
@@ -138,42 +130,177 @@
                                     </div>
                                     </div>
                                 </div>
+                                <?php if ($detail['type'] == '2'): ?>
+                                    <div class="col-xs-12">
+                                        <label>Date:</label>
+                                        <div class="input-group date">
+                                          <div class="input-group-addon" title="Xóa giá trị ngày tháng">
+                                            <i class="fa fa-calendar"></i>
+                                          </div>
+                                          <input type="text" name="date" value ="<?php echo $detail['date']; ?>" class="form-control pull-right" id="datepicker" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12" id="show-price" style="display: none;">
+                                        <label class="control-label col-xs-12" style="padding: 0px;">Nhập chi tiết cho từng ngày xuất phát</label>
+                                        <?php foreach ($detail['avaliability'] as $key => $value): ?>
+                                            <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
+                                                <label class="control-label label-date" style="margin-bottom:-10px;"><?php echo $detail['date_content'][$key];?></label>
+                                                <label class="control-label">Price/Pax</label>
+                                                <input name="pricedate[]" value="<?php echo $detail['pricedate'][$key];?>" class="price form-control">
+                                                <label class="control-label">Avaliability</label>
+                                                <input name="avaliability[]" value="<?php echo $detail['avaliability'][$key];?>" class="avaliability form-control">
+                                                <label class="control-label">Single Supplement</label>
+                                                <input name="single_supplement[]" value="<?php echo $detail['single_supplement'][$key];?>" class="single_supplement form-control" style="margin-bottom:15px;">
+                                                <input type="hidden" name="date_content[]" value="<?php echo $detail['date_content'][$key];?>">
+                                            </div>
+                                        <?php endforeach ?>
+                                    </div>
+                                <?php else:?>
+                                    <div class="col-xs-12" style="margin-top: 10px;">
+                                        <ul class="nav nav-pills nav-justified" role="tablist">
+                                            <li role="presentation" class="active">
+                                                <a href="#one" aria-controls="one" role="tab" data-toggle="tab">
+                                                    <span class="badge">1</span> Nhiều người
+                                                </a>
+                                            </li>
+                                            <li role="presentation" class="">
+                                                <a href="#two" aria-controls="two" role="tab" data-toggle="tab">
+                                                    <span class="badge">2</span> Đơn lẻ
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade in active" id="one">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại BUDGET</label>
+                                                <input name="pricebudget[]" value="<?php echo $detail['pricesingle'][0]['budget']; ?>" class="pricebudget form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 3 - STAR</label>
+                                                <input name="pricestar3[]" value="<?php echo $detail['pricesingle'][0]['star3']; ?>" class="pricestar3 form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 4 - STAR</label>
+                                                <input name="pricestar4[]" value="<?php echo $detail['pricesingle'][0]['star4']; ?>" class="pricestar4 form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 5 - STAR</label>
+                                                <input name="pricestar5[]" value="<?php echo $detail['pricesingle'][0]['star5']; ?>" class="pricestar5 form-control" >
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="two">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại BUDGET</label>
+                                                <input name="pricebudget[]" value="<?php echo $detail['pricesingle'][1]['budget']; ?>" class="pricebudget form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 3 - STAR</label>
+                                                <input name="pricestar3[]" value="<?php echo $detail['pricesingle'][1]['star3']; ?>" class="pricestar3 form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 4 - STAR</label>
+                                                <input name="pricestar4[]" value="<?php echo $detail['pricesingle'][1]['star4']; ?>" class="pricestar4 form-control">
+                                                <label class="control-label">Giá tour khi sử dụng Hotel loại 5 - STAR</label>
+                                                <input name="pricestar5[]" value="<?php echo $detail['pricesingle'][1]['star5']; ?>" class="pricestar5 form-control" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12" id="area">
+                                        <label class="control-label">Nhập số khu vực sử dụng khách sạn</label>
+                                        <div class="col-md-10 col-sm-9 col-xs-7 input-area" style="margin-top:5px;margin-bottom: 10px;">
+                                            <div class="col-xs-12" style="padding: 0px">
+                                                <?php  
+                                                    echo form_input("number", (count($detail['hotelsingle']) == 0)? '' : count($detail['hotelsingle']), 'class="form-control" onkeypress=" return isNumberKey(event)" id="numberarea"');
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-sm-3 col-xs-5 span-area" style="margin-top:5px;margin-bottom: 10px;">
+                                            <span class="btn btn-primary form-control append-date" id="button-numberarea" onclick="addhotel(Number(document.getElementById('numberarea').value))">Xác nhận</span>
+                                        </div>
+                                        <div id="content-full-hotel">
+                                            <?php foreach ($detail['hotelsingle'] as $key => $value): ?>
+                                                <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
+                                                    <label class="control-label label-area" style="margin-bottom:-10px;">Khu vực <?php echo $key+1;?></label>
+                                                    <label class="control-label">Tên khu vực thuê Hotel</label>
+                                                    <input name="hoteltitle[]" value="<?php echo $value['title'] ?>" class="hoteltitle form-control">
+
+                                                    <label class="control-label">Tên Hotel loại BUDGET</label>
+                                                    <input name="budget[]" value="<?php echo $value['budget'] ?>" class="budget form-control">
+                                                    <label class="control-label">Tên Hotel loại 3 - STAR</label>
+                                                    <input name="star3[]" value="<?php echo $value['star3'] ?>" class="star3 form-control">
+                                                    <label class="control-label">Tên Hotel loại 4 - STAR</label>
+                                                    <input name="star4[]" value="<?php echo $value['star4'] ?>" class="star4 form-control">
+                                                    <label class="control-label">Tên Hotel loại 5 - STAR</label>
+                                                    <input name="star5[]" value="<?php echo $value['star5'] ?>" class="star5 form-control" style="margin-bottom:15px;">
+                                                    <i style="position:absolute;top:0px;right:10px;cursor:pointer" class="fa-2x fa fa-close remove" onclick="remove_hotel(<?php echo $key+1;?>,this)"></i>
+                                                </div>
+                                            <?php endforeach ?>
+                                        </div>
+
+                                        <div class="col-xs-12" style="padding: 0px;">
+                                            <i class="fa-2x fa fa-plus-square" id="addpend-one-hotel" onclick="addOnehotel()" style="float: right;cursor: pointer;"></i>
+                                        </div>
+                                    </div>
+                                <?php endif ?>
+                                <div class="col-xs-12">
+                                    <?php echo form_label('Chọn khu vực', ''); ?>
+                                    <select class="form-control select2 select2-hidden-accessible" name="parengoplace_9999[]"  multiple="" data-idlocaltion="9999" style="width: 100%;" data-placeholder="Select a State"  tabindex="-1" aria-hidden="true"  id="paren-go-place">
+                                        <?php foreach ($area_selected as $key => $value): ?>
+                                            <option <?php 
+                                                    foreach($detail['librarylocaltion'] as $k => $val){
+                                                        if($value['id'] == $val){
+                                                            echo ' selected ';
+                                                        }
+                                                    }
+                                                ?> value="<?php echo $value['id']; ?>"><?php echo $value['vi']; ?>
+                                            </option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
                                 <div class="col-xs-12">
                                     <?php
-                                    echo form_label('Vị trí đến', 'localtion');
-                                    echo form_error('localtion');
-                                    echo form_input('localtion', trim($detail['localtion']), 'class="form-control" id="localtion" placeholder ="VD:Hanoi, Halong Bay, Hue, Hoian, Saigon, Cu Chi"');
+                                        echo form_label('Vị trí đến', 'localtion');
+                                        echo form_error('localtion');
+                                        echo form_input('localtion', trim($detail['localtion']), 'class="form-control" id="localtion" placeholder ="VD:Hanoi, Halong Bay, Hue, Hoian, Saigon, Cu Chi"');
                                     ?>
                                 </div>
                                 <div class="col-xs-12">
                                     <?php echo form_label('Danh mục cha', 'parent_id_shared'); ?>
                                     <select name="parent_id_shared" id="parent_id_shared" class="form-control" style="margin-top: 0px">
+                                        <option selected="" value="">Chọn danh mục</option>
                                         <?php echo $product_category; ?>
                                     </select>
                                 </div>
                                 <div class="col-xs-12">
                                     <?php
-                                    echo form_label('Tiêu đề', 'title');
-                                    echo form_error('title');
-                                    echo form_input('title', trim($detail['title']), 'class="form-control" id="title"');
-                                    echo form_label('Mô tả', 'description');
-                                    echo form_error('description');
-                                    echo form_textarea('description', trim($detail['description']), 'class="form-control" rows="5" id="description" ');
-                                    echo form_label('Nội dung', 'content');
-                                    echo form_error('content');
-                                    echo form_textarea('content', trim($detail['content']), 'class="tinymce-area form-control" rows="5" ');
-                                    echo form_label('Từ khóa meta', 'metakeywords');
-                                    echo form_error('metakeywords');
-                                    echo form_input('metakeywords', trim($detail['metakeywords']), 'class="form-control" id="metakeywords" ');
-                                    echo form_label('Mô tả meta', 'metadescription');
-                                    echo form_error('metadescription');
-                                    echo form_input('metadescription', trim($detail['metadescription']), 'class="form-control" id="metadescription" ');
-                                    echo form_label('Ghi chú', 'tripnodes');
-                                    echo form_error('tripnodes');
-                                    echo form_textarea('tripnodes', trim($detail['tripnodes']), 'class="tinymce-area form-control" rows="5" ');
-                                    echo form_label('Chi tiết giá', 'detailsprice');
-                                    echo form_error('detailsprice');
-                                    echo form_textarea('detailsprice', trim($detail['detailsprice']), 'class="tinymce-area form-control" rows="5" ');
+                                        echo form_label('Tiêu đề', 'title');
+                                        echo form_error('title');
+                                        echo form_input('title', trim($detail['title']), 'class="form-control" id="title"');
+                                    
+                                        echo form_label('Slug', 'slug');
+                                        echo form_error('slug');
+                                        echo form_input('slug', $detail['slug'], 'class="form-control" id="slug" readonly');
+                                    ?>
+                                    <div class="hidden">
+                                        <?php
+                                            echo form_label('Mô tả', 'description');
+                                            echo form_error('description');
+                                            echo form_textarea('description', set_value('description', '', false), 'class="form-control" rows="5" id="description" ');
+                                            echo form_label('Nội dung', 'content');
+                                            echo form_error('content');
+                                            echo form_textarea('content', set_value('content', '', false), 'class="tinymce-area form-control" rows="5" ');
+                                        ?>
+                                    </div>
+                                    <?php
+                                        echo form_label('Từ khóa meta', 'metakeywords');
+                                        echo form_error('metakeywords');
+                                        echo form_input('metakeywords', trim($detail['metakeywords']), 'class="form-control" id="metakeywords" ');
+                                        echo form_label('Mô tả meta', 'metadescription');
+                                        echo form_error('metadescription');
+                                        echo form_input('metadescription', trim($detail['metadescription']), 'class="form-control" id="metadescription" ');
+                                        echo form_label('Ghi chú', 'tripnodes');
+                                        echo form_error('tripnodes');
+                                        echo form_textarea('tripnodes', trim($detail['tripnodes']), 'class="tinymce-area form-control" rows="5" ');
+                                        echo form_label('Bao gồm', 'inclusions');
+                                        echo form_error('inclusions');
+                                        echo form_textarea('inclusions', trim($detail['inclusions']), 'class="tinymce-area form-control" rows="5" ');
+                                        echo form_label('Loại trừ', 'exclusions');
+                                        echo form_error('exclusions');
+                                        echo form_textarea('exclusions', trim($detail['exclusions']), 'class="tinymce-area form-control" rows="5" ');
+                                    ?>
+                                </div>
+                                <div class="hidden">
+                                    <?php
+                                        echo form_label('Chi tiết giá', 'detailsprice');
+                                        echo form_error('detailsprice');
+                                        echo form_textarea('detailsprice', set_value('detailsprice', '', false), 'class="tinymce-area form-control" rows="5" ');
                                     ?>
                                 </div>
                             </div>
@@ -250,13 +377,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="hidden">
-                    <input type="text" name="titledate[]" value=""/>
-                    <input type="text" name="contentdate[]" value=""/>
-                    <input type="text" name="numberdatehidden" value="<?php echo count($detail['datecontent']);?>"/>
-                    <input type="file" name="dateimg[]" multiple="">
-                    <input type="text" name="librarylocaltion[]">
-                </div>
                 <?php echo form_close(); ?>
             </div>
         </section>
@@ -281,12 +401,61 @@
     }
 </script>
 <script>
+    if(document.querySelectorAll('.avaliability').length){
+        document.getElementById('show-price').style.display = 'block';
+    }
+  function getArrayDiff(a, b) {
+      var ret = [],
+          merged = [];
+
+      merged = a.concat(b);
+
+      for (var i = 0; i < merged.length; i++) {
+        if (merged.indexOf(merged[i]) ==
+            merged.lastIndexOf(merged[i])) {
+          ret.push(merged[i]);
+        }
+      }
+
+      return ret;
+    }
   $(function () {
     //Date picker
     $('#datepicker').datepicker({
-      autoclose: true,
       format: 'dd/mm/yyyy',
+      multidate:true
     })
   })
+  var arr_date = JSON.parse(document.getElementById('datetime_content').value);
+  $(document).off('change','#datepicker').on('change','#datepicker',function(){
+    var function_arr_date = [];
+    var money = (document.getElementById('pricepromotion').value == '') ? document.getElementById('price').value : document.getElementById('pricepromotion').value;
+    if($('#datepicker').val() != ''){
+        document.getElementById('show-price').style.display = 'block';
+        var function_arr_date = $('#datepicker').val().split(",");
+    }else{
+        document.getElementById('show-price').style.display = 'none';
+    }
+    if(arr_date.length < function_arr_date.length){
+        var array_new = getArrayDiff(arr_date,function_arr_date);
+        html = `
+            <div class="col-xs-12" style="border:1px solid gray;margin:10px 0px;">
+                <label class="control-label label-date" style="margin-bottom:-10px;">${array_new[0]}</label>
+                <label class="control-label">Price/Pax</label>
+                <input name="pricedate[]" value="${money}" class="price form-control">
+                <label class="control-label">Avaliability</label>
+                <input name="avaliability[]" class="avaliability form-control">
+                <label class="control-label">Single Supplement</label>
+                <input name="single_supplement[]" class="single_supplement form-control" style="margin-bottom:15px;">
+                <input type="hidden" name="date_content[]" value="${array_new[0]}">
+            </div>
+        `;
+        document.getElementById('show-price').insertAdjacentHTML('beforeend', html);
+    }else{
+        var array_new = getArrayDiff(arr_date,function_arr_date);
+        document.querySelector(`#show-price`).removeChild(document.querySelector(`input[value="${array_new[0]}"]`).parentElement);
+    }
+    arr_date = function_arr_date;
+  });
 </script>
 

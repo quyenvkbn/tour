@@ -41,19 +41,10 @@
                             <a href="<?php echo base_url('admin/'.$controller.'/create') ?>" class="btn btn-primary" role="button">Thêm mới</a>
                         </div>
                         <div class="col-md-10 col-ms-12">
-                            <form action="<?php echo base_url('admin/'.$controller.'/index') ?>" method="get">
+                            <form action="" method="get">
                                 <div class="checkbox col-md-6 col-ms-12">
                                     <label style="padding-right: 10px;">
                                         <input type="checkbox" name="promotion" <?php echo (!empty($promotion))? 'checked' : '';?>> Khuyến Mãi
-                                    </label>
-                                    <label style="padding-right: 10px;">
-                                        <input type="checkbox" name="bestselling" <?php echo (!empty($bestselling))? 'checked' : '';?>> Bán Chạy
-                                    </label>
-                                    <label style="padding-right: 10px;">
-                                        <input type="checkbox" name="hot" <?php echo (!empty($hot))? 'checked' : '';?>> Hot
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="banner" <?php echo (!empty($banner))? 'checked' : '';?>> banner
                                     </label>
                                 </div>
                                 <div class="input-group col-md-6 col-ms-12">

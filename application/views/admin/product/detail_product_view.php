@@ -1,6 +1,72 @@
 <link rel="stylesheet" href="<?php echo site_url('assets/sass/admin/') ?>detail.css">
 
-
+<style type="text/css">
+    table{
+        width: 100%;
+        margin: 0 0 15px 0;
+        background-color: transparent;
+        border-spacing: 0;
+        border-collapse: collapse;
+            display: table;
+        border-collapse: separate;
+        border-spacing: 2px;
+        border-color: grey;
+    }
+    tbody {
+        display: table-row-group;
+        vertical-align: middle;
+        border-color: inherit;
+    }
+    .hotel-table tr:first-child {
+        background: #aab2bd;
+        color: #fff;
+        text-align: center;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+    .hotel-table tr:first-child td:first-child {
+        background-image: linear-gradient( to top right, #aab2bd 49%, #ededed, #aab2bd 50% );
+        position: relative;
+        width: 140px;
+        height: 70px;
+        font-size: 12px;
+        text-transform: none;
+    }
+    .hotel-table tr td {
+        padding: 9px 10px;
+        border: 1px solid #ededed;
+        font-size: 14px;
+    }
+    .hotel-table tr td {
+        padding: 9px 10px;
+        border: 1px solid #ededed;
+        font-size: 14px;
+    }
+    .hotel-table tr:first-child td:first-child span:last-child {
+        position: absolute;
+        left: 8px;
+        bottom: 10px;
+    }
+    .hotel-table tr:first-child td:first-child span:first-child {
+        position: absolute;
+        right: 5px;
+        top: 4px;
+    }
+    .hotel-table {
+        margin-bottom: 20px !important;
+    }
+    .hotelprice{
+        text-align: center;
+    }
+    .country-name{
+        font-weight: 600;
+    }
+    @media screen and (max-width: 767px){
+        .table-responsive>.table>tbody>tr>td, .table-responsive>.table>tbody>tr>th, .table-responsive>.table>tfoot>tr>td, .table-responsive>.table>tfoot>tr>th, .table-responsive>.table>thead>tr>td, .table-responsive>.table>thead>tr>th {
+            white-space: normal;
+        }
+    }
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -30,83 +96,33 @@
                         <ul class="nav nav-tabs" role="tablist" id="nav-product">
                             <li role="presentation" class="<?php echo ($this->uri->segment(5) == '' && !isset($_GET['active']))? 'active' : '' ?>"><a href="#tour" class="btn btn-primary" aria-controls="tour" role="tab" data-toggle="tab">Tour</a></li>
                             <li role="presentation"><a href="#date-tour" class="btn btn-primary" aria-controls="date-tour" role="tab" data-toggle="tab">Date tour</a></li>
-                            <li role="presentation"><a href="#img-tour" class="btn btn-primary" aria-controls="img-tour" role="tab" data-toggle="tab">Nơi đến các ngày của tour</a></li>
-                            <li role="presentation" class="<?php echo ($this->uri->segment(5) != '' || isset($_GET['active']))? 'active' : '' ?>" id="btn-active-comment"><a href="#comment" class="btn btn-primary" aria-controls="comment" role="tab" data-toggle="tab">Bình luận</a></li>
+                            <li role="presentation"><a href="#price-detail" class="btn btn-primary <?php echo ($detail['type'] == '2') ? 'hidden': ''; ?>" aria-controls="price-detail" role="tab" data-toggle="tab">Chi tiết Hotel</a></li>
+                            <li role="presentation"><a href="#start-detail" class="btn btn-primary <?php echo ($detail['type'] == '1') ? 'hidden': ''; ?>" aria-controls="start-detail" role="tab" data-toggle="tab">Chi tiết Những ngày khởi hành</a></li>
                         </ul>
-                        <h3 class="box-title">Chi tiết</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade <?php echo ($this->uri->segment(5) == '' && !isset($_GET['active']))? 'in active' : '' ?>" id="tour">
                             <div class="box-body">
                                 <div class="row">
-                                    <?php if (!empty($detail['imglocaltion'])): ?>
-                                        <div class="detail-image col-sm-6" style="margin-bottom: 5px;">
-                                            <label>Hình ảnh location</label>
-                                            <div class="row">
-                                                    <div class="col-xs-12">
-                                                        <div class="mask-sm">
-                                                            <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$detail['slug'].'/'.$detail['imglocaltion']) ?>" alt="anh-cua-<?php echo $detail['slug'] ?>" style="padding: 0px;">
-                                                        </div>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                    <?php endif ?>
-                                    <?php if (!empty($detail['image'])): ?>
-                                        <div class="detail-image col-sm-6" style="margin-bottom: 5px;">
-                                            <label>Hình ảnh của tour</label>
-                                            <div class="row">
-                                                    <div class="col-xs-12">
-                                                        <div class="mask-sm">
-                                                            <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$detail['slug'].'/'.$detail['image']) ?>" alt="anh-cua-<?php echo $detail['slug'] ?>" style="padding: 0px;">
-                                                        </div>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                    <?php endif ?>
-                                    <div class="detail-info col-sm-12">
+                                    <div class="detail-info col-sm-8">
                                         <div class="table-responsive">
-                                            <label>Thông tin</label>
+                                            <h3>Thông tin</h3>
                                             <table class="table table-striped">
                                                 <tr>
-                                                    <th>Đánh Giá</th>
-                                                    <td style="">
-                                                        <span class="rateit" data-rateit-value="<?php echo $rating ?>"  data-rateit-readonly="true" style="margin-top: 2px;"></span>
-                                                        <span style="color:blue; padding-left: 10px;">
-                                                            <?php echo $rating ?> Điểm / <?php echo $count_rating ?> Lượt đánh giá
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Tour bán chạy</th>
-                                                    <td><i class="<?php echo ($detail['bestselling'] == 1)?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'; ?>"></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Tour hot</th>
-                                                    <td><i class="<?php echo ($detail['hot'] == 1)?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'; ?>"></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Hiển thị khuyến mãi</th>
-                                                    <td><i class="<?php echo ($detail['showpromotion'] == 1)?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'; ?>"></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Hiển thị trên banner</th>
-                                                    <td><i class="<?php echo ($detail['is_banner'] == 1)?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'; ?>"></i></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Slug</th>
+                                                    <th style="width:150px;">Slug</th>
                                                     <td><?php echo $detail['slug'] ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Danh Mục</th>
+                                                    <th style="width:150px;">Danh Mục</th>
                                                     <td><?php echo $detail['parent_title'] ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Số ngày tour</th>
+                                                    <th style="width:150px;">Số ngày tour</th>
                                                     <td><?php echo count($detail['datetitle']) ?></td>
                                                 </tr>
-                                                <tr>
-                                                    <th>Ngày khởi hành</th>
+                                                <!-- <tr class="<?php echo ($detail['type'] == 1)? 'hidden': '' ?>">
+                                                    <th style="width:150px;">Ngày khởi hành</th>
                                                     <td>
                                                         <?php
                                                             if($detail['date'] != "0000-00-00 00:00:00" && $detail['date'] != "1970-01-01 08:00:00"){
@@ -117,65 +133,93 @@
                                                             }
                                                         ?>
                                                     </td>
+                                                </tr> -->
+                                                <tr>
+                                                    <th style="width:150px;">Giá</th>
+                                                    <td><?php echo 'R'.number_format($detail['price']); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Giá</th>
-                                                    <td><?php echo number_format($detail['price']); ?> VND</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Giám giá</th>
+                                                    <th style="width:150px;">Giám giá</th>
                                                     <td><?php echo $detail['percen'] ?>%</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Giá sau khi giảm giá</th>
-                                                    <td><?php echo number_format(($detail['pricepromotion'] != 0)?$detail['pricepromotion']:$detail['price']); ?> VND</td>
+                                                    <th style="width:150px;">Giá sau khi giảm giá</th>
+                                                    <td><?php echo 'R'.number_format(($detail['pricepromotion'] != 0)?$detail['pricepromotion']:$detail['price']); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Những nơi đi</th>
+                                                    <th style="width:150px;">Hiển thị khuyến mãi</th>
+                                                    <td><i class="<?php echo ($detail['showpromotion'] == 1)?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'; ?>"></i></td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="width:150px;">Những nơi đi</th>
                                                     <td><?php echo $detail['localtion'] ?></td>
                                                 </tr>
-
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped">
-                                                <tbody>
+                                                <tr>
+                                                    <th style="width:150px;">Khu vực</th>
+                                                    <td><?php 
+                                                        $rs = '';
+                                                        foreach ($detail['librarylocaltion'] as $key => $value) {
+                                                            $rs .= $value['vi'].", ";
+                                                        }
+                                                        echo substr(trim($rs), 0,strlen(trim($rs))-1);
+                                                     ?></td>
+                                                </tr>
                                                     <tr>
-                                                        <th style="width: 20%">Tiêu đề: </th>
+                                                        <th >Tiêu đề: </th>
                                                         <td><?php echo $detail['title'] ?></td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="width: 20%">Mô tả: </th>
-                                                        <td><?php echo $detail['description'] ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th style="width: 20%">Nội dung: </th>
-                                                        <td><?php echo $detail['content'] ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th style="width: 20%">Từ khóa meta: </th>
+                                                        <th >Từ khóa meta: </th>
                                                         <td><?php echo $detail['metakeywords'] ?></td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="width: 20%">Mô tả meta: </th>
+                                                        <th >Mô tả meta: </th>
                                                         <td><?php echo $detail['metadescription'] ?></td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="width: 20%">Ghi chú: </th>
+                                                        <th >Ghi chú: </th>
                                                         <td><?php echo $detail['tripnodes'] ?></td>
                                                     </tr>
                                                     <tr>
-                                                        <th style="width: 20%">Chi tiết giá: </th>
-                                                        <td><?php echo $detail['detailsprice'] ?></td>
+                                                        <th >Bao gồm: </th>
+                                                        <td><?php echo $detail['inclusions'] ?></td>
                                                     </tr>
-                                                </tbody>
+                                                    <tr>
+                                                        <th >Loại trừ: </th>
+                                                        <td><?php echo $detail['exclusions'] ?></td>
+                                                    </tr>
+
                                             </table>
                                         </div>
-
                                     </div>
-
+                                    <div class="col-sm-4" style="padding: 0px 10px;">
+                                        <?php if (!empty($detail['imglocaltion'])): ?>
+                                            <div class="detail-image col-sm-12" style="margin-bottom: 5px;">
+                                                <label>Hình ảnh avatar</label>
+                                                <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="mask-sm">
+                                                                <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$detail['slug'].'/'.$detail['imglocaltion']) ?>" alt="anh-cua-<?php echo $detail['slug'] ?>" style="padding: 0px;">
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
+                                        <?php if (!empty($detail['image'])): ?>
+                                            <div class="detail-image col-sm-12" style="margin-bottom: 5px;">
+                                                <label>Hình ảnh của tour</label>
+                                                <div class="row">
+                                                    <?php foreach ($detail['image'] as $key => $value): ?>
+                                                        <div class="col-sm-12" style="margin-top: 10px;">
+                                                            <div class="mask-sm">
+                                                                <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$detail['slug'].'/'.$value) ?>" alt="anh-cua-<?php echo $detail['slug'] ?>" style="padding: 0px;">
+                                                            </div>
+                                                        </div>
+                                                    <?php endforeach ?>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
+                                    </div>
                                 </div>
 
                             </div>
@@ -184,11 +228,6 @@
                             <div class="box-body">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <?php
-                                            if(!empty($detail['dateimg'])){
-                                                $detailimg = json_decode($detail['dateimg']);
-                                            }
-                                        ?>
                                         <?php for ($i=0; $i < count($detail['datetitle']); $i++): ?>
                                             <div role="tabpanel" class="tab-pane active" id="<?php echo $i; ?>">
                                                 <div class="title-content-date showdate <?php echo $i; ?>">
@@ -199,29 +238,19 @@
                                                         <div class="collapse" id="showdatecontent_<?php echo $i; ?>">
                                                             <div class="col-xs-12 title-content-date date " style="margin-top:-5px;">
                                                                 <div class="img-vehicles">
-                                                                    <div class="col-md-6 img">
-                                                                        <img src="<?php echo base_url('assets/upload/'.$controller.'/'.$detail['slug'].'/' .$detailimg[$i]) ?>" alt="anh-cua-<?php echo $detail['datetitle'][$i] ?>" width="100%" >
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="table-responsive" style="border:1px solid gray;">
-                                                                            <table class="table table-responsive">
-                                                                                <tbody>
-
-                                                                                    <tr>
-                                                                                        <th style="width: 150px">Phương tiện đi: </th>
-                                                                                        <td><?php echo $request_vehicles[$detail['vehicles'][$i]]; ?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th style="width: 150px">Tiêu đề ngày <?php echo ($i+1); ?>: </th>
-                                                                                        <td><?php echo $detail['datetitle'][$i]; ?></td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th style="width: 150px">Nội dung ngày <?php echo ($i+1); ?>: </th>
-                                                                                        <td><?php echo $detail['datecontent'][$i]; ?></td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
+                                                                    <div class="table-responsive">
+                                                                        <table class="table table-responsive">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <th style="width: 150px">Tiêu đề ngày <?php echo ($i+1); ?>: </th>
+                                                                                    <td><?php echo $detail['datetitle'][$i]; ?></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th style="width: 150px">Nội dung ngày <?php echo ($i+1); ?>: </th>
+                                                                                    <td><?php echo $detail['datecontent'][$i]; ?></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -236,90 +265,104 @@
 
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade" id="img-tour">
+                        <div role="tabpanel" class="tab-pane fade <?php echo ($detail['type'] == '2') ? 'hidden': ''; ?>" id="price-detail">
                             <div class="box-body">
                                 <div class="row">
-                                    <div class="detail-image col-sm-12">
-                                        <?php for($h = 0;$h < count($detail['librarylocaltion']); $h++): ?>
-                                            <div role="tabpanel" class="tab-pane active" id="localtion_<?php echo $h; ?>">
-                                                <div class="title-content-date showdate <?php echo $h; ?>">
-                                                    <div class="btn btn-primary col-xs-12 btn-margin collapsed" type="button" data-toggle="collapse" href="#librarylocaltion_<?php echo $h; ?>" aria-expanded="false" aria-controls="messageContent" style="margin-bottom:3px;padding:10px 0px;">
-                                                        <div class="col-xs-11">Nơi đến Ngày <?php echo $h+1; ?></div>
-                                                    </div>
-                                                    <div class="no_border">
-                                                        <div class="col-xs-12">
-                                                        <div class="collapse" id="librarylocaltion_<?php echo $h; ?>">
-                                                            <?php if (!empty($detail['librarylocaltion'][$h])): ?>
-                                                                <?php foreach ($detail['librarylocaltion'][$h] as $k => $value): ?>
-                                                                    <?php if(!empty($value)): ?>
-                                                                        <div class="col-sm-12" style="margin:10px 0px;">
-                                                                            <div class="col-sm-5" style="padding: 0px; padding-right: 5px;">
-                                                                                <img src="<?php echo base_url('assets/upload/localtion/'.$value['slug'].'/' .$value['image']) ?>" alt="anh-cua-<?php echo $detail['slug'] ?>"  style="width: 100%;">
-                                                                            </div>
-                                                                            <div class="col-sm-7" style="padding: 0px;">
-                                                                                
-                                                                                    <div style="padding: 5px;">
-                                                                                        <label for="">Tiêu đề:</label>
-                                                                                        <p>
-                                                                                            <?php echo $value['title'] ?>
-                                                                                        </p>
-                                                                                        <label for="">Nội dung:</label>
-                                                                                        <p>
-                                                                                            <?php echo $value['content'] ?>
-                                                                                        </p>
-                                                                                    </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <?php if ($k+1 < count($detail['librarylocaltion'][$h])): ?>
-                                                                            <div style="border:2px solid gray" class="col-md-12"> </div>  
-                                                                        <?php endif ?>       
-                                                                    <?php else: ?>
-                                                                        <div style="padding:20px;">
-                                                                            Không có nơi nào được chọn trong ngày    
-                                                                        </div>
-                                                                    <?php endif;?>
-                                                                <?php endforeach ?>
-                                                            <?php endif ?>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php endfor; ?>
+                                    <div class="col-xs-12">
+                                        <div class="hotel-box-pc">
+                                            <p class="country-name">Tên danh sách Hotel</p>
+                                            <table class="hotel-table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <span>Hotel <br> Category</span>
+                                                            <span>Destination</span>
+                                                        </td>
+                                                        <td>Budget</td>
+                                                        <td>3 - Star</td>
+                                                        <td>4 - Star</td>
+                                                        <td>5 - Star</td>
+                                                    </tr>
+                                                    <?php foreach ($detail['hotelsingle'] as $key => $value): ?>
+                                                        <tr>
+                                                            <td rowspan="1" class="destination-name"><?php echo $value['title'] ?></td>
+                                                                <td><?php echo $value['budget'] ?></td>
+                                                                <td><?php echo $value['star3'] ?></td>
+                                                                <td><?php echo $value['star4'] ?></td>
+                                                                <td><?php echo $value['star5'] ?></td>
+                                                        </tr>
+                                                    <?php endforeach ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="hotel-box-pc">
+                                            <p class="country-name">Giá tour khi sử dụng Hotel</p>
+                                            <table class="hotel-table hotelprice">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <span>Price/p</span>
+                                                            <span>Hotel</span>
+                                                        </td>
+                                                        <td>Twin Share</td>
+                                                        <td>Single Traveller</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="1" class="destination-name">Budget</td>
+                                                            <td>R<?php echo $detail['pricesingle'][1]['budget'] ?></td>
+                                                            <td>R<?php echo $detail['pricesingle'][0]['budget'] ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="1" class="destination-name">3 - Star</td>
+                                                            <td>R<?php echo $detail['pricesingle'][1]['star3'] ?></td>
+                                                            <td>R<?php echo $detail['pricesingle'][0]['star3'] ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="1" class="destination-name">4 - Star</td>
+                                                            <td>R<?php echo $detail['pricesingle'][1]['star4'] ?></td>
+                                                            <td>R<?php echo $detail['pricesingle'][0]['star4'] ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td rowspan="1" class="destination-name">5 - Star</td>
+                                                            <td>R<?php echo $detail['pricesingle'][1]['star5'] ?></td>
+                                                            <td>R<?php echo $detail['pricesingle'][0]['star5'] ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane fade <?php echo ($this->uri->segment(5) != '' || isset($_GET['active']))? 'in active' : '' ?>" id="comment">
+                        <div role="tabpanel" class="tab-pane fade <?php echo ($detail['type'] == '1') ? 'hidden': ''; ?>" id="start-detail">
                             <div class="box-body">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <table class="table table-hover table-bordered table-condensed">
-                                            <tbody>
-                                                <tr>
-                                                    <td style="width: 150px"><b><a href="#">Email</a></b></td>
-                                                    <td style="width: 100px"><b><a href="#">Họ tên</a></b></td>
-                                                    <td><b><a href="#">Nội dung</a></b></td>
-                                                    <td style="width: 100px"><b>Operations</b></td>
-                                                </tr>
-                                                <?php foreach ($comments as $key => $value): ?>
-                                                    <tr class="remove_<?php echo $value['id'] ?>">
-                                                        <td><?php echo $value['email'] ?></td>
-                                                        <td><?php echo $value['name'] ?></td>
-                                                        <td><?php echo $value['content'] ?></td>
-                                                        <td>
-                                                            <form class="form_ajax">
-                                                                <a href="javascript:void(0)" title="Xóa" class="btn-removes" data-id="<?php echo $value['id'] ?>" data-controller="comment" data-type="<?php echo $value['type'] ?>">
-                                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                                </a>
-                                                            </form>
+                                    <div class="col-xs-12">
+                                        <div class="hotel-box-pc">
+                                            <p class="country-name">Giá tour của từng ngày khởi hành</p>
+                                            <table class="hotel-table hotelprice">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="hidden">
+                                                            <span>Price/p</span>
+                                                            <span>Hotel</span>
                                                         </td>
+                                                        <td>DATE</td>
+                                                        <td>PRICE/PAX</td>
+                                                        <td>AVAILABILITY</td>
+                                                        <td>SINGLE SUPPLEMENT</td>
                                                     </tr>
-                                                <?php endforeach ?>
-                                            </tbody>
-                                        </table>
-                                        <div class="col-md-6 col-md-offset-5 page">
-                                            <?php echo $page_links ?>
+                                                    <?php foreach ($detail['avaliability'] as $key => $value): ?>
+                                                        <tr>
+                                                            <td><?php echo $detail['date_content'][$key]; ?></td>
+                                                            <td>R<?php echo $detail['pricedate'][$key]; ?></td>
+                                                            <td><?php echo $value; ?></td>
+                                                            <td>R<?php echo $detail['single_supplement'][$key]; ?></td>
+                                                        </tr>
+                                                    <?php endforeach ?>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>

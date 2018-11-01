@@ -60,6 +60,8 @@ $route['^vi$'] = $route['default_controller'];
 $route['^en$'] = $route['default_controller'];
 
 $route['admin'] = 'admin/dashboard';
+$route['admin/product/single'] = 'admin/product/index/1';
+$route['admin/product/group'] = 'admin/product/index/2';
 
 $route['tours/([a-zA-Z0-9-_]+)'] = 'tours/detail/$1';
 $route['danh-muc/([a-zA-Z0-9-_]+)'] = 'tours/category/$1';

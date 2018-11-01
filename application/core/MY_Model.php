@@ -33,23 +33,17 @@ class MY_Model extends CI_Model {
         return $this->db->insert_batch($this->table_lang, $data);
     }
 
-    public function get_all_with_pagination_search($order = 'desc',$limit = NULL, $start = NULL, $keywords = '',$activated = 1,$bestselling = '',$hot = '',$promotion = '',$banner = '') {
+    public function get_all_with_pagination_search($order = 'desc',$limit = NULL, $start = NULL, $keywords = '',$activated = 1,$type = '',$promotion = '') {
         $this->db->select('*');
         $this->db->from($this->table);
         $this->db->like('title', $keywords);
         $this->db->where('is_deleted', 0);
-        if($bestselling != ''){
-            $this->db->where($this->table .'.bestselling', $bestselling);
-        }
-        if($hot != ''){
-            $this->db->where($this->table .'.hot', $hot);
+        if($type != ''){
+            $this->db->where($this->table .'.type', $type);
         }
         if($promotion != '' && $promotion == 1){
             $this->db->where($this->table .'.percen !=', 0);
             $this->db->where($this->table .'.pricepromotion !=', 0);
-        }
-        if($banner != ''){
-            $this->db->where($this->table .'.is_banner', $banner);
         }
         if($activated == 0){
             $this->db->where('is_activated', $activated);
@@ -60,22 +54,16 @@ class MY_Model extends CI_Model {
         return $result = $this->db->get()->result_array();
     }
 
-    public function count_search($keyword = '',$activated = 1,$bestselling = '',$hot = '',$promotion = '',$banner = ''){
+    public function count_search($keyword = '',$activated = 1,$type = '',$promotion = ''){
         $this->db->select('*');
         $this->db->from($this->table);
         $this->db->like('title', $keyword);
-        if($bestselling != ''){
-            $this->db->where($this->table .'.bestselling', $bestselling);
-        }
-        if($hot != ''){
-            $this->db->where($this->table .'.hot', $hot);
+        if($type != ''){
+            $this->db->where($this->table .'.type', $type);
         }
         if($promotion != '' && $promotion == 1){
             $this->db->where($this->table .'.percen !=', 0);
             $this->db->where($this->table .'.pricepromotion !=', 0);
-        }
-        if($banner != ''){
-            $this->db->where($this->table .'.is_banner', $banner);
         }
         $this->db->group_by('id');
         $this->db->where('is_deleted', 0);
