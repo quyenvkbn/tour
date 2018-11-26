@@ -1,0 +1,48 @@
+/*
+===================================================
+Main Stylesheet for Myanmar Tours Website
+
+Author: hung.luong@matocreative.vn
+
+Ver 1.0.0
+===================================================
+ */
+
+/*
+===================================================
+CORE STYLESHEET
+===================================================
+ */
+
+/*
+MAIN STYLESHEET
+ */
+
+@import "variables";
+@import "mixins";
+@import "fontSettings";
+
+/*
+===================================================
+TEMPLATE STYLESHEET
+===================================================
+ */
+
+@import "header";
+@import "main";
+@import "footer";
+
+/*
+===================================================
+PAGES STYLESHEET
+===================================================
+ */
+
+@import "homepage";
+@import "tours";
+@import "posts";
+@import "about";
+@import "team";
+@import "testimonials";
+@import "contact";
+@import "booking";

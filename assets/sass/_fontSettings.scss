@@ -1,0 +1,46 @@
+@font-face {
+    font-family: "webFont-m";
+    src: url("../fonts/Diavlo_MEDIUM.ttf");
+}
+
+@font-face {
+    font-family: "webFont-l";
+    src: url("../fonts/Diavlo_LIGHT.ttf");
+}
+
+body{
+    font-family: "webFont-m";
+    font-size: 16px;
+}
+
+h1{
+    &.title-lg{
+        font-size: 2.5rem;
+    }
+}
+
+h2{
+    &.title-md{
+        font-size: 2rem;
+    }
+}
+
+h3{
+    &.title-sm{
+        font-size: 1.5rem;
+    }
+}
+
+h4{
+    &.title-xs{
+        font-size: 1.25rem;
+    }
+}
+
+p{
+    &.paragraph{
+        font-family: "webFont-l";
+        font-size: 1rem;
+        color: #999;
+    }
+}

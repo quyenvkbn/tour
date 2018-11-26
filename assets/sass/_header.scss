@@ -1,0 +1,199 @@
+header{
+    width: 100%;
+
+    padding-left: 50px;
+    padding-right: 50px;
+
+    padding-bottom: 50px;
+
+    @include gradient-vertical(#f99d1c, rgba(249,157,28,0.4), #f99d1c, rgba(249,157,28,0.0));
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+
+    @include transition(300ms);
+
+    nav{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .nav-item{
+            &.nav-brand{
+                img{
+                    width: 125px;
+                }
+            }
+
+            &.nav-main{
+                ul{
+                    list-style: none;
+
+                    margin-bottom: 0;
+
+                    li{
+                        display: inline-block;
+
+                        padding-left: 7px;
+                        padding-right: 7px;
+
+                        a{
+                            color: #fff;
+
+                            &:hover{
+                                text-decoration: none;
+                            }
+                        }
+                    }
+                }
+
+                .btn{
+                    &.btn-primary{
+                        @include transition(300ms);
+                    }
+                }
+            }
+
+            &#nav-expand{
+                #btn-nav-expand{
+                    margin-top: 60px;
+                    margin-right: 30px;
+
+                    @include transition(300ms);
+
+                    span{
+                        &.nav-icon{
+                            width: 30px;
+                            height: 5px;
+
+                            background-color: #fff;
+
+                            display: block;
+
+                            position: relative;
+
+                            @include transition(300ms);
+
+                            &:before, &:after{
+                                content: '';
+                                display:block;
+                                width:30px;
+                                height:5px;
+                                background-color: #fff;
+
+                                position: absolute;
+
+                                @include transition(300ms);
+                            }
+
+                            &:before {
+                                margin-top:-10px;
+                            }
+
+                            &:after {
+                                margin-top:10px;
+                            }
+                        }
+                    }
+
+                    &.active{
+                        margin-right: 15px;
+
+                        @include transition(300ms);
+
+                        span{
+                            &.nav-icon{
+                                background-color: transparent;
+
+                                &:before {
+                                    margin-top:0;
+                                    transform:rotate(45deg);
+                                }
+
+                                &:after {
+                                    margin-top:0;
+                                    transform:rotate(-45deg);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.active{
+        padding-bottom: 15px;
+
+        background-color: $primary;
+
+        @include transition(300ms);
+
+        nav{
+            .nav-item{
+                &.nav-main{
+                    .btn{
+                        &.btn-primary{
+                            background: #fff !important;
+                            color: $primary;
+
+                            @include transition(300ms);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px){
+    header{
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 30px;
+
+        nav{
+            .nav-item{
+                &.nav-brand{
+
+                }
+
+                &.nav-main{
+                    width: 75vw;
+                    height: 100vh;
+
+                    position: fixed;
+                    top: 0;
+                    left: 100%;
+                    z-index: 1049;
+
+                    @include gradient-45deg(#782859, rgba(120,40,89,1),#F99D1C, rgba(249,157,28,1));
+
+                    background-image: url("../img/myanmar-icon.png");
+                    background-position: center center;
+                    background-repeat: no-repeat;
+
+                    padding: 50px 30px;
+
+                    @include transition(300ms);
+
+                    ul{
+                        padding-left: 0;
+
+                        li{
+                            display: list-item;
+                        }
+                    }
+
+                    &.active{
+                        left: 25%;
+
+                        @include transition(300ms);
+                    }
+                }
+            }
+        }
+    }
+}

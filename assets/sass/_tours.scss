@@ -1,0 +1,1058 @@
+#list-tours{
+    .cover{
+
+    }
+
+    .main-content{
+        background-color: #fffdf7;
+
+        .container{
+            .row{
+                .left{
+
+                }
+
+                .right{
+                    .heading{
+                        .line{
+                            width: 100px;
+                            height: 3px;
+
+                            background-color: $primary;
+
+                            margin-bottom: 15px;
+                        }
+
+                        h1{
+                            margin-bottom: 15px;
+
+                            &.title-lg{
+                                color: $primary;
+                            }
+                        }
+
+                        p{
+                            &.paragraph{
+                                color: $gray;
+                            }
+                        }
+                    }
+
+                    .body{
+                        .row{
+                            .item{
+                                margin-bottom: 30px;
+
+                                .wrapper{
+                                    @include transition(300ms);
+
+                                    .mask{
+                                        width: 100%;
+                                        height: 272px;
+
+                                        position: relative;
+
+                                        .badge{
+                                            position: absolute;
+
+                                            &.saleoff{
+                                                top: 15px;
+                                                left: 15px;
+
+                                                width: 60px;
+                                                height: 60px;
+
+                                                text-align: center;
+
+                                                span{
+                                                    color: #fff;
+
+                                                    &.number{
+                                                        font-size: 1.25rem;
+                                                    }
+
+                                                    &.text{
+                                                        font-size: 1rem;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        .info{
+                                            background-color: #fff;
+
+                                            border-top-left-radius: 8px;
+                                            border-bottom-left-radius: 8px;
+
+                                            padding: 7px;
+
+                                            position: absolute;
+                                            top: 15px;
+                                            right: 0;
+                                            z-index: 3;
+
+                                            .price{
+                                                display: flex;
+                                                flex-direction: row;
+
+                                                color: $gray-light;
+
+                                                .left{
+                                                    margin-right: 10px;
+
+                                                    font-size: 1rem;
+                                                }
+
+                                                .right{
+                                                    span{
+                                                        &.price-off{
+                                                            font-size: 1rem;
+                                                        }
+
+                                                        &.price{
+                                                            font-size: 1.25rem;
+                                                            color: $primary;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    .content{
+                                        padding: 15px;
+
+                                        display: flex;
+                                        flex-direction: row;
+                                        justify-content: space-between;
+
+                                        background-color: #fff;
+
+                                        .left{
+                                            h3{
+                                                &.title-sm{
+                                                    color: $primary;
+                                                }
+                                            }
+
+                                            p{
+                                                &.paragraph{
+                                                    color: $gray;
+
+                                                    i{
+                                                        color: $primary;
+                                                    }
+                                                }
+                                            }
+
+                                            a{
+                                                &:hover{
+                                                    text-decoration: none;
+                                                }
+                                            }
+                                        }
+
+                                        .right{
+                                            .duration{
+                                                text-align: center;
+
+                                                padding-left: 15px;
+                                                border-left: 1px solid $gray-light;
+
+                                                span{
+                                                    &.number{
+                                                        font-size: 1.5rem;
+                                                        color: $primary;
+                                                    }
+
+                                                    &.text{
+                                                        font-size: 1rem;
+                                                        color: $gray-light;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                &:hover{
+                                    .wrapper{
+                                        -webkit-transform: translateY(-15px);
+                                        -moz-transform: translateY(-15px);
+                                        -ms-transform: translateY(-15px);
+                                        -o-transform: translateY(-15px);
+                                        transform: translateY(-15px);
+
+                                        -webkit-box-shadow:  2px 2px 10px rgba(0,0,0,0.3);
+                                        -moz-box-shadow:  2px 2px 10px rgba(0,0,0,0.3);
+                                        box-shadow:  2px 2px 10px rgba(0,0,0,0.3);
+
+                                        @include transition(300ms);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#detail-tour{
+    .cover{
+        position: relative;
+
+        .container{
+            padding-bottom: 50px;
+
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+            transform: translateX(-50%);
+
+            .line{
+                width: 100px;
+                height: 3px;
+
+                background-color: $primary;
+
+                margin-bottom: 15px;
+            }
+
+            h1{
+                font-size: 4.375rem;
+                color: $primary;
+
+                margin-bottom: 15px;
+            }
+
+            p{
+                &.paragraph{
+                    color: #fff;
+
+                    i{
+                        color: $primary;
+                    }
+                }
+            }
+        }
+    }
+
+    .main-content{
+        background-color: #fffdf7;
+
+        .row{
+            .left{
+                .slider{
+
+                }
+
+                .detail{
+                    ul{
+                        &.nav{
+                            li{
+                                a{
+                                    &.nav-link{
+                                        color: $gray-light;
+
+                                        &.active{
+                                            color: $primary;
+                                            background-color: #f9f9f9;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .tab-content{
+                        padding: 30px 15px;
+
+                        background-color: #f9f9f9;
+
+                        .heading{
+                            h3{
+                                margin-bottom: 30px;
+
+                                &.title-sm{
+                                    color: $primary;
+                                    text-transform: uppercase;
+                                }
+                            }
+
+                            p{
+                                margin-bottom: 30px;
+
+                                &.paragraph{
+                                    color: $gray;
+                                }
+                            }
+                        }
+
+                        .body{
+                            .accordion{
+                                margin-bottom: 30px;
+
+                                .card{
+                                    .card-header{
+                                        background-color: #ccc;
+
+                                        h5{
+                                            button{
+                                                color: $gray;
+                                            }
+                                        }
+                                    }
+
+                                    .collapse{
+                                        .card-body{
+                                            p{
+                                                &.paragraph{
+                                                    color: $gray-light;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .table-responsive{
+                                table{
+                                    font-family: "webFont-l";
+
+                                    thead{
+                                        tr{
+                                            td{
+                                                font-family: "webFont-m";
+                                            }
+                                        }
+                                    }
+
+                                    tbody{
+                                        tr{
+                                            td{
+                                                &:first-of-type{
+                                                    font-family: "webFont-m";
+                                                }
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .reviews{
+                    margin-bottom: 30px;
+
+                    .heading{
+                        h1{
+                            margin-bottom: 30px;
+
+                            &.title-lg{
+                                color: $primary;
+                            }
+                        }
+                    }
+
+                    .body{
+                        .row{
+                            .item{
+                                h3{
+                                    &.title-sm{
+                                        color: $primary;
+                                    }
+
+                                    &.text-wrapper{
+                                        height: 3.5rem;
+                                        -webkit-line-clamp: 2;
+                                    }
+                                }
+
+                                h4{
+                                    margin-bottom: 0;
+                                    color: $gray;
+
+                                    .badge{
+                                        background-color: $primary;
+                                        color: #fff;
+                                    }
+                                }
+
+                                p{
+                                    color: $gray-light;
+                                }
+
+                                .info{
+                                    display: flex;
+                                    flex-direction: row;
+
+                                    color: #cbcbcb;
+
+                                    .rating{
+                                        list-style: none;
+
+                                        padding-left: 0;
+                                        margin-right: 15px;
+
+                                        -webkit-transform: translateY(-3px);
+                                        -moz-transform: translateY(-3px);
+                                        -ms-transform: translateY(-3px);
+                                        -o-transform: translateY(-3px);
+                                        transform: translateY(-3px);
+
+                                        li{
+                                            display: inline-block;
+
+                                            margin-right: 7px;
+
+                                            font-size: 0.875rem;
+                                        }
+                                    }
+
+                                    p{
+                                        font-size: 0.875rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .recommended{
+                    margin-bottom: 30px;
+
+                    .heading{
+                        h1{
+                            margin-bottom: 30px;
+
+                            &.title-lg{
+                                color: $primary;
+                            }
+                        }
+                    }
+
+                    .body{
+                        .row{
+                            .item{
+                                margin-bottom: 30px;
+
+                                .wrapper{
+                                    @include transition(300ms);
+
+                                    .mask{
+                                        width: 100%;
+                                        height: 272px;
+
+                                        position: relative;
+
+                                        .badge{
+                                            position: absolute;
+
+                                            &.saleoff{
+                                                top: 15px;
+                                                left: 15px;
+
+                                                width: 60px;
+                                                height: 60px;
+
+                                                text-align: center;
+
+                                                span{
+                                                    color: #fff;
+
+                                                    &.number{
+                                                        font-size: 1.25rem;
+                                                    }
+
+                                                    &.text{
+                                                        font-size: 1rem;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        .info{
+                                            background-color: #fff;
+
+                                            border-top-left-radius: 8px;
+                                            border-bottom-left-radius: 8px;
+
+                                            padding: 7px;
+
+                                            position: absolute;
+                                            top: 15px;
+                                            right: 0;
+                                            z-index: 3;
+
+                                            .price{
+                                                display: flex;
+                                                flex-direction: row;
+
+                                                color: $gray-light;
+
+                                                .left{
+                                                    margin-right: 10px;
+
+                                                    font-size: 1rem;
+                                                }
+
+                                                .right{
+                                                    span{
+                                                        &.price-off{
+                                                            font-size: 1rem;
+                                                        }
+
+                                                        &.price{
+                                                            font-size: 1.25rem;
+                                                            color: $primary;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    .content{
+                                        padding: 15px;
+
+                                        display: flex;
+                                        flex-direction: row;
+                                        justify-content: space-between;
+
+                                        background-color: #fff;
+
+                                        .left{
+                                            h3{
+                                                &.title-sm{
+                                                    color: $primary;
+                                                }
+                                            }
+
+                                            p{
+                                                &.paragraph{
+                                                    color: $gray;
+
+                                                    i{
+                                                        color: $primary;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        .right{
+                                            .duration{
+                                                text-align: center;
+
+                                                padding-left: 15px;
+                                                border-left: 1px solid $gray-light;
+
+                                                span{
+                                                    &.number{
+                                                        font-size: 1.5rem;
+                                                        color: $primary;
+                                                    }
+
+                                                    &.text{
+                                                        font-size: 1rem;
+                                                        color: $gray-light;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                &:hover{
+                                    .wrapper{
+                                        -webkit-transform: translateY(-15px);
+                                        -moz-transform: translateY(-15px);
+                                        -ms-transform: translateY(-15px);
+                                        -o-transform: translateY(-15px);
+                                        transform: translateY(-15px);
+
+                                        -webkit-box-shadow:  2px 2px 10px rgba(0,0,0,0.3);
+                                        -moz-box-shadow:  2px 2px 10px rgba(0,0,0,0.3);
+                                        box-shadow:  2px 2px 10px rgba(0,0,0,0.3);
+
+                                        @include transition(300ms);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .right{
+                .info{
+                    margin-bottom: 30px;
+
+                    background-color: #f7f7f7;
+
+                    display: flex;
+                    flex-direction: row;
+
+                    .duration{
+                        padding: 7px 15px;
+
+                        text-align: center;
+
+                        border-right: 1px solid $gray-light;
+
+                        span{
+                            &.number{
+                                font-size: 1.5rem;
+                                color: $primary;
+                            }
+
+                            &.text{
+                                font-size: 1rem;
+                                color: $gray-light;
+                            }
+                        }
+                    }
+
+                    .price{
+                        display: flex;
+                        flex-direction: column;
+
+                        padding: 7px;
+
+                        color: $gray-light;
+
+                        .left{
+                            margin-right: 10px;
+
+                            font-size: 1rem;
+                        }
+
+                        .right{
+                            span{
+                                &.price-off{
+                                    font-size: 1rem;
+                                }
+
+                                &.price{
+                                    padding: 0;
+
+                                    font-size: 1.25rem;
+                                    color: $primary;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .table-responsive{
+                    margin-bottom: 15px;
+                    table{
+                        font-family: "webFont-l";
+
+                        thead{
+                            tr{
+                                td{
+                                    font-family: "webFont-m";
+                                }
+                            }
+                        }
+
+                        tbody{
+                            tr{
+                                td{
+                                    &:first-of-type{
+                                        font-family: "webFont-m";
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+                .booking{
+                    text-align: center;
+
+                    .btn{
+                        width: 100%;
+
+                        margin-bottom: 15px;
+                    }
+
+                    a{
+                        color: $primary;
+
+                        &:hover{
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .modal{
+        .modal-dialog{
+            .modal-content{
+                .modal-header{
+                    @include gradient-45deg(#782859, rgba(120,40,89,1),#F99D1C, rgba(249,157,28,1));
+
+                    h2{
+                        margin-bottom: 0;
+
+                        &.title-md{
+                            color: #fff;
+                        }
+                    }
+
+                    button{
+                        color: #fff;
+                    }
+                }
+
+                .modal-body{
+                    padding: 30px;
+
+                    .heading{
+
+                    }
+
+                    .body{
+                        .row{
+                            &.request{
+                                .item{
+                                    .input-group{
+                                        .form-control{
+                                            border: none;
+                                            border-radius: 0;
+
+                                            border-bottom: 1px solid $gray-light;
+                                        }
+
+                                        .input-group-prepend{
+                                            .input-group-text{
+                                                border: none;
+                                                border-radius: 0;
+
+                                                border-bottom: 1px solid $gray-light;
+
+                                                color: $primary;
+                                                background-color: transparent;
+                                            }
+                                        }
+                                    }
+
+                                    &:last-of-type{
+                                        display: flex;
+                                        flex-direction: row;
+
+                                        p{
+                                            margin-bottom: 0;
+
+                                            &.paragraph{
+                                                font-family: "webFont-m";
+                                                color: $gray-light;
+                                            }
+                                        }
+
+                                        .form-check{
+                                            margin-left: 15px;
+
+                                            input{
+                                                -webkit-transform: translateY(-3px);
+                                                -moz-transform: translateY(-3px);
+                                                -ms-transform: translateY(-3px);
+                                                -o-transform: translateY(-3px);
+                                                transform: translateY(-3px);
+                                            }
+
+                                            .form-check-label{
+                                                font-family: "webFont-l";
+                                                font-size: 1rem;
+
+                                                color: $gray-light;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            &.info{
+                                padding-top: 30px;
+
+                                .left{
+                                    h3{
+                                        &.title-sm{
+                                            color: $primary;
+                                        }
+                                    }
+                                }
+
+                                .right{
+                                    .form-horizontal{
+                                        .row{
+                                            .form-group{
+                                                select{
+                                                    padding: .375rem .75rem;
+                                                }
+
+                                                .form-foot{
+                                                    display: flex;
+                                                    flex-direction: row;
+
+                                                    align-items: center;
+
+                                                    p{
+                                                        margin-left: 30px;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#group-tours{
+    .cover{
+
+    }
+
+    .main-content{
+        .container{
+            .row{
+                .left{
+
+                }
+
+                .right{
+                    .heading{
+                        .line{
+                            width: 100px;
+                            height: 3px;
+
+                            background-color: $primary;
+
+                            margin-bottom: 15px;
+                        }
+
+                        h1{
+                            margin-bottom: 15px;
+
+                            &.title-lg{
+                                color: $primary;
+                            }
+                        }
+
+                        p{
+                            &.paragraph{
+                                color: $gray;
+                            }
+                        }
+                    }
+
+                    .body{
+                        #toursList{
+                            .card{
+                                border: none;
+                                -webkit-border-radius: 0;
+                                -moz-border-radius: 0;
+                                border-radius: 0;
+
+                                .card-header{
+                                    background-color: transparent;
+                                    border-bottom: 1px solid #ccc;
+
+                                    .tour-overall{
+                                        display: flex;
+                                        flex-direction: row;
+
+                                        justify-content: space-between;
+                                        align-items: center;
+
+                                        h3{
+                                            &.title-sm{
+                                                font-size: 1.25rem;
+                                            }
+                                        }
+
+                                        h4{
+                                            &.title-xs{
+                                                font-size: 1rem;
+
+                                                margin-bottom: 0;
+                                            }
+                                        }
+
+                                        .left, .right{
+                                            display: flex;
+                                            flex-direction: row;
+                                        }
+
+                                        .right{
+                                            align-items: center;
+                                        }
+
+                                        .item{
+                                            padding-left: 7px;
+                                            padding-right: 7px;
+
+                                            &.tour-image{
+                                                .mask{
+                                                    width: 115px;
+                                                    height: 115px;
+                                                }
+                                            }
+
+                                            &.tour-name{
+                                                max-width: 33%;
+
+                                                h3{
+                                                    color: $primary;
+                                                }
+                                            }
+
+                                            &.tour-departure, &.tour-price{
+                                                text-align: center;
+                                            }
+
+                                            &.tour-departure{
+                                                .btn{
+                                                    &.btn-link{
+                                                        color: $primary;
+                                                    }
+                                                }
+                                            }
+
+                                            &.tour-price{
+                                                p{
+                                                    &.paragraph{
+                                                        margin-bottom: 0;
+
+                                                        text-decoration: line-through;
+                                                    }
+                                                }
+
+                                                h3{
+                                                    color: $primary;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .card-body{
+                                    background-color: #f7f7f7;
+
+                                    nav{
+                                        .nav-item{
+                                            -webkit-border-radius: 0;
+                                            -moz-border-radius: 0;
+                                            border-radius: 0;
+
+                                            background-color: #ccc;
+                                            color: $gray;
+
+                                            &.active{
+                                                background-color: $primary;
+                                                color: #fff;
+                                            }
+                                        }
+                                    }
+
+                                    .tab-content{
+                                        .tab-pane{
+                                            .table-responsive{
+                                                .table{
+                                                    tr{
+                                                        td{
+                                                            &:first-of-type{
+                                                                max-width: 25px;
+                                                            }
+
+                                                            ul{
+                                                                list-style: none;
+
+                                                                li{
+                                                                    display: inline-block;
+                                                                    padding-right: 15px;
+
+                                                                    color: $primary;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px){
+    #group-tours{
+        .main-content{
+            .container{
+                .row{
+                    .right{
+                        .body{
+                            #toursList{
+                                .card{
+                                    .card-header{
+                                        padding-left: 0;
+                                        padding-right: 0;
+
+                                        .tour-overall{
+                                            align-items: flex-start;
+
+                                            .right{
+                                                flex-direction: column;
+
+                                                align-items: flex-start;
+                                            }
+
+                                            .item{
+                                                &.tour-name{
+                                                    max-width: 100%;
+                                                }
+
+                                                &.tour-departure{
+                                                    text-align: left;
+                                                }
+
+                                                &.tour-duration{
+                                                    display: none;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

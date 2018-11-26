@@ -1,0 +1,37 @@
+@mixin gradient-vertical($startColor, $start-rgba, $endColor, $end-rgba){
+    background: $start-rgba;
+    background: -moz-linear-gradient(top, $start-rgba 0%, $end-rgba 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, $start-rgba), color-stop(100%, $end-rgba));
+    background: -webkit-linear-gradient(top, $start-rgba 0%, $end-rgba 100%);
+    background: -o-linear-gradient(top, $start-rgba 0%, $end-rgba 100%);
+    background: -ms-linear-gradient(top, $start-rgba 0%, $end-rgba 100%);
+    background: linear-gradient(to bottom, $start-rgba 0%, $end-rgba 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$startColor', endColorstr='$endColor', GradientType=0 );
+}
+
+@mixin gradient-45deg($startColor, $start-rgba, $endColor, $end-rgba){
+    background: $start-rgba;
+    background: -moz-linear-gradient(-45deg, $start-rgba 0%, $end-rgba 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, $start-rgba), color-stop(100%, $end-rgba));
+    background: -webkit-linear-gradient(-45deg, $start-rgba 0%, $end-rgba 100%);
+    background: -o-linear-gradient(-45deg, $start-rgba 0%, $end-rgba 100%);
+    background: -ms-linear-gradient(-45deg, $start-rgba 0%, $end-rgba 100%);
+    background: linear-gradient(135deg, $start-rgba 0%, $end-rgba 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$startColor', endColorstr='$endColor', GradientType=1 );
+}
+
+@mixin makeItCenter{
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+@mixin transition($duration){
+    -webkit-transition: all ease-in-out $duration;
+    -moz-transition: all ease-in-out $duration;
+    -ms-transition: all ease-in-out $duration;
+    -o-transition: all ease-in-out $duration;
+    transition: all ease-in-out $duration;
+}
