@@ -1,5 +1,4 @@
-<!-- Homepage Stylesheet -->
-<link rel="stylesheet" href="<?php echo site_url('assets/sass/') ?>homepage.css">
+
 <script type="text/javascript">
 	function to_slug(str,space="_"){
 	    str = str.toLowerCase();
@@ -74,500 +73,318 @@
 </script>
 <!-- Slider JS -->
 <script src="<?php echo site_url('assets/js/admin/slider.js') ?>"></script>
-<section id="slider" class="container-fluid">
-	<div id="homepage-slider" class="carousel slide" data-ride="carousel">
-		<!-- Indicators -->
-		<ol class="carousel-indicators">
-			<?php if (!empty($banner)): ?>
-				<?php foreach ($banner as $key => $value): ?>
-					<li data-target="#homepage-slider" data-slide-to="<?php echo $key; ?>" class="<?php echo ($key == 0)?'active' : ''; ?>"></li>
-				<?php endforeach ?>
-			<?php endif ?>
-		</ol>
 
-		<!-- Wrapper for slides -->
-		<div class="carousel-inner" role="listbox">
-			<?php if (!empty($banner)): ?>
-				<?php foreach ($banner as $key => $value): ?>
-					<div class="item <?php echo ($key == 0)?'active' : ''; ?>">
-						<div class="mask">
-							<img src="<?php echo base_url('/assets/upload/product/'.$value['slug'].'/'.$value['image']); ?>" alt="slide 2">
-						</div>
-						<div class="carousel-caption">
-							<div class="big-title">
-								<h4 class="subtitle">
-                                    <?php echo $value['parent_title']; ?>
-								</h4>
-								<br>
-                                <?php if (!empty($value['hot'])): ?>
-									<span class="badge "><i class="fa fa-location-arrow" aria-hidden="true"></i><?php echo $this->lang->line('tour-hot-short') ?></span>
-                                <?php endif ?>
-                                <?php if (!empty($value['bestselling'])): ?>
-									<span class="badge "><i class="fa fa-star" aria-hidden="true"></i><?php echo $this->lang->line('tour-best-sell-short') ?></span>
-                                <?php endif ?>
-                                <?php if (!empty($value['showpromotion']) && !empty($value['percen']) && !empty($value['pricepromotion'])): ?>
-									<span class="badge "><i class="fa fa-tags" aria-hidden="true"></i><?php echo $this->lang->line('tour-discount-short') ?></span>
-                                <?php endif ?>
-								<h1 class="title" title="<?php echo $value['title']; ?>">
-									<?php echo $value['title']; ?>
-								</h1>
-								<ul class="list-inline">
-									<li>
-										<a href="<?php echo base_url('tours/'.$value['slug']); ?>" class="btn btn-primary" role="button">
-											Xem chi tiết
-										</a>
-									</li>
-								</ul>
-							</div>
+<!-- Animate CSS -->
+<link rel="stylesheet" href="<?php echo site_url('node_modules/') ?>animate.css/animate.min.css">
 
-						</div>
-					</div>
-				<?php endforeach ?>
-			<?php endif ?>
-			...
-		</div>
-
-		<!-- Controls -->
-		<a class="left carousel-control" href="#homepage-slider" role="button" data-slide="prev">
-			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</a>
-		<a class="right carousel-control" href="#homepage-slider" role="button" data-slide="next">
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
-	</div>
-</section>
-<section id="domestic" class="container-fluid section tour-intro">
-	<div class="container">
-		<div class="section-header">
-			<div class="row">
-				<div class="left col-xs-8">
-					<h1><?php echo $domestic['title']; ?></h1>
-				</div>
-				<div class="right col-xs-4">
-					<a href="<?php echo base_url('danh-muc/'.$domestic['slug']) ?>">Xem tất cả Tours <i class="fa fa-arrow-circle-o-right" aria-hidden="false"></i> </a>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-12">
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="carousel carousel-showmanymoveone slider" id="domestic-slider">
-						<div class="carousel-inner">
-							<div class="item active">
-								<div class="inner cover col-xs-12 col-sm-6 col-md-4">
-									<div class="mask">
-										<?php if (!empty(json_decode($domestic['image']))): ?>
-											<img src="<?php echo base_url('assets/upload/product_category/'.$domestic['slug'].'/'.json_decode($domestic['image'])[0]); ?>" alt="domestic cover image">
-										<?php endif ?>
-										<div class="overlay">
-											<h1 title="<?php echo $domestic['title']; ?>"><?php echo $domestic['title'];?></h1>
-											<p><?php echo $domestic['content'];?></p>
-											<a href="<?php echo base_url('danh-muc/'.$domestic['slug']) ?>" class="btn btn-primary" role="button">Xem tất cả Tours</a>
-										</div>
-									</div>
-								</div>
-							</div>
-
-	                        <?php if (!empty($tour_domestic)): ?>
-	                            <?php foreach ($tour_domestic as $key => $value): ?>
-									<div class="item">
-										<div class="inner col-xs-12 col-sm-6 col-md-4">
-											<div class="wrapper">
-												<div class="mask">
-													<a href="<?php echo base_url('tours/' . $value['slug']) ?>">
-	                                                    <?php if($value['image']){ ?>
-															<img src="<?php echo base_url('/assets/upload/product/'.$value['slug'].'/'.$value['image']) ?>" alt="image">
-	                                                    <?php }else{ ?>
-															<img src="<?php echo base_url('/assets/img/vertical.jpg'); ?>" alt="image">
-	                                                    <?php } ?>
-													</a>
-
-													<!--BADGE DISCOUNT -->
-                                                    <?php if (!empty($value['pricepromotion']) && !empty($value['percen']) && !empty($value['showpromotion'])): ?>
-														<div class="badge badge-discount">
-															<div class="content">KM<br>-<?php echo $value['percen']; ?>%</div>
-														</div>
-                                                    <?php endif ?>
-
-													<!--BADGE SPECIAL -->
-													<div class="badge badge-special">
-                                                        <?php if (!empty($value['hot'])): ?>
-															<div id="tour-hot" class="">
-																<img src="<?php echo site_url('assets/img/badge-tour-hot.png')?>" alt="badge tour hot">
-															</div>
-                                                        <?php endif ?>
-                                                        <?php if (!empty($value['bestselling'])): ?>
-															<div id="best-sell" class="">
-																<img src="<?php echo site_url('assets/img/badge-best-sell.png')?>" alt="badge best sell">
-															</div>
-                                                        <?php endif ?>
-													</div>
-
-												</div>
-												<div class="head">
-													<h4 class="post-subtitle"><?php echo $value['parent_title']; ?></h4>
-													<h2 class="post-title" title="<?php echo $value['title']; ?>"><?php echo $value['title']; ?></h2>
-													<h3 class="price">
-														<?php if (!empty($value['price'])): ?>
-															<?php if (!empty($value['pricepromotion']) && !empty($value['percen']) && !empty($value['showpromotion'])): ?>
-																<?php echo number_format($value['pricepromotion']); ?> VNĐ
-																<small class="price-original"><del><?php echo number_format($value['price']);?> VNĐ</del></small>
-															<?php else: ?>
-																<?php echo number_format($value['price']); ?> VNĐ
-															<?php endif ?>
-														<?php else: ?>
-															<span style="font-weight: 505;"><?php echo $this->lang->line('price');?>:</span> <?php echo $this->lang->line('contact');?>
-														<?php endif ?>
-													</h3>
-
-												</div>
-												<div class="body">
-													<p class="post-description"><?php echo $value['description']; ?></p>
-												</div>
-												<div class="foot">
-													<ul class="list-inline">
-														<li>
-															<a href="<?php echo base_url('tours/'.$value['slug']) ?>" class="btn btn-primary" role="button">
-																Xem chi tiết
-															</a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-	                            <?php endforeach; ?>
-	                        <?php endif; ?>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-12 slider-control">
-					<ul class="list-inline">
-						<li>
-							<a class="btn btn-default" href="#domestic-slider" data-slide="prev">
-								<i class="fa fa-arrow-left" aria-hidden="false"></i>
-							</a>
-						</li>
-						<li>
-							<a class="btn btn-default" href="#domestic-slider" data-slide="next">
-								<i class="fa fa-arrow-right" aria-hidden="false"></i>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section id="international" class="container-fluid section tour-intro">
-	<div class="container">
-		<div class="section-header">
-			<div class="row">
-				<div class="left col-xs-8">
-					<h1>Hành hương nước ngoài</h1>
-				</div>
-				<div class="right col-xs-4">
-					<a href="<?php echo base_url("danh-muc/".$international['slug']) ?>">Xem tất cả Tours <i class="fa fa-arrow-circle-o-right" aria-hidden="false"></i> </a>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-12">
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="carousel carousel-showmanymoveone slider" id="international-slider">
-						<div class="carousel-inner">
-							<div class="item active">
-								<div class="inner cover col-xs-12 col-sm-6 col-md-4">
-									<div class="mask">
-
-										<?php if (!empty(json_decode($international['image']))): ?>
-											<img src="<?php echo base_url('assets/upload/product_category/'.$international['slug'].'/'.json_decode($international['image'])[0]); ?>" alt="international cover image">
-										<?php endif ?>
-
-										<div class="overlay">
-											<h1 title="<?php echo $international['title']; ?>"><?php echo $international['title'];?></h1>
-											<p><?php echo $international['content'];?></p>
-											<a href="<?php echo base_url('danh-muc/'.$international['slug']) ?>" class="btn btn-primary" role="button">Xem tất cả Tours</a>
-										</div>
-									</div>
-								</div>
-							</div>
-
-	                        <?php if (!empty($tour_international)): ?>
-	                            <?php foreach ($tour_international as $key => $value): ?>
-									<div class="item">
-										<div class="inner col-xs-12 col-sm-6 col-md-4">
-											<div class="wrapper">
-												<div class="mask">
-													<a href="<?php echo base_url('tours/' . $value['slug']) ?>">
-	                                                    <?php if($value['image']){ ?>
-															<img src="<?php echo base_url('/assets/upload/product/'.$value['slug'].'/'.$value['image']) ?>" alt="image">
-	                                                    <?php }else{ ?>
-															<img src="<?php echo base_url('/assets/img/vertical.jpg'); ?>" alt="image">
-	                                                    <?php } ?>
-													</a>
-
-													<!--BADGE DISCOUNT -->
-                                                    <?php if (!empty($value['pricepromotion']) && !empty($value['percen']) && !empty($value['showpromotion'])): ?>
-														<div class="badge badge-discount">
-															<div class="content">KM<br>-<?php echo $value['percen']; ?>%</div>
-														</div>
-                                                    <?php endif ?>
-
-													<!--BADGE SPECIAL -->
-													<div class="badge badge-special">
-                                                        <?php if (!empty($value['hot'])): ?>
-															<div id="tour-hot" class="">
-																<img src="<?php echo site_url('assets/img/badge-tour-hot.png')?>" alt="badge tour hot">
-															</div>
-                                                        <?php endif ?>
-                                                        <?php if (!empty($value['bestselling'])): ?>
-															<div id="best-sell" class="">
-																<img src="<?php echo site_url('assets/img/badge-best-sell.png')?>" alt="badge best sell">
-															</div>
-                                                        <?php endif ?>
-													</div>
-
-												</div>
-												<div class="head">
-													<h4 class="post-subtitle"><?php echo $value['parent_title']; ?></h4>
-													<h2 class="post-title" title="<?php echo $value['title']; ?>"><?php echo $value['title']; ?></h2>
-													<h3 class="price">
-														<?php if (!empty($value['price'])): ?>
-															<?php if (!empty($value['pricepromotion']) && !empty($value['percen']) && !empty($value['showpromotion'])): ?>
-																<?php echo number_format($value['pricepromotion']); ?> VNĐ
-																<small class="price-original"><del><?php echo number_format($value['price']);?> VNĐ</del></small>
-															<?php else: ?>
-																<?php echo number_format($value['price']); ?> VNĐ
-															<?php endif ?>
-														<?php else: ?>
-															<span style="font-weight: 505;"><?php echo $this->lang->line('price');?>:</span> <?php echo $this->lang->line('contact');?>
-														<?php endif ?>
-													</h3>
-
-												</div>
-												<div class="body">
-													<p class="post-description"><?php echo $value['description']; ?></p>
-												</div>
-												<div class="foot">
-													<ul class="list-inline">
-														<li>
-															<a href="<?php echo base_url('tours/'.$value['slug']) ?>" class="btn btn-primary" role="button">
-																Xem chi tiết
-															</a>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-	                            <?php endforeach; ?>
-	                        <?php endif; ?>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-12 slider-control">
-					<ul class="list-inline" style="background-color: rgba(0,0,0,0);">
-						<li>
-							<a class="btn btn-default" href="#international-slider" data-slide="prev">
-								<i class="fa fa-arrow-left" aria-hidden="false"></i>
-							</a>
-						</li>
-						<li>
-							<a class="btn btn-default" href="#international-slider" data-slide="next">
-								<i class="fa fa-arrow-right" aria-hidden="false"></i>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section id="news" class="section container">
-	<div class="section-header">
-		<div class="row">
-			<div class="left col-xs-8">
-				<h1>Tin tức</h1>
-			</div>
-			<div class="right col-xs-4">
-				<a href="<?php echo base_url('chuyen-muc/tin-tuc') ?>">Xem tất cả tin tức <i class="fa fa-arrow-circle-o-right" aria-hidden="false"></i> </a>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<?php foreach ($post_news as $key => $value): ?>
-			<div class="item col-sm-<?php echo ($key == 0)? '12': '4'; ?> col-xs-12" style="<?php echo ($key == 0)? 'padding-bottom: 25px;': ''; ?>">
-				<div class="col-md-<?php echo ($key == 0)? '8': '12'; ?>" style="padding:0px;<?php echo ($key == 0)? 'padding-right: 10px;': ''; ?>">
+<section id="homepage">
+	<div class="container-fluid" id="slider">
+		<div id="slide" class="carousel slide" data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
 					<div class="mask">
-							<img src="<?php echo base_url('assets/upload/post/'.$value['image']); ?>" alt="blogs image">
+						<img src="https://images.unsplash.com/photo-1524991825088-9607659b25a2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=44574751c74ead3395fe178ca8344905&auto=format&fit=crop&w=1350&q=80" alt="First Slide">
 					</div>
 				</div>
-				<div class="col-md-<?php echo ($key == 0)? '4': '12'; ?>" style="padding:0px;">
-					<div class="head">
-						<h4 class="post-subtitle"><?php echo $value['parent_title'];?></h4>
-						<h2 class="post-title" title="<?php echo $value['title'];?>"><?php echo $value['title'];?></h2>
+				<div class="carousel-item">
+					<div class="mask">
+						<img src="https://images.unsplash.com/photo-1515900959941-d1cce424f5c4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c9c593bad87f0e4db0fdb8fcb965a90&auto=format&fit=crop&w=1351&q=80" alt="Second Slide">
+					</div>
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#slide" role="button" data-slide="prev">
+				<i class="fas fa-arrow-left"></i>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#slide" role="button" data-slide="next">
+				<i class="fas fa-arrow-right"></i>
+				<span class="sr-only">Next</span>
+			</a>
+
+			<div class="container" id="searchbar">
+				<div class="line"></div>
+				<h1>
+					discover yourself
+					<br>wonderful myanmar
+				</h1>
+				<div class="search">
+					<div class="heading">
+						<h3>
+							<i class="fas fa-search"></i> Trip Finder
+						</h3>
+						<div class="line">
+
+						</div>
 					</div>
 					<div class="body">
-						<p class="post-description"><?php echo $value['description']; ?></p>
-					</div>
-					<div class="foot">
-						<a href="<?php echo base_url('bai-viet/'.$value['slug']) ?>" class="btn btn-primary" role="button">
-							Xem chi tiết
-						</a>
-					</div>
-				</div>
-			</div>
-		<?php endforeach ?>
-	</div>
-</section>
-
-<section id="gallery" class="section container-fluid">
-	<div class="container">
-		<div class="section-header">
-			<div class="row">
-				<div class="left col-xs-8">
-					<h1>Thư viện ảnh</h1>
-				</div>
-				<div class="right col-xs-4">
-					<a href="<?php echo base_url('location') ?>">Xem tất cả <i class="fa fa-arrow-circle-o-right" aria-hidden="false"></i> </a>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="grid">
-				<div class="grid-sizer"></div>
-                <?php foreach ($location_archive_library as $key => $value): ?>
-                    <?php $class = '';
-                    switch ($key){
-                        case 0:
-                            $class = 'grid-item-width-2 grid-item-height-2';
-                            break;
-                        case 1:
-                            $class = '';
-                            break;
-                        case 2:
-                            $class = '';
-                            break;
-                        case 3:
-                            $class = 'grid-item-width-2';
-                            break;
-                        case 4:
-                            $class = 'grid-item-height-2';
-                            break;
-                        case 5:
-                            $class = 'grid-item-width-2 grid-item-height-2';
-                            break;
-                        case 6:
-                            $class = 'grid-item-height-2';
-                            break;
-                    }?>
-					<div class="grid-item <?php echo $class ?>">
-
-						<a href="<?php echo base_url('thu-vien/'.$value['slug']) ?>">
-							<div class="mask">
-								<img src="<?php echo base_url('assets/upload/localtion/'.$value['slug'].'/'.$value['image']); ?>" alt="blogs image">
-								<div class="overlay"></div>
-								<div class="content">
-									<h4 class="post-subtitle"><?php echo $value['vi'];?></h4>
-									<h2 class="post-title" title="<?php echo $value['title'];?>">
-										<?php echo $value['title'];?>
-									</h2>
+						<div class="row">
+							<div class="col-xs-12 col-md-4 item">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-map-marker-alt"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" placeholder="Destination" aria-label="Destination" aria-describedby="basic-addon1">
 								</div>
 							</div>
-						</a>
-					</div>
-                    <?php echo (($key+1)%3 == 0)?'<div class="clear" style="clear: left;"></div>':''; ?>
-                <?php endforeach ?>
-			</div>
-
-		</div>
-	</div>
-</section>
-
-<section id="shared_corner" class="section container">
-	<div class="row">
-		<div class="left col-sm-9 col-xs-12 services-left" style="padding: 0px;margin: 0px;">
-			<div class="item cover col-sm-12 col-xs-12">
-				<div class="mask">
-					<img src="<?php echo base_url('assets/upload/post_category/'.$shared_corner['image']); ?>" alt="blogs image"  style="height: 300px;">
-					<h2><?php echo $shared_corner['title']; ?></h2>
-				</div>
-			</div>
-			<?php foreach ($post_shared_corner as $key => $value): ?>
-				<div class="item col-sm-4 col-xs-12">
-					<a href="<?php echo base_url('bai-viet/'.$value['slug']) ?>">
-						<div class="mask">
-							<img src="<?php echo base_url('assets/upload/post/'.$value['image']); ?>" alt="blogs image">
-
-							<div class="overlay"></div>
-							<div class="content">
-								<h4 class="post-subtitle"><?php echo date("d/m/Y",strtotime($value['created_at']));?></h4>
-								<h2 class="post-title" title="<?php echo $value['title'];?>">
-									<?php echo $value['title'];?>
-								</h2>
+							<div class="col-xs-12 col-md-3 item">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-dollar-sign"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" placeholder="Budget" aria-label="Budget" aria-describedby="basic-addon2">
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-3 item">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="fas fa-clock"></i>
+										</span>
+									</div>
+									<input type="text" class="form-control" placeholder="Duration" aria-label="Duration" aria-describedby="basic-addon3">
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-2 item">
+								<button class="btn btn-primary" role="button">
+									Search Now
+								</button>
 							</div>
 						</div>
-					</a>
+					</div>
+
+					<div class="foot">
+						<p>
+							or <a href="<?php echo base_url('') ?>">Customize your Trip</a>
+						</p>
+					</div>
 				</div>
-			<?php endforeach ?>
+			</div>
+
+			<div class="slider-bottom"></div>
 		</div>
-		<div class="right col-sm-3 col-xs-12 services-right">
-			<div id="banner-weather">
-				<h2 style="margin-top: 0px;">Thời tiết</h2>
-				<div class="row services-right"  style="overflow-y: scroll">
-					<div class="item col-xs-12">
-						<div class="line" style="padding-left: 0px;padding-right: 0px;">
-							<div class="line-primary"></div>
-							<div class="content-weather"></div>
+	</div>
+	<div class="main-content">
+		<div class="container-fluid" id="tours">
+			<div class="container">
+				<div class="description">
+					<div class="row">
+						<div class="left col-xs-12 col-md-6">
+							<h1 class="title-lg">
+								MYANMAR TOURS
+							</h1>
+							<p class="paragraph">
+								Company is a local Vietnamese based travel company with representative Ms Katrine in Cape Town (+27 (83) 261 1693) specializing in travel packages for South African customers. We provide the best deals, small group tours and tailor made adventures in South East Asia including Vietnam, Cambodia, Laos and Myanmar.
+							</p>
 						</div>
+
+						<div class="right col-xs-12 col-md-6">
+							<iframe width="560" height="315" src="https://www.youtube.com/embed/DX48mJjL7oU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</div>
+					</div>
+				</div>
+
+				<div class="list-tours">
+					<div class="row">
+						<div class="item col-xs-12 col-md-6 special">
+							<div class="mask">
+								<a href="<?php echo base_url('') ?>">
+									<img src="https://images.unsplash.com/photo-1524991825088-9607659b25a2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=44574751c74ead3395fe178ca8344905&auto=format&fit=crop&w=1350&q=80" alt="">
+
+									<div class="content">
+										<h2 class="title-md">
+											Sunshine Myanmar
+										</h2>
+										<p class="paragraph">
+											<i class="fas fa-map-marker-alt"></i> Hanoi - Myanmar - Hanoi
+										</p>
+									</div>
+
+									<div class="badge seller">
+										<img src="<?php echo site_url('assets/img/badge-best-seller.png') ?>" alt="badge best seller">
+									</div>
+
+									<div class="badge saleoff">
+										<span class="number">99%</span>
+										<br>
+										<span class="text">off</span>
+									</div>
+
+									<div class="info">
+										<div class="duration">
+											<div class="d-flex flex-column">
+												<span class="number">05</span>
+												<span class="text">days</span>
+											</div>
+										</div>
+										<div class="price">
+											<div class="left">
+												From
+											</div>
+											<div class="right">
+												<span class="price-off">
+													<del>999.999.999 vnd</del>
+												</span>
+												<span class="price">999.999.999 vnd</span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<div class="item col-xs-12 col-md-3">
+							<div class="mask">
+								<a href="<?php echo base_url('') ?>">
+									<img src="https://images.unsplash.com/photo-1524991825088-9607659b25a2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=44574751c74ead3395fe178ca8344905&auto=format&fit=crop&w=1350&q=80" alt="">
+
+									<div class="content">
+										<h2 class="title-md">
+											Sunshine Myanmar
+										</h2>
+										<p class="paragraph">
+											<i class="fas fa-map-marker-alt"></i> Hanoi - Myanmar - Hanoi
+										</p>
+									</div>
+
+									<div class="badge saleoff">
+										<span class="number">99%</span>
+										<br>
+										<span class="text">off</span>
+									</div>
+
+									<div class="info">
+										<div class="duration">
+											<div class="d-flex flex-column">
+												<span class="number">05</span>
+												<span class="text">days</span>
+											</div>
+										</div>
+										<div class="price">
+											<div class="left">
+												From
+											</div>
+											<div class="right">
+											<span class="price-off">
+												<del>999.999.999 vnd</del>
+											</span>
+												<span class="price">999.999.999 vnd</span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="row foot">
+						<a href="<?php echo base_url('') ?>" class="btn btn-primary" role="button">
+							Load all Tours
+						</a>
 					</div>
 				</div>
 			</div>
 		</div>
+
+
+		<div class="container" id="reviews">
+			<div class="heading">
+				<h1 class="title-lg">
+					Customer Reviews
+				</h1>
+				<p class="paragraph">
+					Based on 14 reviews
+				</p>
+			</div>
+
+			<div class="reviews">
+				<div class="owl-carousel" id="reviews-slider">
+					<?php for ($i = 0; $i < 14; $i++ ){ ?>
+						<div class="item">
+							<div class="row">
+								<div class="left col">
+									<div class="mask">
+										<img src="https://images.unsplash.com/photo-1540939831376-ad645b4de0c8?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4cb3d9e2c3da430002f92593cdaa604e&auto=format&fit=crop&w=1350&q=80" alt="">
+									</div>
+								</div>
+								<div class="right col">
+									<h4 class="title-xs">
+										Name of Customer <span class="badge"><i class="fas fa-check"></i> Verified</span>
+									</h4>
+									<p class="paragraph">Location of Residence</p>
+
+									<h3 class="title-sm text-wrapper">
+										Duis ac nunc id diam faucibus varius ut sit amet sapien. Sed vitae maximus orci. Proin at semper massa. Nam ac euismod velit, ac euismod tortor
+									</h3>
+									<div class="info">
+										<ul class="rating">
+											<li><i class="fas fa-star"></i></li>
+											<li><i class="fas fa-star"></i></li>
+											<li><i class="fas fa-star"></i></li>
+											<li><i class="fas fa-star"></i></li>
+											<li><i class="fas fa-star"></i></li>
+										</ul>
+										<p>
+											Date 18-02-2018
+										</p>
+									</div>
+
+									<p class="paragraph text-wrapper">
+										We are now all back in South Africa and already hard at work. Visiting your beautiful country and learning more about the culture, enjoying the food and cruising Ha Long Bay will be the highlight of many of our people’s lives…
+									</p>
+								</div>
+							</div>
+						</div>
+					<?php } ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid" id="review-link">
+			<h4 class="title-xs">
+				Recommended on <a href="" target="_blank">THE TRAVEL MANUEL</a>
+			</h4>
+		</div>
+
+		<div class="container" id="whyus">
+			<div class="heading">
+				<h1 class="title-lg">
+					WHY BOOKING WITH US?
+				</h1>
+			</div>
+			<div class="body">
+				<div class="row">
+					<?php for($i = 0; $i < 6; $i++){ ?>
+						<div class="item col-xs-12 col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.<?php echo $i ?>s">
+							<div class="icon">
+								<i class="fas fa-plane"></i>
+							</div>
+
+							<div class="text">
+								Booking directly with a local agent means you Save More
+							</div>
+						</div>
+					<?php } ?>
+				</div>
+			</div>
 		</div>
 	</div>
 </section>
 
-<script src='https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js'></script>
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 
-
+<!-- WOW JS -->
+<script src="<?php echo site_url('node_modules/') ?>wow.js/dist/wow.min.js"></script>
 <script>
-	var height = $('.services-left').height();
-	$('.row.services-right').height(($('.services-left').height()-$('#banner-weather h2').height()));
-	$('.services-right .content-weather').css('height',($('.services-left').height()-$('.services-right h1').height()-20)+'px');
-	$(document).ready(function(){
-		$('.section .item .inner').addClass('');
-	});
+    $(document).ready(function(){
+        $("#reviews-slider").owlCarousel({
+			items: 1,
+			loop: true,
+			dots: true
+		});
+
+        new WOW().init();
+    });
 </script>
-<script type="text/javascript">
 
-    // init Isotope
-    var $grid = $('.grid').isotope({
-        // set itemSelector so .grid-sizer is not used in layout
-        itemSelector: '.grid-item',
-        percentPosition: true,
-        masonry: {
-            // use element for option
-            columnWidth: '.grid-sizer'
-        }
-    });
-
-    // filter items on button click
-    $('.work-control ul li').on( 'click', 'a', function() {
-        var filterValue = $(this).attr('data-filter');
-        $grid.isotope({ filter: filterValue });
-    });
-
-    // layout Isotope after each image loads
-    $grid.imagesLoaded().progress( function() {
-        $grid.isotope('layout');
-    });
-
-</script>

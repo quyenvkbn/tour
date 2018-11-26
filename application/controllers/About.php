@@ -13,7 +13,11 @@ class About extends Public_Controller {
     public function index() {
         $this->data['about'] = $this->post_model->get_all_item(FIXED_ABOUT_US);
 
-        $this->render('about_view');
+        $this->render('list_about_view');
+    }
+
+    public function detail() {
+        $this->render('detail_about_view');
     }
 
 }

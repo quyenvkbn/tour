@@ -1,674 +1,495 @@
-<!-- Tours Stylesheet -->
-<link rel="stylesheet" href="<?php echo site_url('assets/sass/') ?>tours.css">
-
-<section id="head-cover" class="container-fluid" style="background-image: url('<?php echo base_url('/assets/upload/product/'.$detail['slug'].'/'.$detail['image']) ?>')">
-	<div class="overlay"></div>
-	<div class="container">
-		<div class="big-title">
-			<h4 class="subtitle">
-				<?php echo $detail['parent_title'] ?>
-			</h4>
-			<h1 class="title" title="<?php echo $detail['title'];?>">
-                <?php echo $detail['title'] ?>
-				<br>
-                <?php if (!empty($detail['bestselling'])): ?>
-					<span class="badge "><i class="fa fa-star" aria-hidden="true"></i> Tour bán chạy </span>
-                <?php endif ?>
-                <?php if (!empty($detail['hot'])): ?>
-					<span class="badge "><i class="fa fa-location-arrow" aria-hidden="true"></i> Tour Hot </span>
-                <?php endif ?>
-                <?php if (!empty($detail['showpromotion']) && !empty($detail['pricepromotion']) && !empty($detail['percen'])): ?>
-					<span class="badge "><i class="fa fa-tags" aria-hidden="true"></i> Tour Khuyến mại </span>
-                <?php endif ?>
-			</h1>
+<section id="detail-tour">
+	<div class="cover">
+		<div class="mask">
+			<img src="https://images.unsplash.com/photo-1441107621285-05f256b47ce5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b9231273214ff2feb3e11b517d5eb700&auto=format&fit=crop&w=1276&q=80" alt="imgae cover ">
+		</div>
+		<div class="container">
+			<div class="line"></div>
+			<h1>Tour Title</h1>
+			<p class="paragraph">
+				<i class="fas fa-map-marker-alt"></i> Locations
+			</p>
 		</div>
 	</div>
-</section>
 
-<section id="detail" class="container-fluid">
-	<div class="container">
-		<div class="row">
-			<div class="left col-sm-9 col-xs-12">
-				<ol class="breadcrumb hidden-xs">
-					<li><a href="<?php echo base_url('') ?>"><?php echo $this->lang->line('home') ?></a></li>
-                    <?php if (!empty($detail['sub'])): ?>
-                        <?php for($i=0;$i<count($detail['sub']);$i++): ?>
-							<li><a href="<?php echo base_url('/danh-muc/'.$detail['sub'][$i]['slug']) ?>"><?php echo $detail['sub'][$i]['title'] ?></a></li>
-                        <?php endfor; ?>
-					<?php else: ?>
-							<li><a href="<?php echo base_url('/danh-muc/'.$detail['parent_slug']) ?>"><?php echo $detail['parent_title'] ?></a></li>
-                    <?php endif ?>
-					<li class="active"><?php echo $detail['title'];?></li>
-				</ol>
+	<div class="main-content">
+		<div class="container">
+			<div class="row">
+				<div class="left col-xs-12 col-md-9">
+					<div class="slider">
 
-				<div class="intro">
-					<h4><?php echo $detail['description'] ?></h4>
-				</div>
-
-				<div class="row">
-					<div class="left col-sm-6 col-xs-12">
-						<h3>Ghi chú</h3>
-						<p><?php echo $detail['content'] ?></p>
 					</div>
-					<div class="right col-sm-6 col-xs-12">
-						<h3>Chi tiết tour</h3>
-						<table class="table">
-							<tr>
-								<td>Số ngày</td>
-								<td><?php echo count($detail['datetitle'])?> Ngày</td>
-							</tr>
-							<tr>
-								<td>Ngày khởi hành</td>
-								<td>
-									<?php if (!empty($detail['date'])): ?>
-										<?php echo $detail['date'] ?>
-									<?php else: ?>
-										<?php echo $this->lang->line('contact');?>
-									<?php endif ?>
-								</td>
-							</tr>
-							<tr>
-								<td>Giá</td>
-								<td>
-									<h4>
-										<?php if (!empty($value['price'])): ?>
-											<?php if (!empty($detail['pricepromotion']) && !empty($detail['percen']) && !empty($detail['showpromotion'])): ?>
-												<?php echo number_format($detail['pricepromotion']); ?> VNĐ
-												<small class="price-original"><del><?php echo number_format($detail['price']);?> VNĐ</del></small>
-											<?php else: ?>
-												<?php echo number_format($detail['price']); ?> VNĐ
-											<?php endif ?>
-										<?php else: ?>
-											<?php echo $this->lang->line('contact');?>
-										<?php endif ?>
-									</h4>
-								</td>
-							</tr>
-							<tr>
-								<td>Đánh giá</td>
-								<td>
-									<div id="rateit_star" data-productid="<?php echo $detail['id']; ?>" data-rateit-resetable="false" data-rateit-value="<?php echo $rating ?>"></div>
-									<input type="hidden" name="re_rateit" id="re_rateit" value="">
-									<p class="number"><?php echo $rating ?> / 5 điểm <?php echo '(' . $count_rating. ' phiếu' . ')' ?></p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="captcha-input input-group col-md-12">
-										<input type="hidden" name="re_captcha" id="re_captcha" class="show-re-captcha" value="" >
-										<input placeholder="Nhập mã" name="captcha" id="captcha" type="text" value="" class="form-control" aria-describedby="captcha" style=" border: 1;margin-right: 5%; color: black;height: 33px;">
-										<span class="input-group-addon" id="basic-addon1"><a class="refresh" href="javascript:void(0)" title="Lấy mã mới"><i class="fa fa-refresh" aria-hidden="true"></i></a></span>
-									</div>
-									<div class="captcha-input col-md-7">
 
-									</div>
-									<div>
-										<span class="message"></span>
-									</div>
-								</td>
-								<td>
-									<div class="captcha-image image col-md-12"></div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="input-group col-md-12">
-										<input type="hidden" name="created_captcha" class="created_captcha" value="<?php echo base_url('created_captcha'); ?>">
-										<input type="hidden" name="created_rating" class="created_rating" value="<?php echo base_url('created_rating'); ?>">
-										<input type="hidden" name="product_id" class="product_id" value="<?php echo $detail['id']?>">
-										<button class="btn btn-default btn-rating" <?php echo ($check_session == true)? 'disabled' : '' ?> >
-	                                        Đánh giá
-										</button>
-									</div>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-
-				<div class="row tabs">
-					<div class="col-xs-12">
-						<ul class="nav nav-tabs nav-justified" role="tablist">
-							<li role="presentation" class="active">
-								<a href="#overview" aria-controls="overview" role="tab" data-toggle="tab">
-                                    Tổng quan
+					<div class="detail">
+						<ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" id="tab-itinerary" data-toggle="tab" href="#itinerary" role="tab" aria-controls="itinerary" aria-selected="true">
+									Itinerary
 								</a>
 							</li>
-							<li role="presentation">
-								<a href="#gallery-tab" aria-controls="gallery" role="tab" data-toggle="tab">
-                                    Thư viện ảnh
+							<li class="nav-item">
+								<a class="nav-link" id="tab-notes" data-toggle="tab" href="#notes" role="tab" aria-controls="notes" aria-selected="false">
+									Trip Notes
 								</a>
 							</li>
-							<li role="presentation">
-								<a href="#price" aria-controls="price" role="tab" data-toggle="tab">
-                                    Chi phí
+							<li class="nav-item">
+								<a class="nav-link" id="tab-conditions" data-toggle="tab" href="#conditions" role="tab" aria-controls="conditions" aria-selected="false">
+									Inclusions & Exclusions
 								</a>
 							</li>
-							<li role="presentation">
-								<a href="#trip-notes" aria-controls="trip-notes" role="tab" data-toggle="tab">
-                                    Lưu ý
+							<li class="nav-item">
+								<a class="nav-link" id="tab-reviews" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">
+									Reviews
 								</a>
 							</li>
-							<li role="presentation">
-								<a href="#inquire" aria-controls="inquire" role="tab" data-toggle="tab">
-                                    Đăng ký
-								</a>
-							</li>
-							<li role="presentation">
-								<a href="#customize" aria-controls="customize" role="tab" data-toggle="tab">
-                                    Tùy chỉnh
-								</a>
-							</li>
-                            <li role="presentation" id="commentTab">
-                                <a href="#comment" aria-controls="comment" role="tab" data-toggle="tab">
-                                    <?php echo $this->lang->line('comments') ?>
-                                </a>
-                            </li>
 						</ul>
-						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane active" id="overview">
-								<div class="row">
-									<div class="schedule col-sm-8 col-xs-12">
-										<div class="panel-group" id="schedule" role="tablist" aria-multiselectable="true">
-                                            <?php for($i = 0; $i < count($detail['dateimg']); $i++): ?>
-												<div class="panel panel-primary">
-													<div class="panel-heading" role="tab" id="day-<?php echo $i+1; ?>-heading">
-														<h4 class="panel-title">
-															<a role="button" data-toggle="collapse" data-parent="#schedule" href="#day-<?php echo $i+1; ?>" aria-expanded="false" aria-controls="day-<?php echo $i+1; ?>">
-																<?php echo $this->lang->line('day');?> <?php echo $i+1; ?>: <?php echo $detail['datetitle'][$i];?>
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade show active" id="itinerary" role="tabpanel" aria-labelledby="tab-itinerary">
+								<div class="heading">
+									<h3 class="title-sm">
+										Overview
+									</h3>
+									<p class="paragraph">
+										This 10 day great tour is specially suitable for those who wish to get a glimpse of the hidden charm of Vietnam. From the bustling metropolis of Ho Chi Minh, you will be taken through the lush Mekong Delta with a cruise around the region, the ancient town of Hoian with an eco-tour and the dreamy land of Halong Bay. Each destination features interesting experiences for you to enjoy. Furthermore, our Vietnam budget tours are well designed for budget travellers to enjoy their amazing Vietnam tour packages at reasonable prices.
+									</p>
+								</div>
 
-															</a>
-															<i class="fa <?php echo $request_vehicles_icon[$detail['vehicles'][$i]]; ?> pull-right" aria-hidden="true"></i>
-														</h4>
-													</div>
-													<div id="day-<?php echo $i+1; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="day-<?php echo $i+1; ?>-heading">
-														<div class="panel-body">
-															<div class="media">
-																<div class="media-left">
-																	<div class="mask">
-																		<img class="media-object" src="<?php echo base_url('/assets/upload/product/'.$detail['slug'].'/'.$detail['dateimg'][$i]); ?>" alt="daily schedule image">
-																	</div>
-																</div>
-																<div class="media-body">
-																	<h4 class="media-heading"><?php echo $detail['datetitle'][$i]; ?></h4>
-																	<p>
-                                                                        <?php echo $detail['datecontent'][$i]; ?>
-																	</p>
-																</div>
-															</div>
-														</div>
-													</div>
+								<div class="body">
+									<div class="accordion" id="collapse-schedule">
+										<div class="card">
+											<div class="card-header" id="headingOne">
+												<h5 class="mb-0">
+													<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+														Day 1: Hanoi
+													</button>
+												</h5>
+											</div>
+
+											<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#collapse-schedule">
+												<div class="card-body">
+													<p class="paragraph">
+														Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+													</p>
 												</div>
-                                            <?php endfor; ?>
+											</div>
 										</div>
-
-									</div>
-									<div class="map col-sm-4 col-xs-12">
-										<img src="<?php echo base_url('/assets/upload/product/'.$detail['slug'].'/'.$detail['imglocaltion']);?>" alt="tour map">
-									</div>
-								</div>
-							</div>
-							<div role="tabpanel" class="tab-pane" id="gallery-tab">
-								<div class="row">
-									<div class="col-xs-12">
-										<div class="panel-group" id="gallery-list" role="tablist" aria-multiselectable="true">
-                                            <?php for($i = 0; $i < count($detail['librarylocaltion']); $i++): ?>
-												<div class="panel panel-primary">
-													<div class="panel-heading" role="tab" id="day-1-heading">
-														<h4 class="panel-title">
-															<a role="button" data-toggle="collapse" data-parent="#gallery-list" href="#gallery-<?php echo $i+1; ?>" aria-expanded="false" aria-controls="gallery-<?php echo $i+1; ?>">
-																 <?php echo $this->lang->line('day');?> <?php echo $i+1; ?>: <?php echo $detail['datetitle'][$i];?>
-
-															</a>
-															<i class="fa <?php echo $request_vehicles_icon[$detail['vehicles'][$i]]; ?> pull-right" aria-hidden="true"></i>
-														</h4>
-													</div>
-													<div id="gallery-<?php echo $i+1; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="gallery-<?php echo $i+1; ?>-heading">
-														<div class="panel-body">
-                                                            <?php if (!empty($detail['librarylocaltion'][$i])): ?>
-                                                                <?php for($j = 0; $j < count($detail['librarylocaltion'][$i]); $j++): ?>
-                                                                    <?php if (!empty($detail['librarylocaltion'][$i][$j])): ?>
-																		<div class="media">
-																			<div class="media-left">
-																				<div class="mask">
-																					<img class="media-object" src="<?php echo base_url('/assets/upload/localtion/'.$detail['librarylocaltion'][$i][$j]['slug'].'/'.$detail['librarylocaltion'][$i][$j]['image']); ?>" alt="daily schedule image">
-																				</div>
-																			</div>
-																			<div class="media-body">
-																				<h4 class="media-heading"><a href="<?php echo base_url('thu-vien/'.$detail['librarylocaltion'][$i][$j]['slug']);?>" target="_blank"><?php echo $detail['librarylocaltion'][$i][$j]['title'] ?></a></h4>
-																				<p><?php echo $detail['librarylocaltion'][$i][$j]['description'] ?></p>
-																			</div>
-																		</div>
-                                                                    <?php endif;?>
-                                                                    <?php if ($j+1 < count($detail['librarylocaltion'][$i])): ?>
-																		<div style="border:2px solid gray" class="col-md-12"> </div>
-                                                                    <?php endif ?>
-                                                                <?php endfor; ?>
-                                                            <?php else: ?>
-																<div style="padding:20px;">
-																	Không có nơi nào được chọn trong ngày
-																</div>
-                                                            <?php endif;?>
-														</div>
-													</div>
+										<div class="card">
+											<div class="card-header" id="headingTwo">
+												<h5 class="mb-0">
+													<button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+														Day 2: Myanmar
+													</button>
+												</h5>
+											</div>
+											<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#collapse-schedule">
+												<div class="card-body">
+													<p class="paragraph">
+														Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+													</p>
 												</div>
-                                            <?php endfor; ?>
+											</div>
 										</div>
 									</div>
-								</div>
 
-							</div>
-							<div role="tabpanel" class="tab-pane" id="price">
-								<div class="row">
-									<div class="col-xs-12">
-										<div class="table-responsive">
-											<table class="table table-bordered">
-												<thead>
-												<tr>
-													<th>Người lớn</th>
-													<th>Trẻ từ 2 đến 11 tuổi</th>
-													<th>Trẻ em dưới 2 tuổi</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr>
-													<td><?php echo $detail['priceadults'];?>% Giá</td>
-													<td><?php echo $detail['pricechildren'];?>% Giá</td>
-													<td><?php echo $detail['priceinfants'];?>% Giá</td>
-												</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-12">
-										<div class="table-responsive">
-                                            <?php echo $detail['detailsprice'];?>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div role="tabpanel" class="tab-pane" id="trip-notes">
-								<div class="row">
-									<div class="col-xs-12">
-										<div class="table-responsive">
+									<div class="table-responsive">
+										<h4 class="title-xs">
+											LIST OF HOTELS WE USE <small>Best price, strategic locations, carefully-checked.</small>
+										</h4>
 
-                                        	<?php echo $detail['tripnodes'];?>
-                                    	</div>
-									</div>
-								</div>
-							</div>
-							<input type="hidden" name="product_id" id="product_id" value="<?php echo $detail['id']?>">
-							<div role="tabpanel" class="tab-pane" id="inquire">
-								<div class="row">
-                                    <?php
-                                    echo form_open_multipart('', array('class' => 'form-horizontal','id' => 'form-booking'));
-                                    ?>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Chức danh (*)', 'inquire_title');
-                                        echo form_error('inquire_title');
-                                        echo form_dropdown('inquire_title', $options =array('Mr' => 'Mr', 'Mrs' => 'Mrs', 'Ms' => 'Ms', 'Dr' => 'Dr'), set_value('inquire_title'), 'class="form-control" id="inquire_title"')
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Tên (*)', 'inquire_first_name');
-                                        echo form_error('inquire_first_name');
-                                        echo form_input('inquire_first_name', set_value('inquire_first_name'), 'class="form-control" id="inquire_first_name"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Họ (*)', 'inquire_last_name');
-                                        echo form_error('inquire_last_name');
-                                        echo form_input('inquire_last_name', set_value('inquire_last_name'), 'class="form-control" id="inquire_last_name"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Địa chỉ Email (*)', 'inquire_email');
-                                        echo form_error('inquire_email');
-                                        echo form_input('inquire_email', set_value('inquire_email'), 'class="form-control" id="inquire_email"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Xác nhận địa chỉ Email (*)', 'inquire_email_confirm');
-                                        echo form_error('inquire_email_confirm');
-                                        echo form_input('inquire_email_confirm', set_value('inquire_email_confirm'), 'class="form-control" id="inquire_email_confirm"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Số điện thoại liên hệ (*)', 'inquire_phone_number');
-                                        echo form_error('inquire_phone_number');
-                                        echo form_input('inquire_phone_number', set_value('inquire_phone_number'), 'class="form-control" id="inquire_phone_number"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-6 col-xs-12">
-                                        <?php
-                                        echo form_label('Ngày khởi hành mong muốn (*)', 'datepicker');
-                                        echo form_error('datepicker');
-                                        echo form_input('datepicker', set_value('datepicker'), 'class="form-control datepicker" readonly');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-6 col-xs-12">
-                                        <?php
-                                        echo form_label('Đất nước (*)', 'inquire_country');
-                                        echo form_error('inquire_country');
-                                        echo form_input('inquire_country', set_value('inquire_country'), 'class="form-control" id="inquire_country"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Người lớn (*)', 'inquire_number_adults');
-                                        echo form_error('inquire_number_adults');
-                                        echo '<input type="number" class="form-control" id="inquire_number_adults" name="inquire_number_adults" min="0" placeholder="0" >';
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Trẻ từ 2 đến 11 tuổi (*)', 'inquire_number_children_u11');
-                                        echo form_error('inquire_number_children_u11');
-                                        echo '<input type="number" class="form-control" id="inquire_number_children_u11" name="inquire_number_children_u11" min="0" placeholder="0" >';
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Trẻ em dưới 2 tuổi (*)', 'inquire_number_children_u2');
-                                        echo form_error('inquire_number_children_u2');
-                                        echo '<input type="number" class="form-control" id="inquire_number_children_u2" name="inquire_number_children_u2" min="0" placeholder="0" >';
-                                        ?>
-									</div>
-
-									<div class="form-group col-xs-12">
-                                        <?php
-                                        echo form_label('Tin nhắn (*)', 'inquire_message');
-                                        echo form_error('inquire_message');
-                                        echo form_textarea('inquire_message', set_value('inquire_message'), 'class="form-control" id="inquire_message"')
-                                        ?>
-									</div>
-
-									<div class="col-xs-12">
-										<input id="bookingsubmit" class="btn btn-primary" type="button" value="Đặt Tour!">
-									</div>
-
-                                    <?php echo form_close(); ?>
-								</div>
-							</div>
-							<div role="tabpanel" class="tab-pane" id="customize">
-								<div class="row">
-                                    <?php
-                                    echo form_open_multipart('', array('class' => 'form-horizontal','id' => 'form-customize'));
-                                    ?>
-									<div class="col-xs-12">
-										<table class="table">
+										<table class="table table-bordered">
 											<thead>
-											<tr>
-												<th>Chương trình mặc định</th>
-												<th>Chương trình thay đổi</th>
-											</tr>
-											</thead>
-
-											<tbody>
-                                            <?php for ($i = 0;$i< count($detail['dateimg']);$i++): ?>
 												<tr>
-													<td>
-														Ngày <?php echo $i+1; ?>
-													</td>
-													<td>
-                                                        <?php
-                                                        echo form_error('inquire_message[]');
-                                                        echo form_textarea(array('name' => 'tour_change[]','rows' => '4'), set_value('tour_change'), array('class' =>'form-control','id' => 'tour_change_'.$i,))
-                                                        ?>
-													</td>
+													<td></td>
+													<td>Budget</td>
+													<td>3-star</td>
+													<td>4-star</td>
+													<td>5-star</td>
 												</tr>
-                                            <?php endfor ?>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Hanoi</td>
+													<td>99.999 vnd</td>
+													<td>999.999 vnd</td>
+													<td>9.999.999 vnd</td>
+													<td>99.999.999 vnd</td>
+												</tr>
+												<tr>
+													<td>Myanmar</td>
+													<td>99.999 vnd</td>
+													<td>999.999 vnd</td>
+													<td>9.999.999 vnd</td>
+													<td>99.999.999 vnd</td>
+												</tr>
 											</tbody>
 										</table>
 									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Chức danh (*)', 'inquire_title');
-                                        echo form_error('inquire_title');
-                                        echo form_dropdown('inquire_title', $options =array('Mr' => 'Mr', 'Mrs' => 'Mrs', 'Ms' => 'Ms', 'Dr' => 'Dr'), set_value('inquire_title'), 'class="form-control" id="customize_title"')
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Tên (*)', 'inquire_first_name');
-                                        echo form_error('inquire_first_name');
-                                        echo form_input('inquire_first_name', set_value('inquire_first_name'), 'class="form-control" id="inquire_first_name"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Họ (*)', 'inquire_last_name');
-                                        echo form_error('inquire_last_name');
-                                        echo form_input('inquire_last_name', set_value('inquire_last_name'), 'class="form-control" id="inquire_last_name"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Địa chỉ Email (*)', 'inquire_email');
-                                        echo form_error('inquire_email');
-                                        echo form_input('inquire_email', set_value('inquire_email'), 'class="form-control" id="inquire_email"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Xác nhận địa chỉ Email (*)', 'inquire_email_confirm');
-                                        echo form_error('inquire_email_confirm');
-                                        echo form_input('inquire_email_confirm', set_value('inquire_email_confirm'), 'class="form-control" id="inquire_email_confirm"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Số điện thoại liên hệ (*)', 'inquire_phone_number');
-                                        echo form_error('inquire_phone_number');
-                                        echo form_input('inquire_phone_number', set_value('inquire_phone_number'), 'class="form-control" id="inquire_phone_number"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-6 col-xs-12">
-                                        <?php
-                                        echo form_label('Ngày khởi hành mong muốn (*)', 'datepicker');
-                                        echo form_error('datepicker');
-                                        echo form_input('datepicker', set_value('datepicker'), 'class="form-control datepicker" readonly');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-6 col-xs-12">
-                                        <?php
-                                        echo form_label('Đất nước (*)', 'inquire_country');
-                                        echo form_error('inquire_country');
-                                        echo form_input('inquire_country', set_value('inquire_country'), 'class="form-control" id="inquire_country"');
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Người lớn (*)', 'inquire_number_adults');
-                                        echo form_error('inquire_number_adults');
-                                        echo '<input type="number" class="form-control" id="inquire_number_adults" name="inquire_number_adults" min="0" placeholder="0" >';
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Trẻ từ 2 đến 11 tuổi (*)', 'inquire_number_children_u11');
-                                        echo form_error('inquire_number_children_u11');
-                                        echo '<input type="number" class="form-control" id="inquire_number_children_u11" name="inquire_number_children_u11" min="0" placeholder="0" >';
-                                        ?>
-									</div>
-									<div class="form-group col-sm-4 col-xs-12">
-                                        <?php
-                                        echo form_label('Trẻ em dưới 2 tuổi (*)', 'inquire_number_children_u2');
-                                        echo form_error('inquire_number_children_u2');
-                                        echo '<input type="number" class="form-control" id="inquire_number_children_u2" name="inquire_number_children_u2" min="0" placeholder="0" >';
-                                        ?>
-									</div>
-
-									<div class="form-group col-xs-12">
-                                        <?php
-                                        echo form_label('Tin nhắn (*)', 'inquire_message');
-                                        echo form_error('inquire_message');
-                                        echo form_textarea('inquire_message', set_value('inquire_message'), 'class="form-control" id="inquire_message"')
-                                        ?>
-									</div>
-									<div class="col-xs-12">
-										<input id="customizesubmit" class="btn btn-primary" type="button" value="Đặt Tour!">
-									</div>
-                                    <?php echo form_close(); ?>
 								</div>
 							</div>
-                            <div role="tabpanel" class="tab-pane" id="comment">
-                                <div class="row">
-                                    <div class="schedule col-sm-12 col-xs-12">
-                                        <div class="panel-group" id="schedule" role="tablist" aria-multiselectable="true">
-                                            <form action="" method="post" accept-charset="utf-8">
-                                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash() ?>" id="csrf" />
-                                                <div class="row">
-                                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                                        <label for="name"><?php echo $this->lang->line('first-and-last-name');?></label><input type="text" name="name" value="" class="form-control" id="name" placeholder="<?php echo $this->lang->line('first-and-last-name');?>">
-                                                        <span class="name_error" style="color: red"></span>
-                                                    </div>
-                                                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                                        <label for="email">Email</label><input type="text" name="email" value="" class="form-control" id="email" placeholder="Email">
-                                                        <span class="email_error" style="color: red"></span>
-                                                    </div>
-                                                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                        <label for="content"><?php echo $this->lang->line('comments');?></label><textarea name="content" cols="40" rows="10" class="form-control" id="content"></textarea>
-                                                        <span class="content_error" style="color: red"></span>
-                                                    </div>
-                                                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                                                        <input type="hidden" name="product_id" id="product_id" value="<?php echo $detail['id'];?>">
-                                                        <input type="hidden" name="comment_type" id="comment_type" value="0">
-                                                        <input type="submit" name="submit" value="<?php echo $this->lang->line('comments');?>" class="btn btn-primary hvr-icon-forward submit-comment" style="">
-                                                    </div>
-                                                </div>
-                                            </form>
+							<div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="tab-notes">
+								<div class="heading">
+									<h3 class="title-sm">
+										Trip Notes
+									</h3>
+									<p class="paragraph">
+										This 10 day great tour is specially suitable for those who wish to get a glimpse of the hidden charm of Vietnam. From the bustling metropolis of Ho Chi Minh, you will be taken through the lush Mekong Delta with a cruise around the region, the ancient town of Hoian with an eco-tour and the dreamy land of Halong Bay. Each destination features interesting experiences for you to enjoy. Furthermore, our Vietnam budget tours are well designed for budget travellers to enjoy their amazing Vietnam tour packages at reasonable prices.
+									</p>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="conditions" role="tabpanel" aria-labelledby="tab-conditions">
+								<div class="heading">
+									<h3 class="title-sm">
+										Inclusions & Exclusions
+									</h3>
+									<p class="paragraph">
+										This 10 day great tour is specially suitable for those who wish to get a glimpse of the hidden charm of Vietnam. From the bustling metropolis of Ho Chi Minh, you will be taken through the lush Mekong Delta with a cruise around the region, the ancient town of Hoian with an eco-tour and the dreamy land of Halong Bay. Each destination features interesting experiences for you to enjoy. Furthermore, our Vietnam budget tours are well designed for budget travellers to enjoy their amazing Vietnam tour packages at reasonable prices.
+									</p>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="tab-reviews">
 
-                                            <div id="comment">
-                                                <?php if (isset($comment)): ?>
-                                                    <div class="show-comment">
-                                                        <?php foreach ($comment as $key => $value): ?>
-                                                            <div class="media cmt">
-                                                                <div class="media-left">
-                                                                    <img class="media-object" src="<?php echo site_url('assets/img/comment_ava.png') ?>" alt="Comment Avatar" width="64">
-                                                                </div>
-                                                                <div class="media-body">
-                                                                    <h3 class="media-heading" style="color: #f4aa1c"><?php echo $value['name'] ?>:</h3>
-                                                                    <span><?php echo $value['content'] ?></span>
-                                                                    <span style="float: right; font-size: 1em"><?php echo date_format(date_create($value['created_at']), 'd-m-Y') ?></span>
-                                                                </div>
-                                                            </div>
-                                                        <?php endforeach ?>
-                                                    </div>
-                                                <?php else: ?>
-                                                    <div class="media cmt">
-                                                        <p class="cmt_error"><?php echo $this->lang->line('there-are-no-comments-for-this-tour-yet'); ?></p>
-                                                    </div>
-                                                <?php endif ?>
-                                                <div id="comment_readmore" style="display: none;">
-                                                    <input type="hidden" name="count-comment" id="count-comment" value="<?php echo $count_comment ?>">
-                                                    <button class="btn btn-primary btn-sm center-block" type="submit"><?php echo $this->lang->line('see-more-comments');?></button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
+							</div>
 						</div>
 					</div>
-				</div>
 
-			</div>
-			<div class="right col-sm-3 col-xs-12">
-				<div class="section-header">
-					<div class="row">
-						<div class="left col-xs-12">
-							<h1>Tour liên quan</h1>
+					<div class="reviews">
+						<div class="heading">
+							<h1 class="title-lg">
+								Customer Reviews
+							</h1>
 						</div>
-					</div>
-				</div>
-				<?php foreach ($product_array as $key => $value): ?>
-					<div class="row">
-						<div class="item col-xs-12">
-							<div class="wrapper">
-								<div class="mask">
-									<a href="<?php echo base_url('tours/'.$value['slug']) ?>">
-										<img src="<?php echo base_url('/assets/upload/product/'.$value['slug'].'/'.$value['image']) ?>" alt="image">
-									</a>
-										<!--BADGE DISCOUNT -->
-                                        <?php if (!empty($value['pricepromotion']) && !empty($value['percen']) && !empty($value['showpromotion'])): ?>
-											<div class="badge badge-discount">
-												<div class="content">KM<br>-<?php echo $value['percen']; ?>%</div>
-											</div>
-                                        <?php endif ?>
+						<div class="body">
+							<div class="row">
+								<?php for ($i = 0; $i < 2; $i++){ ?>
+									<div class="item col-xs-12 col-md-6">
+										<h4 class="title-xs">
+											Name of Customer <span class="badge"><i class="fas fa-check"></i> Verified</span>
+										</h4>
+										<p class="paragraph">Location of Residence</p>
 
-										<!--BADGE SPECIAL -->
-										<div class="badge badge-special">
-                                            <?php if (!empty($value['hot'])): ?>
-												<div id="tour-hot" class="">
-													<img src="<?php echo site_url('assets/img/badge-tour-hot.png')?>" alt="badge tour hot">
-												</div>
-                                            <?php endif ?>
-                                            <?php if (!empty($value['bestselling'])): ?>
-												<div id="best-sell" class="">
-													<img src="<?php echo site_url('assets/img/badge-best-sell.png')?>" alt="badge best sell">
-												</div>
-                                            <?php endif ?>
+										<h3 class="title-sm text-wrapper">
+											Duis ac nunc id diam faucibus varius ut sit amet sapien. Sed vitae maximus orci. Proin at semper massa. Nam ac euismod velit, ac euismod tortor
+										</h3>
+										<div class="info">
+											<ul class="rating">
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fas fa-star"></i></li>
+											</ul>
+											<p>
+												Date 18-02-2018
+											</p>
 										</div>
 
-								</div>
-								<div class="head">
-									<h4 class="post-subtitle"><?php echo $value['parent_title'];?></h4>
-									<h2 class="post-title" title="<?php echo $value['title'];?>"><?php echo $value['title'];?></h2>
-									<h3 class="price">
-										<?php if (!empty($value['price'])): ?>
-											<?php if (!empty($value['pricepromotion']) && !empty($value['percen']) && !empty($value['showpromotion'])): ?>
-												<?php echo number_format($value['pricepromotion']); ?> VNĐ
-												<small class="price-original"><del><?php echo number_format($value['price']);?> VNĐ</del></small>
-											<?php else: ?>
-												<?php echo number_format($value['price']); ?> VNĐ
-											<?php endif ?>
-										<?php else: ?>
-											<span style="font-weight: 505;"><?php echo $this->lang->line('price');?>:</span> <?php echo $this->lang->line('contact');?>
-										<?php endif ?>
-									</h3>
-								</div>
-								
-								<div class="body">
-									<p class="post-description"><?php echo $value['description'];?></p>
-								</div>
-								
-								<div class="foot">
-									<ul class="list-inline">
-										<li>
-											<a href="<?php echo base_url('tours/'.$value['slug']) ?>" class="btn btn-primary" role="button" style="margin: 0px;">
-												Xem chi tiết
-											</a>
-										</li>
-									</ul>
+										<p class="paragraph text-wrapper">
+											We are now all back in South Africa and already hard at work. Visiting your beautiful country and learning more about the culture, enjoying the food and cruising Ha Long Bay will be the highlight of many of our people’s lives…
+										</p>
+									</div>
+								<?php } ?>
+							</div>
+						</div>
+						<div class="foot">
+							<button class="btn btn-primary" type="button">
+								Load more Reviews
+							</button>
+						</div>
+					</div>
+
+					<div class="recommended">
+						<div class="heading">
+							<h1 class="title-lg">
+								Recommended Trips
+							</h1>
+						</div>
+						<div class="body">
+							<div class="row">
+								<div class="item col-xs-12 col-md-6">
+									<div class="wrapper">
+										<a href="<?php echo base_url('tours/detail/') ?>" ?>
+											<div class="mask">
+												<img src="https://images.unsplash.com/photo-1524991825088-9607659b25a2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=44574751c74ead3395fe178ca8344905&auto=format&fit=crop&w=1350&q=80" alt="image trip">
+
+												<div class="badge saleoff">
+													<span class="number">99%</span>
+													<br>
+													<span class="text">off</span>
+												</div>
+
+												<div class="info">
+													<div class="price">
+														<div class="left">
+															From
+														</div>
+														<div class="right">
+													<span class="price-off">
+														<del>999.999.999 vnd</del>
+													</span>
+															<span class="price">999.999.999 vnd</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="content">
+												<div class="left">
+													<h3 class="title-sm">
+														Trip Title
+													</h3>
+													<p class="paragraph">
+														<i class="fas fa-map-marker-alt"></i> Hanoi - Myanmar - Hanoi
+													</p>
+												</div>
+												<div class="right">
+													<div class="duration">
+														<div class="d-flex flex-column">
+															<span class="number">05</span>
+															<span class="text">days</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</a>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				<?php endforeach ?>
+				</div>
+				<div class="right col-xs-12 col-md-3">
+					<div class="info">
+						<div class="duration">
+							<div class="d-flex flex-column">
+								<span class="number">05</span>
+								<span class="text">days</span>
+							</div>
+						</div>
+						<div class="price">
+							<div class="left">
+								From
+							</div>
+							<div class="right">
+												<span class="price-off">
+													<del>999.999.999 vnd</del>
+												</span>
+								<span class="price">999.999.999 vnd</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table table-bordered">
+							<thead>
+							<tr>
+								<td></td>
+								<td>Twin Share</td>
+								<td>Single</td>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>Budget</td>
+								<td>99.999 vnd</td>
+								<td>999.999 vnd</td>
+							</tr>
+							<tr>
+								<td>3-star</td>
+								<td>99.999 vnd</td>
+								<td>999.999 vnd</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="booking">
+						<button class="btn btn-primary" type="button">
+							Inquire this Tour
+						</button>
+						or <a data-toggle="modal" data-target="#customizeTour">Customize your Tour</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="customizeTour" tabindex="-1" role="dialog" aria-labelledby="customizeTourLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="title-md" id="customizeTourLabel">CUSTOMISE YOUR TRIP</h2>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="heading">
+						<p class="paragraph">
+							Tell us your travel plan and we will reply to you within 1-12 hours with the best tour options.
+						</p>
+					</div>
+
+					<div class="body">
+						<div class="row request">
+							<div class="item col-xs-12 col-md-3">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Departure Date" aria-label="departureDate" aria-describedby="basic-addon1">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon1">
+											<i class="far fa-calendar-alt"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="item col-xs-12 col-md-3">
+								<div class="input-group">
+									<input type="number" class="form-control" min="0" placeholder="0" aria-label="duration" aria-describedby="basic-addon2">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon2">
+											days
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="item col-xs-12 col-md-3">
+								<div class="input-group">
+									<input type="number" class="form-control" min="0" placeholder="0" aria-label="aldults" aria-describedby="basic-addon3">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon3">
+											adults
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="item col-xs-12 col-md-3">
+								<div class="input-group">
+									<input type="number" class="form-control" min="0" placeholder="0" aria-label="children" aria-describedby="basic-addon4">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="basic-addon4">
+											children
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="item col-xs-12 col-md-12 mt-3">
+								<p class="paragraph">
+									Hotel
+								</p>
+
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+									<label class="form-check-label" for="inlineCheckbox1">Budget</label>
+								</div>
+
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+									<label class="form-check-label" for="inlineCheckbox2">3-star</label>
+								</div>
+
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+									<label class="form-check-label" for="inlineCheckbox3">4-star</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="row info">
+							<div class="left col-xs-12 col-md-3">
+								<h3 class="title-sm">
+									Contact Information
+								</h3>
+							</div>
+							<div class="right col-xs-12 col-md-9">
+                                <?php
+                                echo form_open_multipart('', array('class' => 'form-horizontal'));
+                                ?>
+
+								<div class="row">
+									<div class="form-group col-xs-12 col-md-2">
+                                        <?php
+                                        //echo form_label('Họ tên (*)', 'contact_name');
+                                        echo form_error('contact_title');
+                                        //echo form_input('contact_title', set_value('contact_title'), 'class="form-control" id="contact_title"');
+                                        echo form_dropdown('contact_title', $option = array('1' => 'Mr', '2' => 'Mrs', '3' => 'Miss'), '1', ' class="form-control" id="contact_title" ');
+                                        ?>
+									</div>
+									<div class="form-group col-xs-12 col-md-10">
+                                        <?php
+                                        //echo form_label('Họ tên (*)', 'contact_name');
+                                        echo form_error('contact_name');
+                                        echo form_input('contact_name', set_value('contact_name'), 'class="form-control" id="contact_name" placeholder="Full Name" ');
+                                        ?>
+									</div>
+
+									<div class="form-group col-xs-12 col-md-6">
+                                        <?php
+                                        //echo form_label('Email (*)', 'contact_mail');
+                                        echo form_error('contact_mail');
+                                        echo form_input('contact_mail', set_value('contact_mail'), 'class="form-control" id="contact_mail" placeholder="Email" ');
+                                        ?>
+									</div>
+									<div class="form-group col-xs-12 col-md-6">
+                                        <?php
+                                        //echo form_label('Email (*)', 'contact_mail');
+                                        echo form_error('contact_mail_confirm');
+                                        echo form_input('contact_mail_confirm', set_value('contact_mail_confirm'), 'class="form-control" id="contact_mail_confirm" placeholder="Confirm Email" ');
+                                        ?>
+									</div>
+
+									<div class="form-group col-xs-12 col-md-6">
+                                        <?php
+                                        //echo form_label('Số điện thoại (*)', 'contact_phone');
+                                        echo form_error('contact_phone');
+                                        echo form_input('contact_phone', set_value('contact_phone'), 'class="form-control" id="contact_phone" placeholder="Phone Number (optional)" ');
+                                        ?>
+									</div>
+									<div class="form-group col-xs-12 col-md-6">
+                                        <?php
+                                        //echo form_label('Số điện thoại (*)', 'contact_phone');
+                                        echo form_error('contact_nation');
+                                        echo form_input('contact_nation', set_value('contact_nation'), 'class="form-control" id="contact_nation" placeholder="Country of Residence" ');
+                                        ?>
+									</div>
+
+									<div class="form-group col-xs-12 col-md-12">
+                                        <?php
+                                        //echo form_label('Nội dung', 'contact_message');
+                                        echo form_error('contact_message');
+                                        echo form_textarea('contact_message', set_value('contact_message'), 'class="form-control" id="contact_message" placeholder="Any Special Request..." ');
+                                        ?>
+									</div>
+
+									<div class="form-group col-xs-12 col-md-12">
+										<div class="form-foot">
+                                            <?php echo form_submit('submit', 'Submit', 'class="btn btn-primary"'); ?>
+
+											<p class="paragraph">
+												* Your personal information WILL NOT be disclosed to any third party
+											</p>
+										</div>
+									</div>
+								</div>
+
+                                <?php echo form_close(); ?>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+				-->
 			</div>
 		</div>
 	</div>
 </section>
 
 <script>
-  $(function () {
-    //Date picker
-    $('.datepicker').datepicker({
-      autoclose: true,
-      format: 'dd/mm/yyyy',
-    })
-  })
+	$(document).ready(function(){
+        $('.collapse').collapse();
+	});
 </script>
-<script src="<?php echo base_url('assets/js/rating.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/detail_product.js') ?>"></script>

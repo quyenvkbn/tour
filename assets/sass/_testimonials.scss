@@ -1,0 +1,116 @@
+#testimonials{
+    .cover{
+
+    }
+
+    .main-content{
+        background-color: #fffdf7;
+
+        .container{
+            .row{
+                .left{
+
+                }
+
+                .right{
+                    .heading{
+                        .line{
+                            width: 100px;
+                            height: 3px;
+
+                            background-color: $primary;
+
+                            margin-bottom: 15px;
+                        }
+
+                        h1{
+                            margin-bottom: 15px;
+
+                            &.title-lg{
+                                color: $primary;
+                            }
+                        }
+                    }
+
+                    .body{
+                        .item{
+                            margin-bottom: 30px;
+
+                            background-color: #fff;
+
+                            .row{
+                                margin-left: 0;
+                                margin-right: 0;
+
+                                .image{
+                                    padding-left: 0;
+                                    padding-right: 0;
+
+                                    .mask{
+                                        width: 100%;
+                                        height: 340px;
+                                    }
+                                }
+
+                                .content{
+                                    padding: 30px 15px;
+
+                                    h4{
+                                        margin-bottom: 0;
+
+                                        &.title-xs{
+                                            color: $primary;
+                                        }
+
+                                        .badge{
+                                            background-color: $primary;
+                                            color: #fff;
+                                        }
+                                    }
+
+                                    h3{
+                                        &.title-sm{
+                                            color: $primary;
+                                        }
+                                    }
+
+                                    .info{
+                                        display: flex;
+                                        flex-direction: row;
+
+                                        color: #cbcbcb;
+
+                                        .rating{
+                                            list-style: none;
+
+                                            padding-left: 0;
+                                            margin-right: 15px;
+
+                                            -webkit-transform: translateY(-3px);
+                                            -moz-transform: translateY(-3px);
+                                            -ms-transform: translateY(-3px);
+                                            -o-transform: translateY(-3px);
+                                            transform: translateY(-3px);
+
+                                            li{
+                                                display: inline-block;
+
+                                                margin-right: 7px;
+
+                                                font-size: 0.875rem;
+                                            }
+                                        }
+
+                                        p{
+                                            font-size: 0.875rem;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

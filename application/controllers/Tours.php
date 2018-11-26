@@ -24,6 +24,8 @@ class Tours extends Public_Controller {
 
     public function index() {
         $this->data['current_link'] = 'tours';
+
+        $this->render('list_tours_view');
     }
 
     function get_multiple_products_with_category_id($categories, $parent_id = 0, &$ids){
@@ -68,7 +70,7 @@ class Tours extends Public_Controller {
             $this->data['result'] = $this->product_model->get_all_with_pagination_search('desc', $per_page, $this->data['page'],'',0);
             $this->data['detail'] = $detail;
             $this->data['product_array'] = $this->product_model->get_by_product_category_id_array($ids,$per_page,'desc',$this->data['page']);
-            $this->render('list_tours_view');
+            //$this->render('list_tours_view');
         }else{
             $this->session->set_flashdata('message_error',MESSAGE_ISSET_ERROR);
             redirect('/', 'refresh');
@@ -84,99 +86,102 @@ class Tours extends Public_Controller {
             }
         }
     }
-    public function detail($slug){
+    public function detail(){
+    //public function detail($slug){
         // $ip = $_SERVER['SERVER_ADDR'];
         // $this->session->unset_userdata($ip);
-        $this->load->model('rating_model');
-        if($this->product_model->find_rows(array('slug' => $slug,'is_deleted' => 0,'is_activated' => 0)) != 0){
-            $this->load->helper('form');
-            $this->load->library('form_validation');
-            $detail = $this->product_model->get_by_slug_lang($slug,array());
-            $this->get_multiple_products_with_category($this->get_all,$detail['product_category_id'],$sub);
-            if(empty($sub)){
-                $detail['sub'] = $sub;
-            }else{
-                $detail['sub'] = array_reverse($sub);
-            }
-            $detail['datetitle'] = json_decode($detail['datetitle']);
-            $detail['datecontent'] = json_decode($detail['datecontent']);
-            $detail['vehicles'] = json_decode($detail['vehicles']);
-            $librarylocaltion = json_decode($detail['librarylocaltion']);
-            if(!empty($librarylocaltion)){
-                for($i=0;$i < count($librarylocaltion);$i++){
-                    $librarylocaltions = explode(',',$librarylocaltion[$i]);
-                    if(!empty($librarylocaltions)){
-                        $library= $this->localtion_model->get_by_id_array_lang($librarylocaltions);
-                        if(!empty($library)){
-                            $librarys[$i] =$library;
-                        }else{
-                            $librarys[$i] = "";
-                        }
-                    }
-                }
-                $detail['librarylocaltion'] = $librarys;
-            }else{
-                $detail['librarylocaltion'] = $librarylocaltion;
-            }
-            $this->data['comment'] = $this->comment($detail['id']);
-            $this->data['count_comment'] = $this->count_comment($detail['id']);
-            $this->data['detail'] = $detail;
-            if($this->data['detail']['date'] != "0000-00-00 00:00:00" && $this->data['detail']['date'] != "1970-01-01 08:00:00"){
-                $rmtime = str_replace(" 00:00:00","",$this->data['detail']['date']);
-                $date= explode("-",$rmtime);
-                if(count($date) == 3){
-                    $this->data['detail']['date'] = $date[2]."/".$date[1]."/".$date[0];
-                }else{
-                    $this->data['detail']['date'] = "";
-                }
-            }else{
-                $this->data['detail']['date'] = "";
-            }
-            if(!empty($this->data['detail']['dateimg'])){
-                    $this->data['detail']['dateimg'] = json_decode($this->data['detail']['dateimg']);
-            }
-            /**
-             * tour with same category
-             */
-            $this->get_multiple_products_with_category_id($this->get_all, $detail['product_category_id'], $ids);
-            if(empty($ids)){
-                $ids = array();
-            }
-            array_unshift($ids,$detail['product_category_id']);
-            $this->data['product_array'] =$this->product_model->get_by_product_category_id_and_not_id($ids,$detail['id'],3);
-            /**
-             * RATING SYSTEM
-             * [$ip description]
-             * @var [type]
-             */
-            $ip = $_SERVER['SERVER_ADDR'];
-            // print_r($this->session->userdata($ip));die;
-            // $this->session->unset_userdata($ip);
-            $check_session = false;
-            if($this->session->has_userdata($ip) && in_array($detail['id'], $this->session->userdata($ip))){
-                $check_session = true;
-            }
-            $id = $detail['id'];
-            $rating = $this->product_model->rating_by_id($id);
-            $count_rating = $rating['count_rating'];
-            $total_rating = $rating['total_rating'];
-            if($count_rating != 0 && $total_rating != 0){
-                $new_rating = round($total_rating / $count_rating, 1);
-            }else{
-                $new_rating = 0;
-            }
-            $this->data['count_rating'] = $count_rating;
-            $this->data['rating'] = $new_rating;
-            $this->data['check_session'] = $check_session;
-            /**
-             * END RATING SYSTEM
-             */
+        $this->render('detail_tours_view');
 
-            $this->render('detail_tours_view');
-        }else{
-            $this->session->set_flashdata('message_error',MESSAGE_ISSET_ERROR);
-            redirect('/', 'refresh');
-        }
+//        $this->load->model('rating_model');
+//        if($this->product_model->find_rows(array('slug' => $slug,'is_deleted' => 0,'is_activated' => 0)) != 0){
+//            $this->load->helper('form');
+//            $this->load->library('form_validation');
+//            $detail = $this->product_model->get_by_slug_lang($slug,array());
+//            $this->get_multiple_products_with_category($this->get_all,$detail['product_category_id'],$sub);
+//            if(empty($sub)){
+//                $detail['sub'] = $sub;
+//            }else{
+//                $detail['sub'] = array_reverse($sub);
+//            }
+//            $detail['datetitle'] = json_decode($detail['datetitle']);
+//            $detail['datecontent'] = json_decode($detail['datecontent']);
+//            $detail['vehicles'] = json_decode($detail['vehicles']);
+//            $librarylocaltion = json_decode($detail['librarylocaltion']);
+//            if(!empty($librarylocaltion)){
+//                for($i=0;$i < count($librarylocaltion);$i++){
+//                    $librarylocaltions = explode(',',$librarylocaltion[$i]);
+//                    if(!empty($librarylocaltions)){
+//                        $library= $this->localtion_model->get_by_id_array_lang($librarylocaltions);
+//                        if(!empty($library)){
+//                            $librarys[$i] =$library;
+//                        }else{
+//                            $librarys[$i] = "";
+//                        }
+//                    }
+//                }
+//                $detail['librarylocaltion'] = $librarys;
+//            }else{
+//                $detail['librarylocaltion'] = $librarylocaltion;
+//            }
+//            $this->data['comment'] = $this->comment($detail['id']);
+//            $this->data['count_comment'] = $this->count_comment($detail['id']);
+//            $this->data['detail'] = $detail;
+//            if($this->data['detail']['date'] != "0000-00-00 00:00:00" && $this->data['detail']['date'] != "1970-01-01 08:00:00"){
+//                $rmtime = str_replace(" 00:00:00","",$this->data['detail']['date']);
+//                $date= explode("-",$rmtime);
+//                if(count($date) == 3){
+//                    $this->data['detail']['date'] = $date[2]."/".$date[1]."/".$date[0];
+//                }else{
+//                    $this->data['detail']['date'] = "";
+//                }
+//            }else{
+//                $this->data['detail']['date'] = "";
+//            }
+//            if(!empty($this->data['detail']['dateimg'])){
+//                    $this->data['detail']['dateimg'] = json_decode($this->data['detail']['dateimg']);
+//            }
+//            /**
+//             * tour with same category
+//             */
+//            $this->get_multiple_products_with_category_id($this->get_all, $detail['product_category_id'], $ids);
+//            if(empty($ids)){
+//                $ids = array();
+//            }
+//            array_unshift($ids,$detail['product_category_id']);
+//            $this->data['product_array'] =$this->product_model->get_by_product_category_id_and_not_id($ids,$detail['id'],3);
+//            /**
+//             * RATING SYSTEM
+//             * [$ip description]
+//             * @var [type]
+//             */
+//            $ip = $_SERVER['SERVER_ADDR'];
+//            // print_r($this->session->userdata($ip));die;
+//            // $this->session->unset_userdata($ip);
+//            $check_session = false;
+//            if($this->session->has_userdata($ip) && in_array($detail['id'], $this->session->userdata($ip))){
+//                $check_session = true;
+//            }
+//            $id = $detail['id'];
+//            $rating = $this->product_model->rating_by_id($id);
+//            $count_rating = $rating['count_rating'];
+//            $total_rating = $rating['total_rating'];
+//            if($count_rating != 0 && $total_rating != 0){
+//                $new_rating = round($total_rating / $count_rating, 1);
+//            }else{
+//                $new_rating = 0;
+//            }
+//            $this->data['count_rating'] = $count_rating;
+//            $this->data['rating'] = $new_rating;
+//            $this->data['check_session'] = $check_session;
+//            /**
+//             * END RATING SYSTEM
+//             */
+//
+//            $this->render('detail_tours_view');
+//        }else{
+//            $this->session->set_flashdata('message_error',MESSAGE_ISSET_ERROR);
+//            redirect('/', 'refresh');
+//        }
     }
     public function created_rating(){
         $isExits = false;
